@@ -24,7 +24,7 @@ notacja `> [ZAŁOŻENIE]` / `> [DO USTALENIA]`, zapis tylko do `docs/features/<s
 
 ## Szkielet do skopiowania
 
-```markdown
+````markdown
 # Specyfikacja: <Nazwa feature>
 
 ## 1. Metadane
@@ -173,7 +173,7 @@ Pełny log w `decisions.md`; tu skrót najważniejszych.
   - Decyzja: <co postanowiono>
   - Konsekwencje: <skutki, kompromisy>
   - Link: `decisions.md#d-1`
-```
+````
 
 ## Szablon wpisu w `decisions.md`
 

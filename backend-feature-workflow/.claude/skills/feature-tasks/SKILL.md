@@ -26,7 +26,7 @@ zapis tylko do `docs/features/<slug>/`).
 
 ## Szkielet do skopiowania
 
-```markdown
+````markdown
 # Zadania: <Nazwa feature>
 
 - **Slug**: <kebab-case>
@@ -73,4 +73,4 @@ flowchart TD
 
 ## Zadania zablokowane
 - **T-0XX** — blokowane przez `[DO USTALENIA] #X` (sekcja 14 spec): <opis kwestii>.
-```
+````
