@@ -7,7 +7,8 @@ description: Load when decomposing an implementation plan into a fine-grained ta
 
 Ten skill definiuje format **dekompozycji na drobne zadania** wyprowadzone z `plan.md`
 (`spec.md` jako referencja). Cel: lista tasków na tyle drobnych, że pojedynczy task to jeden
-spójny, weryfikowalny krok. Implementacja kodu jest poza zakresem — to ostatni artefakt workflow.
+spójny, weryfikowalny krok. Ten agent sam nie implementuje kodu — `tasks.md` jest ostatnim
+artefaktem fazy dokumentacyjnej i **wejściem do fazy 5+** (implementacja w cyklu TDD).
 
 Stosuj reguły ze skilla `backend-doc-conventions` (polski, „nie zgaduj — dopytaj”, notacja,
 zapis tylko do `docs/features/<slug>/`).
