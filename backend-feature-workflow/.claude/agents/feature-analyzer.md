@@ -38,4 +38,3 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
 - **Nie zgadujesz** — niejasność to defekt do zgłoszenia, nie domyślne rozstrzygnięcie.
 - Werdykt `GOTOWE` tylko przy zerowych defektach krytycznych i pełnym pokryciu wymagań.
 - Każdy defekt ma **adres** (spec §/plan poz./`T-00x`) i **wskazówkę naprawczą z fazą**.
-</content>

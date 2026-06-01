@@ -9,4 +9,3 @@ Meta-repo narzędzi AI (artefakty Claude Code: subagenci, skille, workflow). Pac
   dla zmian w usłudze backendowej **.NET 10**: konstytucja (faza 0) → specyfikacja/plan/zadania
   (fazy 1–4) → analiza spójności (faza 4.5) → implementacja w cyklu TDD (faza 5+). Zob.
   [`REVIEW.md`](backend-feature-workflow/REVIEW.md) — przegląd porównawczy z GitHub Spec Kit.
-</content>

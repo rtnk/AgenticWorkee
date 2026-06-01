@@ -74,4 +74,3 @@ Werdykt: GOTOWE DO IMPLEMENTACJI | WYMAGA POPRAWEK (faza 1–4)
 - Werdykt **GOTOWE DO IMPLEMENTACJI** tylko gdy brak defektów `[KRYT.]` i każde wymaganie
   ma pokrycie w tasku z mierzalnym kryterium.
 - Każdy defekt ma **adres** (spec §/plan poz./T-00x) i **wskazówkę naprawczą z fazą**.
-</content>

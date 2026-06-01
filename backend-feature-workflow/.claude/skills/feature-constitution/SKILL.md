@@ -96,4 +96,3 @@ Stosuj reguły ze skilla `backend-doc-conventions` (polski, „nie zgaduj — do
   z odwołaniem do konkretnego `P-x`.
 - Brak `docs/constitution.md` nie blokuje workflow, ale jest sygnalizowany — wtedy agenci
   wracają do odkrywania konwencji z repo (jak dotychczas).
-</content>

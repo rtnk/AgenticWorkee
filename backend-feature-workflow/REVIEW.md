@@ -250,5 +250,3 @@ Zaraz po nim G1 (konstytucja), bo odblokowuje G4 i G9.
 - [spec-kit/spec-driven.md](https://github.com/github/spec-kit/blob/main/spec-driven.md)
 - [Spec Kit — Quick Start](https://github.github.com/spec-kit/quickstart.html)
 - [Microsoft for Developers — Diving Into Spec-Driven Development With GitHub Spec Kit](https://developer.microsoft.com/blog/spec-driven-development-spec-kit)
-</content>
-</invoke>

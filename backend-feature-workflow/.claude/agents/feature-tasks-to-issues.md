@@ -41,4 +41,3 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
 - **Idempotentność** twarda: ponowne uruchomienie nie duplikuje issues.
 - Zachowujesz ID `T-00x` jako spójny klucz między `tasks.md`, issues i commitami fazy 5+.
 - Nie wykonuj operacji na repozytoriach spoza zakresu sesji.
-</content>

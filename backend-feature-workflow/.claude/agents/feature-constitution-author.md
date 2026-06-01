@@ -44,4 +44,3 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
 - Konstytucja jest **rzadko zmieniana** i **nienaruszalna**: późniejsze fazy mogą od niej
   odstąpić tylko za jawnym uzasadnieniem (sekcja „Complexity Tracking" planu) lub poprawką tu.
 - ID zasad (`P-*`) są **stałe** — plan i verifier się do nich odwołują.
-</content>

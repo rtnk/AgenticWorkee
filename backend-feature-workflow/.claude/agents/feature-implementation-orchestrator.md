@@ -22,9 +22,10 @@ oraz **`task-implementation-loop`**.
 
 ## Kroki
 1. **Sprawdź prerekwizyty i wczytaj kontekst**. Najpierw deterministycznie: uruchom
-   `.claude/scripts/check-prerequisites.sh <slug>` (jeśli obecny) — istnienie
-   `spec.md`/`plan.md`/`tasks.md`, status spec `ready`, czysty `dotnet build` na starcie; braki →
-   zatrzymaj się i zaraportuj, nie wchodź w pętlę na ślepo. Zalecane, by **faza 4.5
+   `.claude/scripts/check-prerequisites.sh <slug> --phase impl` (jeśli obecny) — istnienie
+   `spec.md`/`plan.md`/`tasks.md`, status spec `ready` oraz czysty `dotnet build` na starcie
+   (build jest dla fazy impl **domyślnie włączony**); braki → zatrzymaj się i zaraportuj, nie
+   wchodź w pętlę na ślepo. Zalecane, by **faza 4.5
    (`feature-analyzer`)** wcześniej zwróciła `GOTOWE DO IMPLEMENTACJI` — jeśli nie było analizy
    lub zgłosiła defekty krytyczne, ostrzeż użytkownika. Następnie przeczytaj
    `docs/constitution.md` (jeśli jest), `tasks.md`, `spec.md`, `plan.md`,

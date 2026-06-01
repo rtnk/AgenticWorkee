@@ -31,4 +31,3 @@ Pierwsze wersjonowane wydanie po przeglądzie porównawczym z [GitHub Spec Kit](
 - `backend-doc-conventions` / `backend-impl-conventions`: konstytucja jako **nadrzędne** źródło
   zasad; zaktualizowany układ plików `docs/`.
 - README paczki: nowe fazy 0 i 4.5, doprecyzowany zakres .NET-only i ścieżka rozszerzenia (G10).
-</content>

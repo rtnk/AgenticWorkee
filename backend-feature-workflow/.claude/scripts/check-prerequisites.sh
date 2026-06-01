@@ -3,12 +3,13 @@
 # Uruchamiany z roota projektu DOCELOWEGO (nie meta-repo).
 #
 # Użycie:
-#   .claude/scripts/check-prerequisites.sh <slug> [--phase plan|tasks|impl] [--build]
+#   .claude/scripts/check-prerequisites.sh <slug> [--phase plan|tasks|impl] [--build] [--no-build]
 #
 # Fazy (co musi istnieć / być spełnione):
 #   plan   : docs/constitution.md (zalecane), spec.md w statusie `ready`
 #   tasks  : powyższe + plan.md
-#   impl   : powyższe + tasks.md; z --build dodatkowo `dotnet build` musi być czysty
+#   impl   : powyższe + tasks.md; `dotnet build` musi być czysty (domyślnie dla impl;
+#            wyłącz przez --no-build). Dla plan/tasks build włącza --build.
 #
 # Kod wyjścia: 0 = OK, 1 = brak prerekwizytów, 2 = błędne użycie.
 set -euo pipefail
@@ -16,18 +17,30 @@ set -euo pipefail
 SLUG="${1:-}"
 PHASE="impl"
 RUN_BUILD=0
+NO_BUILD=0
 shift || true
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --phase) PHASE="${2:-}"; shift 2 ;;
     --build) RUN_BUILD=1; shift ;;
+    --no-build) NO_BUILD=1; shift ;;
     *) echo "Nieznany argument: $1" >&2; exit 2 ;;
   esac
 done
 
 if [[ -z "$SLUG" ]]; then
-  echo "Użycie: $0 <slug> [--phase plan|tasks|impl] [--build]" >&2
+  echo "Użycie: $0 <slug> [--phase plan|tasks|impl] [--build] [--no-build]" >&2
   exit 2
+fi
+
+case "$PHASE" in
+  plan|tasks|impl) ;;
+  *) echo "Nieprawidłowa faza: '$PHASE' (dozwolone: plan|tasks|impl)" >&2; exit 2 ;;
+esac
+
+# Faza impl wymaga czystego buildu jako twardej bramki — domyślnie włączony (chyba że --no-build).
+if [[ "$PHASE" == "impl" && "$NO_BUILD" -ne 1 ]]; then
+  RUN_BUILD=1
 fi
 
 FEAT="docs/features/$SLUG"
