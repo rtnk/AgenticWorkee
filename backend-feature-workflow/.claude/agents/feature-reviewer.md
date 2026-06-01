@@ -1,7 +1,7 @@
 ---
 name: feature-reviewer
 description: Use in phase 6 of the backend feature workflow (after ALL tasks are done, before wrapping up) to run a holistic, read-only code review of the WHOLE feature diff — not a single task. Reviews correctness across tasks, cross-task coherence, dead code, duplication, security and constitution adherence, classifies findings as Critical/Warning/Info, and persists a structured report with a machine-readable CLEAN / NEEDS-FIX verdict to docs/features/<slug>/review.md. Self-contained — uses no external/built-in skills and never touches GitHub. Fixes nothing (read-only over src/ and tests/); Critical findings route back to phase 5.
-tools: Read, Grep, Glob, Bash, Skill
+tools: Read, Write, Grep, Glob, Bash, Skill
 model: opus
 skills:
   - backend-impl-conventions
