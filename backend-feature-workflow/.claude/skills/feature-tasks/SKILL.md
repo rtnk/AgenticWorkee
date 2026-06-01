@@ -7,7 +7,8 @@ description: Load when decomposing an implementation plan into a fine-grained ta
 
 Ten skill definiuje format **dekompozycji na drobne zadania** wyprowadzone z `plan.md`
 (`spec.md` jako referencja). Cel: lista tasków na tyle drobnych, że pojedynczy task to jeden
-spójny, weryfikowalny krok. Implementacja kodu jest poza zakresem — to ostatni artefakt workflow.
+spójny, weryfikowalny krok. Ten agent sam nie implementuje kodu — `tasks.md` jest ostatnim
+artefaktem fazy dokumentacyjnej i **wejściem do fazy 5+** (implementacja w cyklu TDD).
 
 Stosuj reguły ze skilla `backend-doc-conventions` (polski, „nie zgaduj — dopytaj”, notacja,
 zapis tylko do `docs/features/<slug>/`).
@@ -21,8 +22,11 @@ zapis tylko do `docs/features/<slug>/`).
 - **Identyfikatory**: `T-001`, `T-002`, … (stałe, nie renumeruj przy edycjach idempotentnych).
 - **Zależności**: lista ID tasków, które muszą być gotowe wcześniej (lub `—` gdy brak).
 - **Kryteria akceptacji**: checklista `- [ ]`, konkretne i sprawdzalne (nie „działa poprawnie”).
+- **Status (obowiązkowy)**: **każdy** task ma linię `- **Status**:` — domyślnie `do zrobienia`,
+  a dla taska zablokowanego `BLOCKED (przez: <[DO USTALENIA] #X>)`. To pole jest kontraktem dla
+  fazy implementacyjnej (faza 5+ wybiera i aktualizuje taski po statusie) — nie pomijaj go.
 - **Blokady**: taski zależne od nierozstrzygniętych `[DO USTALENIA]` ze spec oznacz jawnie
-  flagą `BLOCKED` i wskaż, która otwarta kwestia je blokuje. Nie ukrywaj blokad.
+  flagą `BLOCKED` (w polu `Status`) i wskaż, która otwarta kwestia je blokuje. Nie ukrywaj blokad.
 
 ## Szkielet do skopiowania
 
@@ -58,6 +62,7 @@ zapis tylko do `docs/features/<slug>/`).
 - **Obszar kodu / pliki**: ...
 - **Powiązanie**: spec §... / plan §...
 - **Rozmiar**: ...
+- **Status**: do zrobienia | BLOCKED (przez: ...)
 
 ## Grupa B: <nazwa>
 ...
