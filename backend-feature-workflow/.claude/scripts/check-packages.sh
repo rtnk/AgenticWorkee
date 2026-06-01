@@ -33,16 +33,22 @@ if ! command -v dotnet >/dev/null 2>&1; then
   exit 2
 fi
 
-# Zbierz aktualne PackageReference (Include="Nazwa") z plików projektu.
+# Zbierz aktualne PackageReference z plików projektu. Tolerancyjnie: oba style cudzysłowu
+# (" i '), atrybut Include także w kolejnej linii (łączymy wiersze w obrębie pliku przez tr).
+PKG_RE="<PackageReference[^>]*Include[[:space:]]*=[[:space:]]*[\"'][^\"']+[\"']"
+PKG_SED="s/.*Include[[:space:]]*=[[:space:]]*[\"']([^\"']+)[\"'].*/\1/"
 current_pkgs() {
-  grep -rhoE '<PackageReference[^>]*Include="[^"]+"' --include='*.csproj' --include='*.props' . 2>/dev/null \
-    | sed -E 's/.*Include="([^"]+)".*/\1/' | sort -u
+  while IFS= read -r -d '' f; do
+    tr '\n' ' ' < "$f"; printf '\n'
+  done < <(find . \( -name '*.csproj' -o -name '*.props' \) -type f -print0 2>/dev/null) \
+    | grep -ohE "$PKG_RE" 2>/dev/null | sed -E "$PKG_SED" | sort -u
 }
 
-# Zbierz pakiety z wersji bazowej (git), aby policzyć tylko NOWE.
+# Pakiety z wersji bazowej (git) — ta sama tolerancyjna ekstrakcja, aby policzyć tylko NOWE.
 base_pkgs() {
-  git grep -hoE '<PackageReference[^>]*Include="[^"]+"' "$BASE" -- '*.csproj' '*.props' 2>/dev/null \
-    | sed -E 's/.*Include="([^"]+)".*/\1/' | sort -u || true
+  git ls-tree -r --name-only "$BASE" 2>/dev/null | grep -E '\.(csproj|props)$' | while IFS= read -r f; do
+    git show "$BASE:$f" 2>/dev/null | tr '\n' ' '; printf '\n'
+  done | grep -ohE "$PKG_RE" 2>/dev/null | sed -E "$PKG_SED" | sort -u || true
 }
 
 mapfile -t CUR < <(current_pkgs)
