@@ -79,7 +79,7 @@ if [[ "$PHASE" == "impl" ]]; then
   [[ -f "$FEAT/tasks.md" ]] && ok "$FEAT/tasks.md" || fail "brak $FEAT/tasks.md"
 fi
 
-# build (opcjonalnie)
+# build (twarda bramka, gdy RUN_BUILD=1)
 if [[ "$RUN_BUILD" -eq 1 ]]; then
   if command -v dotnet >/dev/null 2>&1; then
     if dotnet build >/tmp/check-build.log 2>&1; then
@@ -88,7 +88,7 @@ if [[ "$RUN_BUILD" -eq 1 ]]; then
       fail "dotnet build nie przechodzi (zob. /tmp/check-build.log)"
     fi
   else
-    note "dotnet niedostępny — pominięto build"
+    fail "dotnet niedostępny — nie da się udowodnić czystego buildu (bramka wymagana). Zainstaluj .NET SDK albo użyj --no-build, jeśli świadomie pomijasz."
   fi
 fi
 
