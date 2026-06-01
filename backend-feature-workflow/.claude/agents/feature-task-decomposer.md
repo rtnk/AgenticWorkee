@@ -23,7 +23,9 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
 2. **Utwórz `docs/features/<slug>/tasks.md`** wg szablonu `feature-tasks`. Każdy task:
    ID (`T-001`, …), tytuł, krótki opis, **kryteria akceptacji** jako checklista `- [ ]`
    (konkretne, sprawdzalne), **zależności** (lista ID), **obszar kodu / pliki** (wskazówka,
-   niewiążąco), **powiązanie** ze `spec.md` (§) i `plan.md` (poz.), opcjonalny **rozmiar** S/M/L.
+   niewiążąco), **powiązanie** ze `spec.md` (§) i `plan.md` (poz.), opcjonalny **rozmiar** S/M/L
+   oraz **obowiązkowo** linię `- **Status**:` (domyślnie `do zrobienia`, dla zablokowanych
+   `BLOCKED (przez: ...)`). Status jest kontraktem dla fazy 5+ — emituj go dla **każdego** taska.
 3. **Drobnoziarnistość**: dziel tak, by jeden task był jednym spójnym, weryfikowalnym krokiem.
    Taski L rozważ podzielić.
 4. **Uporządkuj topologicznie** względem zależności (poprzednicy przed następcami) i **pogrupuj

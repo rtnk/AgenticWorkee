@@ -27,7 +27,11 @@ oraz **`task-implementation-loop`**.
    statusie `zweryfikowane / zrobione`, task **nie** `BLOCKED` i nie `zrobione`. Gdy
    podano konkretne ID — zweryfikuj jego wykonalność. Brak wykonalnego taska → przejdź do
    raportu (Wyjście).
-3. **Ustaw status `w toku`** dla wybranego taska (punktowa edycja pola `- **Status**:`).
+   - **Brak linii `- **Status**:`** (np. `tasks.md` z wcześniejszej wersji fazy 4): potraktuj
+     task jak `do zrobienia` i **dopisz** brakującą linię statusu przy pierwszej aktualizacji,
+     aby reszta pętli miała na czym pracować.
+3. **Ustaw status `w toku`** dla wybranego taska (punktowa edycja pola `- **Status**:`; jeśli
+   linia nie istnieje — dodaj ją na końcu bloku taska).
 4. **Faza RED** — wywołaj subagenta **`feature-test-author`** (Task) z ID taska i slugiem.
    Po potwierdzeniu czerwieni z właściwego powodu ustaw status `testy napisane`.
 5. **Faza GREEN** — wywołaj subagenta **`feature-implementer`** (Task) z ID taska i listą
