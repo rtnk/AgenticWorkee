@@ -7,6 +7,10 @@ z porównaniem do [GitHub Spec Kit](https://github.com/github/spec-kit) i listą
 - **Zakres przeglądu**: 8 subagentów + 7 skilli paczki `backend-feature-workflow`.
 - **Punkt odniesienia**: metodologia Spec-Driven Development (Spec Kit), commit `main`.
 
+> **Status wdrożenia:** wszystkie rekomendacje **G1–G10** oraz drobne obserwacje (§7) zostały
+> zaimplementowane w wersji **1.0.0** (zob. `CHANGELOG.md`). Ten dokument zachowuje pełne
+> uzasadnienie i porównanie jako rejestr decyzji.
+
 ---
 
 ## 1. Streszczenie wykonawcze

@@ -32,6 +32,9 @@ uruchamiać kompilację i testy. Wszystkie pozostałe reguły dyscypliny (język
 
 Nie zakładaj stosu na sztywno. Zanim napiszesz pierwszy test lub linię kodu:
 
+0. Jeśli istnieje **`docs/constitution.md`** — to **nadrzędne** źródło zasad (warstwy, Result vs
+   wyjątki, naming, progi NFR, bezpieczeństwo, prostota P-15/P-16). Kod **musi** respektować
+   zasady `P-*`; verifier je egzekwuje. Konstytucja ma pierwszeństwo przed domysłem z kodu.
 1. Przeczytaj `CLAUDE.md` / `README.md` / `docs/` w roocie — źródło prawdy o wzorcach.
 2. Poznaj układ `src/` i projektów `*.csproj` (warstwy API / Application / Domain /
    Infrastructure, namespacy, target framework, referencje).
@@ -94,7 +97,18 @@ Status edytuje **wyłącznie** orchestrator (subagenci raportują wynik; orchest
 przepisuje pole **Status** w `tasks.md`). Edycja jest punktowa — zmienia tylko jedną
 linię `- **Status**: ...`, nic poza nią.
 
-## 6. Dyscyplina commitów i idempotentność
+## 6. Bramka bezpieczeństwa (taski wrażliwe)
+
+Dla tasków dotykających **uwierzytelniania, autoryzacji, danych wrażliwych, sekretów lub
+kryptografii** (spec §10) obowiązuje dodatkowa bramka:
+
+- Implementer respektuje zasady `P-12`–`P-14` konstytucji (jeśli jest) oraz §10 spec: brak
+  sekretów w kodzie/logach, poprawne authZ na endpointach, maskowanie/szyfrowanie danych wrażliwych.
+- Po zaimplementowaniu takiego taska orchestrator może uruchomić skill **`security-review`**
+  na zmianach (`src/`), a `feature-verifier` traktuje istotne ustalenia jako `FAIL` (zgodność §10).
+- Naruszenie bezpieczeństwa nie jest „drobnym brakiem" — to twarda blokada, nigdy domysł.
+
+## 7. Dyscyplina commitów i idempotentność
 
 - **Commit per task** (jeśli włączone): jeden zrealizowany task = jeden commit z jasnym
   opisem, np. `feat(<slug>): T-007 walidacja limitu wypłaty`. Commit obejmuje kod, testy

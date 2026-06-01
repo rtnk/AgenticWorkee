@@ -28,8 +28,14 @@ oraz **`feature-spec`**.
    jest spełnione (mapowanie kryterium → test). Kryterium bez pokrycia lub niespełnione = FAIL.
 4. **Zgodność ze spec** — sprawdź, że implementacja respektuje `spec.md`: kontrakty API (§6),
    model danych (§7), reguły biznesowe (§3), bezpieczeństwo (§10), przepływy/idempotencja (§8).
+   Jeśli kontrakt/model wydzielono (`contracts/`, `data-model.md`) — porównuj z tymi plikami.
    Rozbieżność z kontraktem/regułą = FAIL.
-5. **Wydaj werdykt** — zbierz powyższe w jeden ustrukturyzowany wynik (szablon niżej).
+5. **Zgodność z konstytucją** — jeśli istnieje `docs/constitution.md`, sprawdź zasady `P-*`
+   (warstwy, Result vs wyjątki, naming, prostota P-15/P-16, bezpieczeństwo P-12–P-14). Naruszenie
+   zasady bez wpisu w „Complexity Tracking" planu = FAIL z odwołaniem do `P-x`.
+6. **Bramka bezpieczeństwa** (taski wrażliwe: auth/dane/sekrety) — sekret w kodzie/logach, brak
+   authZ, niezabezpieczone dane wrażliwe = FAIL (zgodność §10 / `P-12`–`P-14`).
+7. **Wydaj werdykt** — zbierz powyższe w jeden ustrukturyzowany wynik (szablon niżej).
 
 ## Wyjście
 Ustrukturyzowany werdykt napędzający kolejną iterację orkiestratora:
@@ -41,6 +47,8 @@ WERDYKT: PASS | FAIL
 - Kryteria akceptacji:
   - [x|fail] <kryterium> — <test/dowód lub powód niespełnienia>
 - Zgodność ze spec: OK | rozbieżności: <lista §sekcja → opis>
+- Zgodność z konstytucją: OK | n/d | naruszenia: <lista P-x → opis>
+- Bezpieczeństwo (jeśli task wrażliwy): OK | n/d | ustalenia: <lista>
 - Diagnostyka / co poprawić w kolejnej iteracji: <konkretne wskazówki>
 ```
 

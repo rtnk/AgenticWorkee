@@ -29,8 +29,12 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
    `BLOCKED (przez: ...)`). Status jest kontraktem dla fazy 5+ — emituj go dla **każdego** taska.
 3. **Drobnoziarnistość**: dziel tak, by jeden task był jednym spójnym, weryfikowalnym krokiem.
    Taski L rozważ podzielić.
-4. **Uporządkuj topologicznie** względem zależności (poprzednicy przed następcami) i **pogrupuj
-   logicznie** (po warstwach/kamieniach milowych z planu).
+4. **Grupuj po wartości**: domyślnie twórz **plasterki wertykalne per przypadek użycia** (UC-*
+   ze spec §3) — każda grupa niezależnie implementowalna i testowalna end-to-end. Pierwszą grupę
+   oznacz `(MVP)`. **Wewnątrz** plasterka i między zależnymi plasterkami zachowaj porządek
+   topologiczny (kontrakty/model danych przed logiką). Oznacz `[P]` taski równoległe (bez
+   współdzielonych plików / zależności). Czysto warstwowy podział tylko, gdy brak sensownych
+   plasterków UC — odnotuj wtedy `[ZAŁOŻENIE]`.
 5. **Oznacz blokady**: taski zależne od nierozstrzygniętych `[DO USTALENIA]` ze spec oznacz jawnie
    jako `BLOCKED` i wskaż blokującą kwestię (sekcja 14 spec). Zbierz je też w sekcji „Zadania
    zablokowane”.

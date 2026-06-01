@@ -30,8 +30,11 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
 5. **Usuń rozwiązane `[DO USTALENIA]`**: skreśl/zamień rozstrzygnięte pozycje w sekcjach i w
    sekcji **14** (oznacz status „rozwiązane” lub usuń z listy otwartych). Założenia potwierdzone
    przez użytkownika przestają być `[ZAŁOŻENIE]` — stają się faktem w treści.
-6. **Zaktualizuj `status`**: `refining`, dopóki istnieje jakikolwiek `[DO USTALENIA]`; ustaw
-   `ready` dopiero, gdy nie ma **żadnego**. Zaktualizuj „Data aktualizacji”.
+6. **Zaktualizuj `status`**: `refining`, dopóki istnieje jakikolwiek `[DO USTALENIA]` **lub**
+   nie jest zaliczona **checklista akceptacji spec** (`feature-spec` → „Checklista akceptacji
+   spec"). Ustaw `ready` dopiero, gdy **żadnego** `[DO USTALENIA]` i **każdy** punkt checklisty
+   spełniony. Niespełniony punkt checklisty traktuj jak otwartą kwestię (dopytaj / załataj).
+   Zaktualizuj „Data aktualizacji”.
 
 ## Wyjście
 - Zaktualizowany `spec.md` (+ wpisy w `decisions.md`).

@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+# check-prerequisites.sh — deterministyczna walidacja prerekwizytów workflow.
+# Uruchamiany z roota projektu DOCELOWEGO (nie meta-repo).
+#
+# Użycie:
+#   .claude/scripts/check-prerequisites.sh <slug> [--phase plan|tasks|impl] [--build]
+#
+# Fazy (co musi istnieć / być spełnione):
+#   plan   : docs/constitution.md (zalecane), spec.md w statusie `ready`
+#   tasks  : powyższe + plan.md
+#   impl   : powyższe + tasks.md; z --build dodatkowo `dotnet build` musi być czysty
+#
+# Kod wyjścia: 0 = OK, 1 = brak prerekwizytów, 2 = błędne użycie.
+set -euo pipefail
+
+SLUG="${1:-}"
+PHASE="impl"
+RUN_BUILD=0
+shift || true
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --phase) PHASE="${2:-}"; shift 2 ;;
+    --build) RUN_BUILD=1; shift ;;
+    *) echo "Nieznany argument: $1" >&2; exit 2 ;;
+  esac
+done
+
+if [[ -z "$SLUG" ]]; then
+  echo "Użycie: $0 <slug> [--phase plan|tasks|impl] [--build]" >&2
+  exit 2
+fi
+
+FEAT="docs/features/$SLUG"
+ERRORS=0
+note() { printf '  - %s\n' "$1"; }
+fail() { printf '  ✗ %s\n' "$1"; ERRORS=$((ERRORS+1)); }
+ok()   { printf '  ✓ %s\n' "$1"; }
+
+echo "Prerekwizyty: slug=$SLUG faza=$PHASE"
+
+# Konstytucja (zalecana, nie twarda)
+if [[ -f "docs/constitution.md" ]]; then ok "docs/constitution.md"; else note "brak docs/constitution.md (zalecane — faza 0)"; fi
+
+# spec.md + status ready
+if [[ -f "$FEAT/spec.md" ]]; then
+  ok "$FEAT/spec.md"
+  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*ready' "$FEAT/spec.md"; then
+    ok "spec status: ready"
+  else
+    fail "spec nie jest w statusie 'ready'"
+  fi
+  if grep -q '\[DO USTALENIA\]' "$FEAT/spec.md"; then
+    fail "spec zawiera otwarte [DO USTALENIA]"
+  fi
+else
+  fail "brak $FEAT/spec.md"
+fi
+
+# plan.md
+if [[ "$PHASE" == "tasks" || "$PHASE" == "impl" ]]; then
+  [[ -f "$FEAT/plan.md" ]] && ok "$FEAT/plan.md" || fail "brak $FEAT/plan.md"
+fi
+
+# tasks.md
+if [[ "$PHASE" == "impl" ]]; then
+  [[ -f "$FEAT/tasks.md" ]] && ok "$FEAT/tasks.md" || fail "brak $FEAT/tasks.md"
+fi
+
+# build (opcjonalnie)
+if [[ "$RUN_BUILD" -eq 1 ]]; then
+  if command -v dotnet >/dev/null 2>&1; then
+    if dotnet build >/tmp/check-build.log 2>&1; then
+      ok "dotnet build: czysty"
+    else
+      fail "dotnet build nie przechodzi (zob. /tmp/check-build.log)"
+    fi
+  else
+    note "dotnet niedostępny — pominięto build"
+  fi
+fi
+
+if [[ "$ERRORS" -gt 0 ]]; then
+  echo "WYNIK: BRAK PREREKWIZYTÓW ($ERRORS) — nie wchodź w fazę 5 na ślepo." >&2
+  exit 1
+fi
+echo "WYNIK: OK"

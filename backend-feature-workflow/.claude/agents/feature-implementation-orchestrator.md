@@ -21,8 +21,15 @@ oraz **`task-implementation-loop`**.
 - `docs/features/<slug>/tasks.md` (lista zadań ze statusami), `spec.md` i `plan.md` (referencja).
 
 ## Kroki
-1. **Wczytaj kontekst**. Przeczytaj `tasks.md`, `spec.md`, `plan.md` oraz konwencje repo
-   (`CLAUDE.md`, układ `src/`, `*.csproj`, styl testów) — zgodnie z `backend-impl-conventions`.
+1. **Sprawdź prerekwizyty i wczytaj kontekst**. Najpierw deterministycznie: uruchom
+   `.claude/scripts/check-prerequisites.sh <slug>` (jeśli obecny) — istnienie
+   `spec.md`/`plan.md`/`tasks.md`, status spec `ready`, czysty `dotnet build` na starcie; braki →
+   zatrzymaj się i zaraportuj, nie wchodź w pętlę na ślepo. Zalecane, by **faza 4.5
+   (`feature-analyzer`)** wcześniej zwróciła `GOTOWE DO IMPLEMENTACJI` — jeśli nie było analizy
+   lub zgłosiła defekty krytyczne, ostrzeż użytkownika. Następnie przeczytaj
+   `docs/constitution.md` (jeśli jest), `tasks.md`, `spec.md`, `plan.md`,
+   `contracts/`/`data-model.md` (jeśli są) oraz konwencje repo (`CLAUDE.md`, układ `src/`,
+   `*.csproj`, styl testów) — zgodnie z `backend-impl-conventions`.
 2. **Wybierz następny wykonalny task** (krok 0 maszyny stanów): wszystkie zależności w
    statusie `zweryfikowane / zrobione`, task **nie** `BLOCKED` i nie `zrobione`. Gdy
    podano konkretne ID — zweryfikuj jego wykonalność. Brak wykonalnego taska → przejdź do
@@ -39,11 +46,13 @@ oraz **`task-implementation-loop`**.
    testy → status `zaimplementowane`. W razie błędu — wróć do kroku 5 (lub 4, jeśli winny
    jest test) z diagnostyką.
 6. **Bramka weryfikacji** — wywołaj subagenta **`feature-verifier`** (Task). Odbierz werdykt
-   PASS/FAIL + niespełnione kryteria + diagnostykę.
+   PASS/FAIL + niespełnione kryteria + diagnostykę (w tym zgodność z konstytucją `P-*`). Dla
+   tasków wrażliwych (auth/dane/sekrety, spec §10) uruchom dodatkowo bramkę bezpieczeństwa
+   (`backend-impl-conventions §6`, opcjonalnie skill `security-review`).
 7. **Pętla iteracji** (`task-implementation-loop`): FAIL → iteruj z diagnostyką (powrót do
-   kroku 4 lub 5), do **limitu 3–5** iteracji. Po przekroczeniu limitu lub przy
-   niejednoznaczności → **eskaluj**: ustaw `BLOCKED (przez: ...)`, cofnij niedokończone
-   zmiany psujące zestaw i zadaj pytanie człowiekowi.
+   kroku 4 lub 5), do **limitu domyślnie 4** iteracji (zakres 3–5 wg złożoności). Po
+   przekroczeniu limitu lub przy niejednoznaczności → **eskaluj**: ustaw `BLOCKED (przez: ...)`,
+   cofnij niedokończone zmiany psujące zestaw i zadaj pytanie człowiekowi.
 8. **PASS → finalizacja**: ustaw status `zweryfikowane / zrobione`; opcjonalnie utwórz
    **commit per task** (kod + testy + status) z jasnym opisem. Wróć do kroku 2 po kolejny task.
 9. **Iteruj po zadaniach** aż do braku wykonalnego taska lub blokady wymagającej decyzji.
