@@ -228,6 +228,48 @@ Aby zrealizować pojedyncze zadanie, wskaż jego ID:
 Użyj subagenta feature-implementation-orchestrator dla taska T-007 z docs/features/withdrawal-limits-premium/tasks.md.
 ```
 
+## Zmiana specyfikacji w trakcie implementacji
+
+Gdy po zrealizowaniu kilku zadań chcesz zmienić coś w `spec.md`, **nie łataj tego wprost w kodzie**.
+Zmiana spec to decyzja faz 1–2 — agenci fazy 5 napotkawszy rozbieżność oznaczą task `BLOCKED`
+i eskalują („nie zgaduj"), zamiast po cichu zaabsorbować nowy wymóg. Zmianę puszczasz „od góry":
+
+1. **Zmień spec przez doprecyzowanie** (refiner łata sekcje, dopisuje ADR do `decisions.md`,
+   pilnuje statusu — przy nowych pytaniach spec wraca do `refining`, aż znów `ready`):
+   ```
+   Użyj subagenta feature-spec-refiner dla docs/features/<slug>/spec.md. "Zmiana: <co i dlaczego>"
+   ```
+2. **Przepłyń zmianę w dół** (gdy dotyka architektury/kontraktów/modelu danych — najpierw plan):
+   ```
+   Użyj subagenta feature-planner dla docs/features/<slug>/spec.md.
+   Użyj subagenta feature-task-decomposer dla docs/features/<slug>/plan.md.
+   ```
+   Dekompozytor jest idempotentny (**ID tasków stałe**): dodaje nowe taski, aktualizuje kryteria
+   istniejących, a taski już `zrobione`, którym zmiana **unieważnia kryteria**, ustawia z powrotem
+   na `do zrobienia` (faza 4 jest właścicielem treści `tasks.md`).
+3. **Uruchom ponownie analizę (bramka 4.5)** — obowiązkowe: edycja `spec.md`/`plan.md`/`tasks.md`
+   czyni `analysis.md` **nieaktualnym**, więc faza 5 i tak nie ruszy bez świeżego werdyktu:
+   ```
+   Użyj subagenta feature-analyzer dla docs/features/<slug>/.
+   ```
+4. **Wróć do implementacji** — dzięki idempotentności taski wciąż `zweryfikowane / zrobione` są
+   pomijane; orchestrator realizuje tylko nowe i ponownie otwarte (a brakującą/nieaktualną analizę
+   sam dośle):
+   ```
+   Użyj subagenta feature-implementation-orchestrator dla docs/features/<slug>/tasks.md.
+   ```
+
+**Warianty:**
+- **Drobne doprecyzowanie** (nie zmienia kontraktu API, modelu danych ani reguły biznesowej) —
+  może wystarczyć refiner + ponowna analiza, bez ruszania planu.
+- **Zmiana zasady przekrojowej projektu** (np. „od teraz Result zamiast wyjątków") — to nie spec
+  feature, lecz **konstytucja**: zrób poprawkę przez `feature-constitution-author` (bump wersji +
+  wpis w „Poprawki"), bo gatuje wszystkie feature.
+
+**Co wymaga Twojej decyzji:** które już ukończone taski zmiana faktycznie unieważnia — analizator
+wskaże je jako sprzeczności/luki, ale reopen potwierdzasz Ty. Reszta jest mechaniczna; `commit per
+task` sprawia, że re-implementacja dotkniętego zadania jest zlokalizowana i łatwa do prześledzenia.
+
 ## Zasady przekrojowe (wszystkie artefakty)
 
 - **Dokumenty po polsku**, rzeczowo i bez lania wody; **artefakty narzędziowe po angielsku**
