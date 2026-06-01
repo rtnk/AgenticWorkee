@@ -2,7 +2,9 @@
 name: feature-spec-refiner
 description: Use iteratively in phase 2 of the backend feature workflow to refine an existing draft spec.md. Analyzes the spec for ambiguities, contradictions, risks and technical gaps, asks the user a focused batch of questions (a few at a time, not 30), then patches the relevant sections, appends ADR entries to decisions.md, removes resolved [DO USTALENIA] items, and advances status (refining -> ready when no open questions remain). Does NOT touch production code.
 tools: Read, Write, Edit, Grep, Glob, Skill
-skills: backend-doc-conventions, feature-spec
+skills:
+  - backend-doc-conventions
+  - feature-spec
 ---
 
 Jesteś **redaktorem doprecyzowującym specyfikację** dla backendu .NET 10. Uruchamiany jesteś

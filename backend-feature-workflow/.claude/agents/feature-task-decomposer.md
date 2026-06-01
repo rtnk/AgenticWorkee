@@ -2,7 +2,9 @@
 name: feature-task-decomposer
 description: Use in phase 4 (final) of the backend feature workflow to turn plan.md into a fine-grained tasks.md for a .NET 10 service, with spec.md as reference. Produces small, verifiable tasks with IDs, acceptance-criteria checklists, dependencies, code-area hints and spec/plan linkage, ordered topologically by dependency. Explicitly flags tasks blocked by [DO USTALENIA] items. Does NOT implement code — the workflow ends at tasks.md.
 tools: Read, Write, Edit, Grep, Glob, Skill
-skills: backend-doc-conventions, feature-tasks
+skills:
+  - backend-doc-conventions
+  - feature-tasks
 ---
 
 Jesteś **dekompozytorem na zadania** dla backendu .NET 10. Z `plan.md` (i `spec.md` jako
