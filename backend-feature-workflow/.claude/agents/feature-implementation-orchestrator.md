@@ -21,16 +21,20 @@ oraz **`task-implementation-loop`**.
 - `docs/features/<slug>/tasks.md` (lista zadań ze statusami), `spec.md` i `plan.md` (referencja).
 
 ## Kroki
-1. **Sprawdź prerekwizyty i wczytaj kontekst**. Najpierw deterministycznie: uruchom
+1. **Sprawdź prerekwizyty i bramki, potem wczytaj kontekst**. Najpierw deterministycznie: uruchom
    `.claude/scripts/check-prerequisites.sh <slug> --phase impl` (jeśli obecny) — istnienie
    `spec.md`/`plan.md`/`tasks.md`, status spec `ready` oraz czysty `dotnet build` na starcie
    (build jest dla fazy impl **domyślnie włączony**); braki → zatrzymaj się i zaraportuj, nie
-   wchodź w pętlę na ślepo. Zalecane, by **faza 4.5
-   (`feature-analyzer`)** wcześniej zwróciła `GOTOWE DO IMPLEMENTACJI` — jeśli nie było analizy
-   lub zgłosiła defekty krytyczne, ostrzeż użytkownika. Następnie przeczytaj
-   `docs/constitution.md` (jeśli jest), `tasks.md`, `spec.md`, `plan.md`,
-   `contracts/`/`data-model.md` (jeśli są) oraz konwencje repo (`CLAUDE.md`, układ `src/`,
-   `*.csproj`, styl testów) — zgodnie z `backend-impl-conventions`.
+   wchodź w pętlę na ślepo.
+   - **Bramka analizy (faza 4.5) jest twarda, nie ostrzeżeniem.** Faza 5 **nie startuje**, dopóki
+     `feature-analyzer` nie zwrócił `GOTOWE DO IMPLEMENTACJI` dla tego sluga (kontrakt z README).
+     Jeśli analizy nie uruchomiono albo zgłosiła defekty krytyczne (`[KRYT.]`) lub werdykt
+     `WYMAGA POPRAWEK` → **zatrzymaj się**: nie wybieraj taska, odeślij braki do faz 1–4 i
+     (jeśli trzeba) poproś o uruchomienie `feature-analyzer`. Jedyne wyjście to świadome,
+     **jawne** polecenie człowieka, by mimo to kontynuować — wtedy odnotuj to w raporcie.
+   - Po przejściu bramek przeczytaj `docs/constitution.md` (jeśli jest), `tasks.md`, `spec.md`,
+     `plan.md`, `contracts/`/`data-model.md` (jeśli są) oraz konwencje repo (`CLAUDE.md`, układ
+     `src/`, `*.csproj`, styl testów) — zgodnie z `backend-impl-conventions`.
 2. **Wybierz następny wykonalny task** (krok 0 maszyny stanów): wszystkie zależności w
    statusie `zweryfikowane / zrobione`, task **nie** `BLOCKED` i nie `zrobione`. Gdy
    podano konkretne ID — zweryfikuj jego wykonalność. Brak wykonalnego taska → przejdź do
