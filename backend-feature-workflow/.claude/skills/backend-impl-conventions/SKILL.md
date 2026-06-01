@@ -88,7 +88,7 @@ do zrobienia → w toku → testy napisane → zaimplementowane → zweryfikowan
 | `testy napisane` | faza RED gotowa: testy istnieją i failują z właściwego powodu | orchestrator (po test-author) |
 | `zaimplementowane` | faza GREEN: kod gotowy, build czysty, testy zielone | orchestrator (po implementer) |
 | `zweryfikowane / zrobione` | verifier orzekł PASS (kryteria + zgodność ze spec) | orchestrator (po verifier) |
-| `BLOCKED (przez: ...)` | luka decyzyjna lub przekroczony limit iteracji → eskalacja | dowolny agent |
+| `BLOCKED (przez: ...)` | luka decyzyjna lub przekroczony limit iteracji → eskalacja | orchestrator (na zgłoszenie subagenta) |
 
 Status edytuje **wyłącznie** orchestrator (subagenci raportują wynik; orchestrator
 przepisuje pole **Status** w `tasks.md`). Edycja jest punktowa — zmienia tylko jedną
