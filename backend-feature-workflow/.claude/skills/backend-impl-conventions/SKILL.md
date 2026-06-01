@@ -60,10 +60,12 @@ Najważniejsza reguła, przeniesiona z faz 1–4 do świata kodu.
 
 - Gdy do realizacji taska brakuje **decyzji projektowej** (kontrakt, reguła, format,
   zachowanie brzegowe), a `spec.md`/`tasks.md` o niej milczą lub są sprzeczne — **nie
-  wymyślaj** odpowiedzi.
-- Ustaw status taska na **`BLOCKED (przez: <opis luki / [DO USTALENIA] #X>)`** i
-  **eskaluj do człowieka** (pytanie z konkretną luką i opcjami). Nie dotykaj kodu
-  produkcyjnego „na próbę".
+  wymyślaj** odpowiedzi i nie dotykaj kodu produkcyjnego „na próbę".
+- **Kto zgłasza, kto zapisuje**: subagent (test-author / implementer / verifier) **nie**
+  edytuje pola `Status` — **raportuje blokadę** orkiestratorowi (konkretna luka + opcje).
+  Status `BLOCKED (przez: <opis luki / [DO USTALENIA] #X>)` w `tasks.md` ustawia **wyłącznie
+  orchestrator**, on też eskaluje pytanie do człowieka (patrz §5, single-writer). Gdy
+  działasz jako orchestrator — ustaw `BLOCKED` i eskaluj sam.
 - Drobny, bezpieczny brak (np. nazwa pola spójna z istniejącą konwencją repo) możesz
   przyjąć jako jawne `[ZAŁOŻENIE]` w podsumowaniu — ale **wszystko, co zmienia
   kontrakt, model danych lub regułę biznesową, jest decyzją projektową** i podlega
