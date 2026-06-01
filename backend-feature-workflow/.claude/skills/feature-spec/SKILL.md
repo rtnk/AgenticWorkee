@@ -20,7 +20,27 @@ notacja `> [ZAŁOŻENIE]` / `> [DO USTALENIA]`, zapis tylko do `docs/features/<s
 - Świadome uproszczenia: `> [ZAŁOŻENIE] ...`.
 - Diagramy w blokach ```mermaid``` (flowchart w sek. 5, sequence w sek. 8).
 - `status` w metadanych: `draft` (autor) → `refining` (w trakcie doprecyzowania) →
-  `ready` (brak jakiegokolwiek `[DO USTALENIA]`).
+  `ready` (brak jakiegokolwiek `[DO USTALENIA]` **i** zaliczona checklista akceptacji niżej).
+
+## Checklista akceptacji spec (bramka `ready`)
+
+„Unit testy dla specyfikacji". Brak `[DO USTALENIA]` to warunek **konieczny, ale niewystarczający**
+do `ready`. `feature-spec-refiner` przepuszcza spec do `ready` dopiero, gdy **każdy** punkt poniżej
+jest spełniony (niespełniony punkt = otwarta kwestia, nie `ready`):
+
+- [ ] Wszystkie 15 sekcji obecne i wypełnione (żadnej pustej/„TODO").
+- [ ] Cel (§2) i zakres/poza zakresem są jednoznaczne.
+- [ ] Każde kryterium akceptacji (§3) jest **mierzalne i sprawdzalne** (nie „działa poprawnie").
+- [ ] Każda reguła biznesowa (BR-*) i przypadek użycia (UC-*) ma odzwierciedlenie w §6/§7/§8.
+- [ ] Kontrakty API (§6) mają request/response, kody błędów i walidację (lub jawne „brak API").
+- [ ] Model danych (§7) ma typy, klucze, NULL/NOT NULL i opis migracji.
+- [ ] Przepływy (§8) pokrywają przypadki brzegowe, idempotencję i transakcyjność.
+- [ ] NFR (§4) mają **konkretne progi** (nie puste) lub jawne `[ZAŁOŻENIE]`/odniesienie do konstytucji.
+- [ ] Bezpieczeństwo (§10) wypełnione (authN/authZ, dane wrażliwe, sekrety) lub jawne „nie dotyczy".
+- [ ] §13 mapuje kryteria akceptacji na poziomy testów (unit/integration/e2e).
+- [ ] Brak sprzeczności między sekcjami (np. kod błędu w §6 vs §8).
+- [ ] Zgodność z `docs/constitution.md` (jeśli istnieje) — żadna sekcja nie łamie zasady `P-*`.
+- [ ] Brak jakiegokolwiek `> [DO USTALENIA]` w treści i w sekcji 14.
 
 ## Szkielet do skopiowania
 

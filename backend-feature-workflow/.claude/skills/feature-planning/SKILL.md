@@ -21,6 +21,31 @@ założeń/otwartych kwestii, zapis tylko do `docs/features/<slug>/`).
 - Otwarte kwestie ze spec (`[DO USTALENIA]`) przenieś do punktów decyzyjnych / spike'ów i oznacz
   jako blokujące. Nie planuj na ślepo wokół nierozstrzygniętej decyzji.
 
+## Artefakty pomocnicze planu (wydzielone)
+
+Oprócz `plan.md` faza 3 wydziela **maszynowo czytelne / łatwe do zdiffowania** artefakty do
+`docs/features/<slug>/` (twórz tylko te, które dotyczą feature):
+
+- **`contracts/`** — kontrakty API jako osobne pliki: `api-spec.json` (OpenAPI) lub `*.md` dla
+  komend/eventów. Źródłem prawdy o kontrakcie staje się ten plik; `spec.md §6` go streszcza i linkuje.
+- **`data-model.md`** — szczegółowy model danych (tabele, kolumny, klucze, indeksy, migracje EF);
+  `spec.md §7` go streszcza i linkuje.
+- **`research.md`** (opcjonalnie) — wynik spike'ów / decyzji technicznych z porównaniem opcji.
+
+Te pliki pozwalają `feature-test-author` generować testy kontraktowe, a `feature-verifier`
+porównywać implementację z kontraktem maszynowo. Jeśli feature jest trywialne — można zostawić
+kontrakt inline w spec i pominąć wydzielanie (odnotuj to jako `[ZAŁOŻENIE]`).
+
+## Bramka prostoty i zgodności z konstytucją
+
+Jeśli istnieje `docs/constitution.md`:
+
+- Sprawdź, czy plan **nie łamie** zasad `P-*` — w szczególności **bramkę prostoty** (P-15/P-16:
+  brak „future-proofing", używaj frameworka wprost, limit liczby projektów, brak zbędnych abstrakcji).
+- Każde odstępstwo od konstytucji **musi** trafić do sekcji **„8. Complexity Tracking"** planu z
+  uzasadnieniem — albo plan zostaje uproszczony. Cicha nadmiarowa architektura jest niedopuszczalna.
+- Brak konstytucji nie blokuje planu, ale wtedy stosuj domyślny minimalizm (YAGNI) jawnie.
+
 ## Szkielet do skopiowania
 
 ```markdown
@@ -65,4 +90,17 @@ założeń/otwartych kwestii, zapis tylko do `docs/features/<slug>/`).
 | Pozycja planu | Sekcja(e) spec.md |
 |---------------|-------------------|
 | <pozycja> | <np. §6 Kontrakty API, §7 Model danych> |
+
+## 8. Complexity Tracking (odstępstwa od konstytucji)
+> Wypełniaj tylko, gdy plan świadomie odstępuje od zasady `P-*` z `docs/constitution.md`.
+> Brak odstępstw → „Brak — plan zgodny z konstytucją."
+
+| Zasada | Odstępstwo | Uzasadnienie | Prostsza odrzucona opcja |
+|--------|-----------|--------------|--------------------------|
+| P-<n> | <co łamiemy> | <dlaczego konieczne> | <co i czemu odrzucono> |
+
+## 9. Wydzielone artefakty
+- Kontrakty: `contracts/<plik>` — <co zawiera> | „inline w spec §6".
+- Model danych: `data-model.md` — <zakres> | „inline w spec §7".
+- Research/spike'i: `research.md` — <co> | „nie dotyczy".
 ```

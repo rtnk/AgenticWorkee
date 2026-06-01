@@ -24,12 +24,22 @@ jako pierwszy.
 Wszystkie dokumenty feature żyją w **projekcie docelowym** (nie w tym meta-repo) pod:
 
 ```
-docs/features/<slug>/
-  spec.md         # specyfikacja techniczna (faza 1–2)
-  decisions.md    # log decyzji projektowych (ADR), wypełniany w fazie 2
-  plan.md         # plan wdrożenia (faza 3)
-  tasks.md        # dekompozycja na zadania (faza 4)
+docs/
+  constitution.md     # faza 0: nienaruszalne zasady projektu (jedna na repo)
+  features/<slug>/
+    spec.md           # specyfikacja techniczna (faza 1–2)
+    decisions.md      # log decyzji projektowych (ADR), wypełniany w fazie 2
+    plan.md           # plan wdrożenia (faza 3)
+    data-model.md     # szczegółowy model danych (faza 3, opcjonalnie)
+    contracts/        # kontrakty API: api-spec.json / *.md (faza 3, opcjonalnie)
+    research.md       # wynik spike'ów (faza 3, opcjonalnie)
+    tasks.md          # dekompozycja na zadania (faza 4)
+    analysis.md       # raport spójności + werdykt bramki (faza 4.5)
 ```
+
+`docs/constitution.md` powstaje **raz na projekt** (faza 0, `feature-constitution-author`) i
+obowiązuje wszystkie feature. Pozostałe pliki są **per feature**. `analysis` (faza 4.5) i
+`tasks → issues` (opcjonalnie) nie tworzą nowych plików — działają na powyższych.
 
 **Reguła `slug`**: kebab-case wyprowadzony z nazwy feature.
 - małe litery, słowa rozdzielone `-`, tylko `[a-z0-9-]`;
@@ -79,6 +89,9 @@ stosu na sztywno. Typowy zestaw (do weryfikacji):
 
 **Jak ustalać rzeczywiste konwencje** (zanim cokolwiek założysz):
 
+0. Jeśli istnieje **`docs/constitution.md`** — to **nadrzędne** źródło zasad projektu (warstwy,
+   Result vs wyjątki, progi NFR, bezpieczeństwo, prostota). Stosuj jej zasady `P-*` i nie zakładaj
+   niczego, co jest w niej już rozstrzygnięte. Konstytucja ma pierwszeństwo przed domysłem z kodu.
 1. Przeczytaj `CLAUDE.md` / `README.md` / `docs/` w roocie projektu — to źródło prawdy o wzorcach.
 2. Przejrzyj istniejące moduły/warstwy (`src/`, układ projektów `*.csproj`, namespacy), żeby
    poznać nazewnictwo, podział na warstwy i wzorce (np. Result vs wyjątki, naming handlerów).

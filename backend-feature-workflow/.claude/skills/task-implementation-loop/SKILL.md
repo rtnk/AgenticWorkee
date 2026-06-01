@@ -38,17 +38,22 @@ Testy taska i cały zestaw na zielono. Fail → diagnozuj: jeśli problem w kodz
 jeśli test był błędny/niekompletny → (1). Po zielonym orchestrator ustawia status
 `zaimplementowane`.
 
-**(6) Weryfikacja kryteriów + zgodności ze spec** — *delegacja do `feature-verifier`.*
-Verifier uruchamia build/test niezależnie i sprawdza checklistę kryteriów akceptacji
-oraz zgodność ze `spec.md` (kontrakty API, model danych, reguły, bezpieczeństwo).
-Zwraca werdykt **PASS/FAIL** + listę niespełnionych kryteriów + diagnostykę. Niczego
-nie naprawia.
+**(6) Weryfikacja kryteriów + zgodności ze spec + konstytucji** — *delegacja do `feature-verifier`.*
+Verifier uruchamia build/test niezależnie i sprawdza checklistę kryteriów akceptacji,
+zgodność ze `spec.md` (kontrakty API, model danych, reguły, bezpieczeństwo) **oraz zgodność z
+`docs/constitution.md`** (zasady `P-*`, jeśli istnieje). Dla tasków wrażliwych (auth/dane/
+sekrety) obowiązuje **bramka bezpieczeństwa** (`backend-impl-conventions §6`, opcjonalnie skill
+`security-review`). Zwraca werdykt **PASS/FAIL** + listę niespełnionych pozycji + diagnostykę.
+Niczego nie naprawia. *(Ponowne uruchomienie build/test przez verifier — mimo że orchestrator
+zrobił to w kroku 5 — jest **celowe**: bramka ma być niezależna od kroku implementacji, nie jest
+to duplikat „do zoptymalizowania".)*
 
 **(7) Iteracja przy FAIL** — *orchestrator.*
-Dowolna bramka FAIL (RED z błędnego powodu, build, test, kryteria, zgodność ze spec) →
-**iteruj** z diagnostyką: wróć do (1) gdy brak/niepoprawny test, do (3) gdy braki kodu.
-Obowiązuje **LIMIT iteracji = 3–5** na task. Po przekroczeniu limitu **lub** przy
-niejednoznaczności (nie wiadomo, czego oczekuje spec) → **ESKALUJ** (patrz niżej).
+Dowolna bramka FAIL (RED z błędnego powodu, build, test, kryteria, zgodność ze spec/konstytucją,
+bezpieczeństwo) → **iteruj** z diagnostyką: wróć do (1) gdy brak/niepoprawny test, do (3) gdy
+braki kodu. Obowiązuje **LIMIT iteracji = 4** na task (domyślny; dopuszczalny zakres 3–5 wg
+złożoności taska). Po przekroczeniu limitu **lub** przy niejednoznaczności (nie wiadomo, czego
+oczekuje spec) → **ESKALUJ** (patrz niżej).
 
 **(8) PASS → finalizacja** — *orchestrator.*
 Ustaw status taska na `zweryfikowane / zrobione`. Opcjonalnie utwórz **commit per task**
@@ -86,7 +91,7 @@ Eskaluj (pytanie do człowieka z konkretną luką i opcjami), gdy:
 
 - task wymaga **decyzji projektowej** nieobecnej w `spec.md`/`tasks.md` lub gdy są
   sprzeczne (reguła „nie zgaduj — blokuj");
-- przekroczono **limit iteracji** (3–5) bez przejścia bramek;
+- przekroczono **limit iteracji** (domyślnie 4) bez przejścia bramek;
 - realizacja wymagałaby zmian **poza zakresem** taska (task źle pocięty);
 - pojawia się konflikt z istniejącym kodem, którego task nie przewiduje.
 
