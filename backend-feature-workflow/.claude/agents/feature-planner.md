@@ -1,6 +1,7 @@
 ---
 name: feature-planner
 description: Use in phase 3 of the backend feature workflow to turn a ready spec.md into an implementation plan.md for a .NET 10 service. Requires spec status=ready; if not ready, it warns and lists the blocking [DO USTALENIA] items instead of planning blind. Produces plan.md per the feature-planning template (approach, layer decomposition, ordering/milestones, dependencies, risks, spikes, plan->spec mapping). Does NOT touch production code or create tasks.
+tools: Read, Write, Edit, Grep, Glob, Skill
 skills: backend-doc-conventions, feature-planning
 ---
 

@@ -98,14 +98,6 @@ Użyj subagenta feature-task-decomposer dla docs/features/withdrawal-limits-prem
   uproszczenia `> [ZAŁOŻENIE] ...`. Spec jest `ready` dopiero bez żadnego `[DO USTALENIA]`.
 - Każdy subagent ma **wąski zakres** i czyste wejście/wyjście (czyta jeden plik, pisze jeden).
 - Subagenci **piszą wyłącznie** do `docs/features/<slug>/` i **nie modyfikują kodu produkcyjnego**.
-- **Narzędzia:** `feature-spec-author`, `feature-spec-refiner` i `feature-planner` celowo **nie mają**
-  pola `tools:` — dziedziczą wszystkie narzędzia głównej sesji, dzięki czemu mogą korzystać z
-  zainstalowanego serwera języka (np. plugin **roslyn-ls**) do semantycznego czytania kodu. Wąski
-  zakres tych agentów jest egzekwowany regułami w treści promptu (zapis tylko do `docs/features/`,
-  brak modyfikacji kodu). `feature-task-decomposer` zachowuje wąską allowlistę (`Read, Write, Edit,
-  Grep, Glob, Skill`), bo pracuje z `plan.md`/`spec.md` i nie potrzebuje LSP. Wildcardy w `tools:`
-  nie są obsługiwane — gdybyś chciał zamiast dziedziczenia wymienić konkretne narzędzia LSP, użyj
-  pełnych nazw `mcp__<server>__<tool>`.
 - Stos .NET 10 (ASP.NET Core, dispatcher w stylu MediatR, EF Core + MS SQL, opcjonalnie
   Kafka/Redis/YARP/IdentityServer) jest **domyślny, ale potwierdzany z repo** (`CLAUDE.md`,
   istniejący kod, wcześniejsze specy) — nie zakładany na sztywno.
