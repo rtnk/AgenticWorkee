@@ -21,24 +21,23 @@ oraz **`task-implementation-loop`**.
 - `docs/features/<slug>/tasks.md` (lista zadań ze statusami), `spec.md` i `plan.md` (referencja).
 
 ## Kroki
-1. **Sprawdź prerekwizyty i bramki, potem wczytaj kontekst**. Najpierw deterministycznie: uruchom
-   `.claude/scripts/check-prerequisites.sh <slug> --phase impl` (jeśli obecny) — istnienie
-   `spec.md`/`plan.md`/`tasks.md`, status spec `ready` oraz czysty `dotnet build` na starcie
-   (build jest dla fazy impl **domyślnie włączony**); braki → zatrzymaj się i zaraportuj, nie
-   wchodź w pętlę na ślepo.
-   - **Bramka analizy (faza 4.5) jest twarda i ma trwały dowód.** Dowodem jest plik
-     `docs/features/<slug>/analysis.md` z linią `- **Werdykt**: GOTOWE DO IMPLEMENTACJI`,
-     **nowszy** niż `tasks.md` (kontrakt z README; sprawdza to też `check-prerequisites.sh`).
-     - **Brak `analysis.md` lub raport nieaktualny** (starszy niż `tasks.md`) → **sam uruchom**
-       `feature-analyzer` (Task) dla tego sluga, zamiast prosić człowieka o ręczne uruchomienie
-       — analizator persystuje świeży `analysis.md`. Dzięki temu normalne wywołania fazy 5 nie
-       „utykają" między sesjami.
-     - **Werdykt `WYMAGA POPRAWEK`** (defekty `[KRYT.]`) → **zatrzymaj się**: nie wybieraj taska,
-       odeślij konkretne braki do faz 1–4. Jedyne wyjście to świadome, **jawne** polecenie
-       człowieka, by mimo to kontynuować — wtedy odnotuj to w raporcie.
-   - Po przejściu bramek przeczytaj `docs/constitution.md` (jeśli jest), `tasks.md`, `spec.md`,
-     `plan.md`, `contracts/`/`data-model.md` (jeśli są) oraz konwencje repo (`CLAUDE.md`, układ
-     `src/`, `*.csproj`, styl testów) — zgodnie z `backend-impl-conventions`.
+1. **Sprawdź prerekwizyty i bramki, potem wczytaj kontekst.** Kolejność jest istotna — brakującą/
+   nieaktualną analizę **najpierw napraw**, dopiero potem zatrzymuj się na pozostałych brakach:
+   1. **Uruchom** `.claude/scripts/check-prerequisites.sh <slug> --phase impl` (jeśli obecny).
+   2. **Bramka analizy 4.5 jest odzyskiwalna** (ma trwały dowód: `docs/features/<slug>/analysis.md`
+      z linią `- **Werdykt**: GOTOWE DO IMPLEMENTACJI`, **nowszy** niż `spec.md`/`plan.md`/`tasks.md`).
+      Jeśli check zgłasza **brak lub nieaktualność `analysis.md`** → **sam uruchom** `feature-analyzer`
+      (Task) dla tego sluga (persystuje świeży raport), a następnie **uruchom check ponownie**. Nie
+      proś człowieka o ręczne odpalenie fazy 4.5 — dzięki temu normalne wejście w fazę 5 nie „utyka".
+   3. **Werdykt `WYMAGA POPRAWEK`** (defekty `[KRYT.]`) → **zatrzymaj się**: nie wybieraj taska,
+      odeślij konkretne braki do faz 1–4. Wyjście tylko na świadome, **jawne** polecenie człowieka
+      (odnotuj w raporcie).
+   4. **Pozostałe braki** (brak `spec.md`/`plan.md`/`tasks.md`, spec nie `ready`, niekompilujący się
+      `dotnet build`) lub fail utrzymujący się po ponownym checku → **zatrzymaj się i zaraportuj**,
+      nie wchodź w pętlę na ślepo.
+   5. Po **zielonym** checku przeczytaj `docs/constitution.md` (jeśli jest), `tasks.md`, `spec.md`,
+      `plan.md`, `contracts/`/`data-model.md` (jeśli są) oraz konwencje repo (`CLAUDE.md`, układ
+      `src/`, `*.csproj`, styl testów) — zgodnie z `backend-impl-conventions`.
 2. **Wybierz następny wykonalny task** (krok 0 maszyny stanów): wszystkie zależności w
    statusie `zweryfikowane / zrobione`, task **nie** `BLOCKED` i nie `zrobione`. Gdy
    podano konkretne ID — zweryfikuj jego wykonalność. Brak wykonalnego taska → przejdź do

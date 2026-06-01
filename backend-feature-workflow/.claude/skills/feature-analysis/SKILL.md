@@ -58,7 +58,7 @@ sprawdzany przez `check-prerequisites.sh` i orchestrator między sesjami). Nagł
 
 - **Werdykt**: GOTOWE DO IMPLEMENTACJI | WYMAGA POPRAWEK
 - **Data**: <YYYY-MM-DD>
-- **Na podstawie**: tasks.md (data: <YYYY-MM-DD>) , plan.md, spec.md
+- **Na podstawie**: spec.md, plan.md, tasks.md (data analizowanych wejść: <YYYY-MM-DD>)
 
 ## Macierz pokrycia
 <tabela jak wyżej>
@@ -76,8 +76,9 @@ sprawdzany przez `check-prerequisites.sh` i orchestrator między sesjami). Nagł
 
 - Linia `- **Werdykt**: GOTOWE DO IMPLEMENTACJI` jest **kontraktem** dla bramki fazy 5 — emituj ją
   dosłownie w tej formie tylko przy faktycznym przejściu.
-- Pole „Na podstawie: tasks.md (data …)" pozwala orchestratorowi wykryć, że `tasks.md` zmieniono
-  po analizie (raport **nieaktualny** → wymaga ponownego uruchomienia).
+- Raport jest **nieaktualny**, jeśli którekolwiek z wejść (`spec.md`/`plan.md`/`tasks.md`) zmieniono
+  po jego wygenerowaniu — wtedy wymaga ponownego uruchomienia (sprawdza to `check-prerequisites.sh`
+  porównaniem czasów modyfikacji wszystkich trzech plików).
 
 ## Reguły
 

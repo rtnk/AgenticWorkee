@@ -9,7 +9,7 @@
 #   plan   : docs/constitution.md (zalecane), spec.md w statusie `ready`
 #   tasks  : powyższe + plan.md
 #   impl   : powyższe + tasks.md + analysis.md z werdyktem "GOTOWE DO IMPLEMENTACJI"
-#            (trwały dowód bramki fazy 4.5; musi być nowszy niż tasks.md);
+#            (trwały dowód bramki fazy 4.5; musi być nowszy niż spec.md/plan.md/tasks.md);
 #            `dotnet build` musi być czysty (domyślnie dla impl; wyłącz przez --no-build).
 #            Dla plan/tasks build włącza --build.
 #
@@ -86,10 +86,12 @@ if [[ "$PHASE" == "impl" ]]; then
   if [[ -f "$FEAT/analysis.md" ]]; then
     if grep -Eqi '^\s*-\s*\*\*Werdykt\*\*\s*:\s*GOTOWE DO IMPLEMENTACJI' "$FEAT/analysis.md"; then
       ok "analysis.md: GOTOWE DO IMPLEMENTACJI"
-      # nieaktualność: tasks.md zmieniony po ostatniej analizie
-      if [[ "$FEAT/tasks.md" -nt "$FEAT/analysis.md" ]]; then
-        fail "analysis.md jest starszy niż tasks.md — uruchom feature-analyzer ponownie"
-      fi
+      # nieaktualność: którekolwiek z wejść analizy zmienione po ostatniej analizie
+      for input in spec.md plan.md tasks.md; do
+        if [[ -f "$FEAT/$input" && "$FEAT/$input" -nt "$FEAT/analysis.md" ]]; then
+          fail "analysis.md jest starszy niż $input — uruchom feature-analyzer ponownie"
+        fi
+      done
     else
       fail "analysis.md bez werdyktu 'GOTOWE DO IMPLEMENTACJI' — popraw braki i uruchom feature-analyzer"
     fi
