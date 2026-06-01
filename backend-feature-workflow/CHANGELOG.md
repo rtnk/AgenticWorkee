@@ -2,6 +2,54 @@
 
 Format wg [Keep a Changelog](https://keepachangelog.com/), wersjonowanie semantyczne.
 
+## [1.1.0] — 2026-06-01
+
+Drugi przegląd porównawczy — względem **GSD (Get Shit Done)**: oryginał
+[`gsd-build/get-shit-done`](https://github.com/gsd-build/get-shit-done) (zarchiwizowany) oraz
+następca [`open-gsd/gsd-core`](https://github.com/open-gsd/gsd-core). Pełne uzasadnienie:
+`backend-feature-workflow/REVIEW-GSD.md`. Wdrożono rekomendacje **GSD-1…GSD-12** oraz drobne
+obserwacje (§7). Oś usprawnień: **context engineering** (walka z „context rot").
+
+### Dodane
+- **Faza 6 — holistyczny przegląd feature** (GSD-6): agent `feature-reviewer` + skill
+  `feature-review` (read-only nad całym diffem, klasyfikacja Critical/Warning/Info, raport
+  `review.md` z werdyktem `CZYSTE | WYMAGA POPRAWEK`). Samowystarczalny — bez GitHub.
+- **Wskaźnik postępu i wznawianie** (GSD-4): agent `feature-progress` + artefakt
+  `docs/features/<slug>/state.md` (faza, statusy, **następna komenda**) + podkomenda
+  `check-prerequisites.sh progress <slug>`.
+- **Lekka ścieżka** dla drobnych zmian (GSD-9): agent `feature-quick` (minimalny `tasks.md` →
+  pętla TDD; twardy guardrail: kontakt z kontraktem/modelem/regułą → eskalacja do pełnej ścieżki).
+- **Spike techniczny z werdyktem** (GSD-10): agent `feature-spike` (eksperymenty w `spikes/`,
+  VALIDATED/INVALIDATED → `research.md`), zasila planera przy wysokim ryzyku.
+- **Bramka legalności zależności NuGet** (GSD-7): `scripts/check-packages.sh`
+  (`[OK]/[SUS]/[SLOP]`), podpięta w verifierze (`[SLOP]` = FAIL, `[SUS]` = checkpoint).
+- **Hooki opt-in** (GSD-11): `.claude/hooks/session-start.sh`, `.claude/hooks/workflow-guard.sh`
+  (ADVISORY) + `settings.snippet.json`. Lokalne, bez GitHub.
+- **Profile modeli** (GSD-12): pole `model:` w każdym agencie (Haiku/Sonnet/Opus) + tabela profili
+  w README.
+- **Deterministyczny dowód ukończenia** (GSD-5): opcjonalna linia `- **Verify**:` w tasku
+  (proponuje test-author, uruchamia verifier).
+- **Pokrycie decyzji** (GSD-8): macierz „Decyzja `D-n` → Plan/Tasks" + klasa defektu
+  „decyzja-sierota" w `feature-analysis`/`feature-analyzer`.
+
+### Zmienione
+- **Chudy orchestrator** (GSD-2) i **agresywna atomowość** (GSD-1): `task-implementation-loop`,
+  `feature-implementation-orchestrator`, `feature-tasks`, `feature-task-decomposer` — orchestrator
+  jest dyspozytorem (nie czyta `src/`, streszcza werdykt, stan na dysku → wznawianie), a taski są
+  wymiarowane pod świeży kontekst (~½ okna, ≤ ~3 plików; `L` = sygnał podziału).
+- **Równoległe fale `[P]`** (GSD-3): orchestrator dispatchuje taski `[P]` o rozłącznych plikach
+  równolegle; `feature-analyzer` wykrywa konflikt plików w fali.
+- **Werdykt verifiera** rozszerzony do `PASS | WARN | FAIL`; **limit iteracji** konfigurowalny per
+  task (`- **Iteration-limit**:`); **flaga `Security-critical: yes`** wymusza bramkę bezpieczeństwa
+  (kontrola **inline**, bez zewnętrznych skilli).
+- **Wykrywanie cykli** w DAG zależności tasków: `check-prerequisites.sh` (faza impl) + analizator.
+- `install.sh` obejmuje katalog `hooks/`; README: nowe fazy/agenci, profile modeli, sekcja o hookach.
+
+### Usunięte
+- **`feature-tasks-to-issues`** (eksport tasków do GitHub Issues) — rezygnacja z integracji GitHub.
+  Paczka nie używa GitHub w żadnej formie (brak ship/PR/Issues, brak GitHub MCP). Krok `/gsd-ship`
+  z GSD świadomie nie ma odpowiednika.
+
 ## [1.0.0] — 2026-06-01
 
 Pierwsze wersjonowane wydanie po przeglądzie porównawczym z [GitHub Spec Kit](https://github.com/github/spec-kit)

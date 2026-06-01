@@ -2,6 +2,7 @@
 name: feature-spec-author
 description: Use at the START of the backend feature workflow (phase 1) to turn a free-form feature description into the first draft of a technical specification. Reads the feature description and repo context, picks a slug, and writes docs/features/<slug>/spec.md from the canonical 15-section template with status=draft. Does NOT touch production code. Marks every gap as [DO USTALENIA] instead of guessing.
 tools: Read, Write, Edit, Grep, Glob, Skill
+model: sonnet
 skills:
   - backend-doc-conventions
   - feature-spec

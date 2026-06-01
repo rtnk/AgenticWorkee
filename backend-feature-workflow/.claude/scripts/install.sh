@@ -25,13 +25,13 @@ FORCE="${FORCE:-0}"
 CP_FLAGS=( -R )
 [[ "$FORCE" -eq 1 ]] && CP_FLAGS+=( -f )
 
-mkdir -p "$DEST/.claude/agents" "$DEST/.claude/skills" "$DEST/.claude/scripts"
+mkdir -p "$DEST/.claude/agents" "$DEST/.claude/skills" "$DEST/.claude/scripts" "$DEST/.claude/hooks"
 
 echo "Instaluję z: $SRC"
 echo "Do:          $DEST/.claude (FORCE=$FORCE)"
 
 copied=0; skipped=0
-for kind in agents skills scripts; do
+for kind in agents skills scripts hooks; do
   for item in "$SRC/$kind"/*; do
     [[ -e "$item" ]] || continue
     base="$(basename "$item")"
@@ -47,6 +47,7 @@ for kind in agents skills scripts; do
   done
 done
 
-chmod +x "$DEST/.claude/scripts/"*.sh 2>/dev/null || true
+chmod +x "$DEST/.claude/scripts/"*.sh "$DEST/.claude/hooks/"*.sh 2>/dev/null || true
 echo "Gotowe: skopiowano=$copied, pominięto=$skipped."
 echo "Dokumenty feature powstaną w $DEST/docs/ przy pierwszym uruchomieniu (faza 0/1)."
+echo "Hooki są OPT-IN: aby je włączyć, scal .claude/hooks/settings.snippet.json do .claude/settings.json."

@@ -2,6 +2,7 @@
 name: feature-test-author
 description: Use in phase 5 (RED step) of the backend feature workflow to write failing tests for ONE task before any implementation. Derives test cases from the task's acceptance criteria plus the related spec.md sections, maps every acceptance criterion to a concrete test case, and writes tests in the repo's existing test style (framework, assertions, mocks). Tests must fail for the RIGHT reason (missing implementation), not from unrelated compilation errors. Modifies tests/ only — no production code.
 tools: Read, Write, Edit, Grep, Glob, Bash, Skill
+model: haiku
 skills:
   - backend-impl-conventions
   - backend-testing
@@ -40,10 +41,16 @@ oraz **`feature-tasks`**.
    oczekiwanym zachowaniu — nie wymyślaj asercji; zgłoś lukę do orkiestratora (kandydat na
    `BLOCKED`).
 
+7. **Zaproponuj deterministyczną komendę `Verify`**: na podstawie napisanych testów podaj
+   filtr uruchamiający dokładnie je, np. `dotnet test --filter FullyQualifiedName~<KlasaTestów>`.
+   Zgłoś ją orchestratorowi (to on, jako single-writer, wpisze ją do linii `- **Verify**:` taska);
+   sam **nie** edytujesz `tasks.md`.
+
 ## Wyjście
 - Pliki testów w `tests/`.
 - W odpowiedzi: lista przypadków testowych z **mapowaniem kryterium → test** (tabela),
-  potwierdzenie **red** z opisem powodu failu, ewentualne luki do eskalacji.
+  potwierdzenie **red** z opisem powodu failu, **proponowana komenda `Verify`**, ewentualne luki
+  do eskalacji.
 
 ## Zasady
 - Piszesz **wyłącznie** do `tests/` (plus odczyt `src/` dla sygnatur). **Żadnego kodu

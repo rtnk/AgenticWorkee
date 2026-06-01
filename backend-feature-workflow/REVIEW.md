@@ -191,6 +191,10 @@ bez forka). Tu: ręczne `cp -r .claude`, brak wersjonowania paczki i mechanizmu 
 
 **Rekomendacja (opcjonalna).** Opcjonalny krok eksportu tasków do Issues z zachowaniem ID `T-00x`.
 
+> **Aktualizacja (1.1.0):** rekomendację G8 **wycofano** — na życzenie właściciela paczka nie używa
+> GitHub w żadnej formie. Agent `feature-tasks-to-issues` (wdrożony w 1.0.0) został usunięty;
+> tracking pozostaje przy commit-per-task. Zob. `REVIEW-GSD.md` i `CHANGELOG.md`.
+
 ### G9. Brak bramki prostoty/anty-abstrakcji na poziomie planu *(priorytet: niski)*
 
 **Obserwacja.** „Minimalizm" jest regułą `feature-implementer`, ale `feature-planner` może

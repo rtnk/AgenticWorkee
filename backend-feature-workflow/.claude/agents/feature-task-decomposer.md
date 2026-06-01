@@ -2,6 +2,7 @@
 name: feature-task-decomposer
 description: Use in phase 4 of the backend feature workflow to turn plan.md into a fine-grained tasks.md for a .NET 10 service, with spec.md as reference. Produces small, verifiable tasks with IDs, acceptance-criteria checklists, dependencies, code-area hints, spec/plan linkage and a Status line on every task, ordered topologically by dependency. Explicitly flags tasks blocked by [DO USTALENIA] items. Does NOT implement code itself — it produces the tasks.md that feeds the phase-5 implementation (feature-implementation-orchestrator).
 tools: Read, Write, Edit, Grep, Glob, Skill
+model: sonnet
 skills:
   - backend-doc-conventions
   - feature-tasks
@@ -27,14 +28,19 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
    niewiążąco), **powiązanie** ze `spec.md` (§) i `plan.md` (poz.), opcjonalny **rozmiar** S/M/L
    oraz **obowiązkowo** linię `- **Status**:` (domyślnie `do zrobienia`, dla zablokowanych
    `BLOCKED (przez: ...)`). Status jest kontraktem dla fazy 5+ — emituj go dla **każdego** taska.
-3. **Drobnoziarnistość**: dziel tak, by jeden task był jednym spójnym, weryfikowalnym krokiem.
-   Taski L rozważ podzielić.
+3. **Drobnoziarnistość / budżet kontekstu** (`feature-tasks`): dziel tak, by **cały** task (testy
+   + kod + build/test + commit) zmieścił się w **jednym świeżym kontekście subagenta** — ~½ okna,
+   ≤ ~3 plików produkcyjnych. Task `L` = sygnał do podziału, nie cel. Dla tasków, gdzie to możliwe,
+   dopisz **deterministyczną** linię `- **Verify**:` (np. `dotnet test --filter ...`), a dla tasków
+   dotykających auth/danych/sekretów — `- **Security-critical**: yes`. Limit iteracji zostaw
+   domyślny (4) lub ustaw `- **Iteration-limit**:` dla zadań większych.
 4. **Grupuj po wartości**: domyślnie twórz **plasterki wertykalne per przypadek użycia** (UC-*
    ze spec §3) — każda grupa niezależnie implementowalna i testowalna end-to-end. Pierwszą grupę
    oznacz `(MVP)`. **Wewnątrz** plasterka i między zależnymi plasterkami zachowaj porządek
-   topologiczny (kontrakty/model danych przed logiką). Oznacz `[P]` taski równoległe (bez
-   współdzielonych plików / zależności). Czysto warstwowy podział tylko, gdy brak sensownych
-   plasterków UC — odnotuj wtedy `[ZAŁOŻENIE]`.
+   topologiczny (kontrakty/model danych przed logiką). Oznacz `[P]` **tylko** taski o **rozłącznych
+   zbiorach plików** i bez wzajemnych zależności (orchestrator dispatchuje je równolegle — wspólny
+   plik = konflikt zapisu). Czysto warstwowy podział tylko, gdy brak sensownych plasterków UC —
+   odnotuj wtedy `[ZAŁOŻENIE]`.
 5. **Oznacz blokady**: taski zależne od nierozstrzygniętych `[DO USTALENIA]` ze spec oznacz jawnie
    jako `BLOCKED` i wskaż blokującą kwestię (sekcja 14 spec). Zbierz je też w sekcji „Zadania
    zablokowane”.

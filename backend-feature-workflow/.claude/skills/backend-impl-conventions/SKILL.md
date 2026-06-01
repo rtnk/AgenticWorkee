@@ -102,11 +102,26 @@ linię `- **Status**: ...`, nic poza nią.
 Dla tasków dotykających **uwierzytelniania, autoryzacji, danych wrażliwych, sekretów lub
 kryptografii** (spec §10) obowiązuje dodatkowa bramka:
 
+- Task `Security-critical: yes` (lub dotykający auth/danych/sekretów) podlega tej bramce obowiązkowo.
 - Implementer respektuje zasady `P-12`–`P-14` konstytucji (jeśli jest) oraz §10 spec: brak
   sekretów w kodzie/logach, poprawne authZ na endpointach, maskowanie/szyfrowanie danych wrażliwych.
-- Po zaimplementowaniu takiego taska orchestrator może uruchomić skill **`security-review`**
-  na zmianach (`src/`), a `feature-verifier` traktuje istotne ustalenia jako `FAIL` (zgodność §10).
+- Kontrola jest **inline** w `feature-verifier` (bez zewnętrznych/wbudowanych skilli, bez GitHub):
+  verifier przegląda zmiany `src/` pod kątem sekretów/authZ/maskowania i traktuje istotne ustalenia
+  jako `FAIL` (zgodność §10 / `P-12`–`P-14`).
 - Naruszenie bezpieczeństwa nie jest „drobnym brakiem" — to twarda blokada, nigdy domysł.
+
+## 8. Bramka legalności zależności (NuGet — slopcheck)
+
+Nowy pakiet do projektu **nie jest** drobnym brakiem — to decyzja podlegająca weryfikacji, nie
+domysłowi (analog „Registry Safety Gate" GSD; chroni przed **halucynacją** nieistniejącego pakietu).
+
+- Gdy task dodaje `PackageReference`, orchestrator uruchamia `.claude/scripts/check-packages.sh`:
+  - `[OK]` — pakiet resolvuje się z feedu (istnieje) → wolno.
+  - `[SUS]` — brak dokładnego trafienia / możliwy typo-squat → **checkpoint**: jawne potwierdzenie
+    człowieka, nigdy ciche przyjęcie.
+  - `[SLOP]` — pakiet nie istnieje w żadnym feedzie (prawdopodobna halucynacja) → **twardy FAIL**,
+    usuń/zastąp; nie „naprawiaj na ślepo".
+- Preferuj pakiety **już obecne** w repo. Nowa zależność wymaga uzasadnienia (po co, alternatywy).
 
 ## 7. Dyscyplina commitów i idempotentność
 
