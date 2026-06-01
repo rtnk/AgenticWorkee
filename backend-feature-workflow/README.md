@@ -23,6 +23,69 @@ akceptacji.
 > w tym repo — tworzą się dopiero w **projekcie docelowym** w `docs/features/<slug>/`, po skopiowaniu
 > paczki.
 
+## Szybki start (nowy feature)
+
+Co uruchamiać po kolei. Komendy wpisujesz w sesji Claude Code w **projekcie docelowym**
+(po instalacji paczki — patrz „Instalacja"). `<slug>` to kebab-case nazwy feature.
+
+**Faza 0 — raz na projekt** (potem pomijasz; ewentualne poprawki):
+
+```
+Użyj subagenta feature-constitution-author. Ustal zasady projektu z repo i zapisz docs/constitution.md.
+```
+
+**Per feature — kolejne kroki:**
+
+1. **Specyfikacja** — `feature-spec-author` (opis → `spec.md`, status `draft`):
+   ```
+   Użyj subagenta feature-spec-author. Opis feature: "<swobodny opis>"
+   ```
+2. **Doprecyzowanie** — `feature-spec-refiner`, **iteracyjnie** aż status `ready`
+   (brak `[DO USTALENIA]` + zaliczona checklista akceptacji):
+   ```
+   Użyj subagenta feature-spec-refiner dla docs/features/<slug>/spec.md.
+   ```
+3. **Plan** — `feature-planner` (`plan.md` + opc. `contracts/`, `data-model.md`):
+   ```
+   Użyj subagenta feature-planner dla docs/features/<slug>/spec.md.
+   ```
+4. **Zadania** — `feature-task-decomposer` (`tasks.md`: plasterki per UC, `[P]`, MVP):
+   ```
+   Użyj subagenta feature-task-decomposer dla docs/features/<slug>/plan.md.
+   ```
+5. **Analiza (bramka 4.5)** — `feature-analyzer` (→ `analysis.md`; musi dać `GOTOWE DO IMPLEMENTACJI`):
+   ```
+   Użyj subagenta feature-analyzer dla docs/features/<slug>/.
+   ```
+6. **Implementacja (faza 5+)** — `feature-implementation-orchestrator` (pętla TDD, modyfikuje `src/`/`tests/`):
+   ```
+   Użyj subagenta feature-implementation-orchestrator dla docs/features/<slug>/tasks.md.
+   ```
+   Pojedynczy task: `... dla taska T-007 z docs/features/<slug>/tasks.md.`
+7. **(opcjonalnie) Tracking** — `feature-tasks-to-issues` (eksport tasków do GitHub Issues):
+   ```
+   Użyj subagenta feature-tasks-to-issues dla docs/features/<slug>/tasks.md.
+   ```
+
+Skrót przepływu:
+
+```
+[raz] feature-constitution-author
+  └─ 1. feature-spec-author
+     └─ 2. feature-spec-refiner   (iteracyjnie → spec ready)
+        └─ 3. feature-planner
+           └─ 4. feature-task-decomposer
+              └─ 4.5 feature-analyzer   (bramka: GOTOWE DO IMPLEMENTACJI)
+                 └─ 5+ feature-implementation-orchestrator   (pętla TDD)
+                    └─ (opc.) feature-tasks-to-issues
+```
+
+**Dwie reguły nadrzędne:**
+- **Nie zgaduj** — brak decyzji projektowej to `[DO USTALENIA]` (fazy 1–4) lub `BLOCKED` +
+  eskalacja (faza 5+), nigdy zmyślony fakt.
+- **Nie przeskakuj bramek** — spec musi być `ready` przed planem, a analiza `GOTOWE DO
+  IMPLEMENTACJI` przed implementacją (orchestrator sam dośle analizę, jeśli brak/nieaktualna).
+
 ## Zawartość
 
 ```
