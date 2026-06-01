@@ -11,7 +11,8 @@ odpowiednik „cross-artifact analysis": nikt wcześniej nie sprawdza holistyczn
 wymaganie ma pokrycie i czy artefakty się nie kłócą — `feature-verifier` patrzy tylko
 **per task**. Ta faza domyka pętlę jakości fazy dokumentacyjnej.
 
-Analiza **niczego nie modyfikuje** — produkuje raport; braki kierują z powrotem do faz 1–4.
+Analiza **nie modyfikuje artefaktów wejściowych ani kodu** — zapisuje **wyłącznie** własny raport
+`docs/features/<slug>/analysis.md` (trwały dowód bramki); braki kierują z powrotem do faz 1–4.
 
 Stosuj reguły ze skilla `backend-doc-conventions` (polski, „nie zgaduj", zapis tylko do
 `docs/features/<slug>/`).
@@ -46,11 +47,18 @@ przepływy/idempotencja (§8), NFR (§4).
 8. **Naruszenia konstytucji** — plan/tasks łamią zasadę `P-*` (jeśli `docs/constitution.md`
    istnieje): np. nadmiarowa architektura vs P-15/P-16.
 
-## Format raportu (read-only)
+## Format raportu (persystowany do `analysis.md`)
 
-```
-ANALIZA SPÓJNOŚCI: <slug>
-Werdykt: GOTOWE DO IMPLEMENTACJI | WYMAGA POPRAWEK (faza 1–4)
+Raport jest **zapisywany** do `docs/features/<slug>/analysis.md` (trwały dowód bramki 4.5,
+sprawdzany przez `check-prerequisites.sh` i orchestrator między sesjami). Nagłówek zawiera
+**maszynowo czytelny werdykt** i odniesienie do `tasks.md` (do wykrycia nieaktualności):
+
+```markdown
+# Analiza spójności: <slug>
+
+- **Werdykt**: GOTOWE DO IMPLEMENTACJI | WYMAGA POPRAWEK
+- **Data**: <YYYY-MM-DD>
+- **Na podstawie**: tasks.md (data: <YYYY-MM-DD>) , plan.md, spec.md
 
 ## Macierz pokrycia
 <tabela jak wyżej>
@@ -66,10 +74,16 @@ Werdykt: GOTOWE DO IMPLEMENTACJI | WYMAGA POPRAWEK (faza 1–4)
 - Następny krok: <faza 5+ | wróć do fazy 2/3/4 z listą braków>
 ```
 
+- Linia `- **Werdykt**: GOTOWE DO IMPLEMENTACJI` jest **kontraktem** dla bramki fazy 5 — emituj ją
+  dosłownie w tej formie tylko przy faktycznym przejściu.
+- Pole „Na podstawie: tasks.md (data …)" pozwala orchestratorowi wykryć, że `tasks.md` zmieniono
+  po analizie (raport **nieaktualny** → wymaga ponownego uruchomienia).
+
 ## Reguły
 
-- **Read-only**: czytasz `spec.md`/`plan.md`/`tasks.md` (+ `constitution.md`, kod dla kontekstu);
-  **niczego nie zmieniasz**, w tym statusów tasków.
+- **Nie modyfikujesz artefaktów wejściowych ani kodu**: `spec.md`/`plan.md`/`tasks.md` (w tym
+  **statusów** tasków), `src/`, `tests/` pozostają nietknięte. Zapisujesz **wyłącznie** własny
+  raport `docs/features/<slug>/analysis.md` (idempotentnie — nadpisujesz poprzedni).
 - **Nie zgadujesz**: niejasność = defekt do zgłoszenia, nie domyślne rozstrzygnięcie.
 - Werdykt **GOTOWE DO IMPLEMENTACJI** tylko gdy brak defektów `[KRYT.]` i każde wymaganie
   ma pokrycie w tasku z mierzalnym kryterium.

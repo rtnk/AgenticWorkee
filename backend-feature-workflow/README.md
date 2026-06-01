@@ -37,7 +37,7 @@ backend-feature-workflow/
       feature-spec-refiner.md       # faza 2: interaktywne doprecyzowanie spec.md (+ checklista)
       feature-planner.md            # faza 3: spec.md (ready) -> plan.md (+ contracts/, data-model.md)
       feature-task-decomposer.md    # faza 4: plan.md -> tasks.md (plasterki UC, [P], MVP)
-      feature-analyzer.md           # faza 4.5: read-only analiza spójności spec<->plan<->tasks
+      feature-analyzer.md           # faza 4.5: analiza spójności spec<->plan<->tasks -> analysis.md (bramka)
       feature-implementation-orchestrator.md  # faza 5: tasks.md -> implementacja (pętla TDD)
       feature-test-author.md        # faza 5 (RED): kryteria akceptacji -> failujące testy
       feature-implementer.md        # faza 5 (GREEN): minimalny kod produkcyjny
@@ -95,7 +95,7 @@ feature-constitution-author (raz na projekt)  ->  feature-spec-author  ->  featu
 | 2. Doprecyzowanie | `feature-spec-refiner` | istniejący `spec.md` | `spec.md` (+ `decisions.md`), `ready` po zaliczeniu checklisty |
 | 3. Plan | `feature-planner` | `spec.md` w statusie `ready` | `plan.md` (+ `contracts/`, `data-model.md`, `research.md`) |
 | 4. Zadania | `feature-task-decomposer` | `plan.md` (+ `spec.md`) | `docs/features/<slug>/tasks.md` (plasterki UC, `[P]`, MVP) |
-| 4.5 Analiza (read-only) | `feature-analyzer` | `spec.md`+`plan.md`+`tasks.md` | raport spójności + werdykt `GOTOWE` / `WYMAGA POPRAWEK` |
+| 4.5 Analiza (bramka) | `feature-analyzer` | `spec.md`+`plan.md`+`tasks.md` | `docs/features/<slug>/analysis.md` (raport + werdykt `GOTOWE` / `WYMAGA POPRAWEK`) |
 | 5+. Implementacja | `feature-implementation-orchestrator` | `tasks.md` (+ `spec.md`, `plan.md`, konstytucja) | kod w `src/`/`tests/` + statusy w `tasks.md` |
 | (opc.) Tracking | `feature-tasks-to-issues` | `tasks.md` | GitHub Issues per task (`T-00x`) |
 

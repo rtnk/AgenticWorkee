@@ -8,8 +8,10 @@
 # Fazy (co musi istnieć / być spełnione):
 #   plan   : docs/constitution.md (zalecane), spec.md w statusie `ready`
 #   tasks  : powyższe + plan.md
-#   impl   : powyższe + tasks.md; `dotnet build` musi być czysty (domyślnie dla impl;
-#            wyłącz przez --no-build). Dla plan/tasks build włącza --build.
+#   impl   : powyższe + tasks.md + analysis.md z werdyktem "GOTOWE DO IMPLEMENTACJI"
+#            (trwały dowód bramki fazy 4.5; musi być nowszy niż tasks.md);
+#            `dotnet build` musi być czysty (domyślnie dla impl; wyłącz przez --no-build).
+#            Dla plan/tasks build włącza --build.
 #
 # Kod wyjścia: 0 = OK, 1 = brak prerekwizytów, 2 = błędne użycie.
 set -euo pipefail
@@ -77,6 +79,23 @@ fi
 # tasks.md
 if [[ "$PHASE" == "impl" ]]; then
   [[ -f "$FEAT/tasks.md" ]] && ok "$FEAT/tasks.md" || fail "brak $FEAT/tasks.md"
+fi
+
+# analysis.md — trwały dowód bramki fazy 4.5 (tylko dla impl)
+if [[ "$PHASE" == "impl" ]]; then
+  if [[ -f "$FEAT/analysis.md" ]]; then
+    if grep -Eqi '^\s*-\s*\*\*Werdykt\*\*\s*:\s*GOTOWE DO IMPLEMENTACJI' "$FEAT/analysis.md"; then
+      ok "analysis.md: GOTOWE DO IMPLEMENTACJI"
+      # nieaktualność: tasks.md zmieniony po ostatniej analizie
+      if [[ "$FEAT/tasks.md" -nt "$FEAT/analysis.md" ]]; then
+        fail "analysis.md jest starszy niż tasks.md — uruchom feature-analyzer ponownie"
+      fi
+    else
+      fail "analysis.md bez werdyktu 'GOTOWE DO IMPLEMENTACJI' — popraw braki i uruchom feature-analyzer"
+    fi
+  else
+    fail "brak $FEAT/analysis.md — uruchom feature-analyzer (faza 4.5) przed implementacją"
+  fi
 fi
 
 # build (twarda bramka, gdy RUN_BUILD=1)

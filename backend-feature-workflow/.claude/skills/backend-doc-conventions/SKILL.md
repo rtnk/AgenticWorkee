@@ -34,6 +34,7 @@ docs/
     contracts/        # kontrakty API: api-spec.json / *.md (faza 3, opcjonalnie)
     research.md       # wynik spike'ów (faza 3, opcjonalnie)
     tasks.md          # dekompozycja na zadania (faza 4)
+    analysis.md       # raport spójności + werdykt bramki (faza 4.5)
 ```
 
 `docs/constitution.md` powstaje **raz na projekt** (faza 0, `feature-constitution-author`) i

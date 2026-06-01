@@ -26,6 +26,15 @@ Pierwsze wersjonowane wydanie po przeglądzie porównawczym z [GitHub Spec Kit](
 - **Eksport tasków do GitHub Issues** (G8): agent `feature-tasks-to-issues` (opcjonalny).
 
 ### Zmienione
+- **Bramka analizy (faza 4.5) ma trwały dowód**: `feature-analyzer` persystuje raport do
+  `docs/features/<slug>/analysis.md` z maszynowo czytelnym werdyktem. `check-prerequisites.sh`
+  waliduje go dla fazy `impl` (istnienie + werdykt + nieaktualność względem `tasks.md`), a
+  orchestrator sam uruchamia analizator, gdy raportu brak/jest nieaktualny — bez „utykania"
+  między sesjami (feedback z review PR #3).
+- `check-prerequisites.sh`: walidacja `--phase` (literówka = błąd użycia), twarda bramka buildu
+  dla `impl` (brak `dotnet` przy wymaganym buildzie = FAIL; `--no-build` do świadomego pominięcia).
+- `install.sh`: usunięto `cp -n` (zbędne — istniejące pliki i tak pomijamy jawnie; eliminuje
+  nieportowalne ostrzeżenie GNU coreutils ≥9.4).
 - Limit iteracji pętli TDD ujednolicony do **domyślnie 4** (zakres 3–5 wg złożoności).
 - `feature-verifier` doliczył bramki **zgodności z konstytucją** i **bezpieczeństwa**.
 - `backend-doc-conventions` / `backend-impl-conventions`: konstytucja jako **nadrzędne** źródło

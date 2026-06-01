@@ -26,12 +26,16 @@ oraz **`task-implementation-loop`**.
    `spec.md`/`plan.md`/`tasks.md`, status spec `ready` oraz czysty `dotnet build` na starcie
    (build jest dla fazy impl **domyślnie włączony**); braki → zatrzymaj się i zaraportuj, nie
    wchodź w pętlę na ślepo.
-   - **Bramka analizy (faza 4.5) jest twarda, nie ostrzeżeniem.** Faza 5 **nie startuje**, dopóki
-     `feature-analyzer` nie zwrócił `GOTOWE DO IMPLEMENTACJI` dla tego sluga (kontrakt z README).
-     Jeśli analizy nie uruchomiono albo zgłosiła defekty krytyczne (`[KRYT.]`) lub werdykt
-     `WYMAGA POPRAWEK` → **zatrzymaj się**: nie wybieraj taska, odeślij braki do faz 1–4 i
-     (jeśli trzeba) poproś o uruchomienie `feature-analyzer`. Jedyne wyjście to świadome,
-     **jawne** polecenie człowieka, by mimo to kontynuować — wtedy odnotuj to w raporcie.
+   - **Bramka analizy (faza 4.5) jest twarda i ma trwały dowód.** Dowodem jest plik
+     `docs/features/<slug>/analysis.md` z linią `- **Werdykt**: GOTOWE DO IMPLEMENTACJI`,
+     **nowszy** niż `tasks.md` (kontrakt z README; sprawdza to też `check-prerequisites.sh`).
+     - **Brak `analysis.md` lub raport nieaktualny** (starszy niż `tasks.md`) → **sam uruchom**
+       `feature-analyzer` (Task) dla tego sluga, zamiast prosić człowieka o ręczne uruchomienie
+       — analizator persystuje świeży `analysis.md`. Dzięki temu normalne wywołania fazy 5 nie
+       „utykają" między sesjami.
+     - **Werdykt `WYMAGA POPRAWEK`** (defekty `[KRYT.]`) → **zatrzymaj się**: nie wybieraj taska,
+       odeślij konkretne braki do faz 1–4. Jedyne wyjście to świadome, **jawne** polecenie
+       człowieka, by mimo to kontynuować — wtedy odnotuj to w raporcie.
    - Po przejściu bramek przeczytaj `docs/constitution.md` (jeśli jest), `tasks.md`, `spec.md`,
      `plan.md`, `contracts/`/`data-model.md` (jeśli są) oraz konwencje repo (`CLAUDE.md`, układ
      `src/`, `*.csproj`, styl testów) — zgodnie z `backend-impl-conventions`.

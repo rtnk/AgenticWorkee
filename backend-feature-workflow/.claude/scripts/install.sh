@@ -20,8 +20,10 @@ fi
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"   # .../backend-feature-workflow/.claude
 FORCE="${FORCE:-0}"
+# Istniejące pliki pomijamy jawnie niżej (warstwowanie), więc cp nie potrzebuje -n
+# (które na GNU coreutils ≥9.4 emituje nieportowalne ostrzeżenie). Dla FORCE nadpisujemy (-f).
 CP_FLAGS=( -R )
-[[ "$FORCE" -eq 1 ]] && CP_FLAGS+=( -f ) || CP_FLAGS+=( -n )
+[[ "$FORCE" -eq 1 ]] && CP_FLAGS+=( -f )
 
 mkdir -p "$DEST/.claude/agents" "$DEST/.claude/skills" "$DEST/.claude/scripts"
 
