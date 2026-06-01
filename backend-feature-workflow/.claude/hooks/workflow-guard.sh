@@ -30,12 +30,20 @@ case "$FP" in
   *) exit 0 ;;
 esac
 
-# Czy istnieje JAKIKOLWIEK analysis.md z werdyktem GOTOWE? Jeśli tak — cisza.
-if grep -rqsE '^\s*-\s*\*\*Werdykt\*\*\s*:\s*GOTOWE DO IMPLEMENTACJI' docs/features 2>/dev/null; then
-  exit 0
-fi
+# Cisza tylko, gdy istnieje feature AKTYWNIE w fazie 5+: analysis.md z werdyktem GOTOWE
+# ORAZ wciąż niedokończone taski. Ukończona (lub nowa bez analizy) feature NIE autoryzuje
+# edycji src/ — inaczej jedna zamknięta feature wyłączyłaby guard na zawsze.
+for d in docs/features/*/; do
+  a="${d}analysis.md"; t="${d}tasks.md"
+  [[ -f "$a" ]] || continue
+  grep -Eqi '^\s*-\s*\*\*Werdykt\*\*\s*:\s*GOTOWE DO IMPLEMENTACJI' "$a" 2>/dev/null || continue
+  [[ -f "$t" ]] || continue
+  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*(do zrobienia|w toku|testy napisane|zaimplementowane|BLOCKED)' "$t" 2>/dev/null; then
+    exit 0
+  fi
+done
 
-echo "WORKFLOW-GUARD (ostrzeżenie): edytujesz '$FP' w src/, a żadna feature nie ma jeszcze" >&2
-echo "  analysis.md z werdyktem 'GOTOWE DO IMPLEMENTACJI' (bramka fazy 4.5). Upewnij się, że" >&2
+echo "WORKFLOW-GUARD (ostrzeżenie): edytujesz '$FP' w src/, a żadna feature nie jest aktywnie" >&2
+echo "  w fazie 5+ (analysis.md 'GOTOWE DO IMPLEMENTACJI' + niedokończone taski). Upewnij się, że" >&2
 echo "  jesteś w fazie 5+ właściwej feature, albo użyj ścieżki szybkiej (feature-quick)." >&2
 exit 0

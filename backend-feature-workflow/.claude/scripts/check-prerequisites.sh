@@ -90,6 +90,10 @@ if [[ "${1:-}" == "progress" ]]; then
   if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*(do zrobienia|w toku|testy napisane|zaimplementowane)' "$F/tasks.md"; then
     step "5+ (implementacja)" "Użyj subagenta feature-implementation-orchestrator dla $F/tasks.md."
   fi
+  # Zadania zablokowane? NIE przechodź do przeglądu — najpierw rozwiąż blokadę (faza 5+ niedokończona).
+  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*BLOCKED' "$F/tasks.md"; then
+    step "5+ (zablokowane)" "Rozwiąż blokadę zadań w $F/tasks.md (zmień spec przez feature-spec-refiner lub uzupełnij brakującą decyzję), uruchom ponownie feature-analyzer, potem wróć do feature-implementation-orchestrator."
+  fi
   if [[ ! -f "$F/review.md" ]] || ! grep -Eqi '^\s*-\s*\*\*Werdykt\*\*\s*:\s*CZYSTE' "$F/review.md"; then
     step "6 (przegląd)" "Użyj subagenta feature-reviewer dla $F/."
   fi
