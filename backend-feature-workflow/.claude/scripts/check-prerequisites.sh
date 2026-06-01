@@ -71,6 +71,17 @@ if [[ "${1:-}" == "progress" ]]; then
   [[ -z "$PSLUG" ]] && { echo "Użycie: $0 progress <slug>" >&2; exit 2; }
   F="docs/features/$PSLUG"
   step() { echo "FAZA: $1"; echo "NASTĘPNA KOMENDA: $2"; exit 0; }
+  # Ścieżka szybka (feature-quick): tasks.md z markerem, brak spec/plan/analizy jest świadomy.
+  # Nie odsyłaj do feature-spec-author — kieruj wprost do/po pętli TDD.
+  if [[ -f "$F/tasks.md" ]] && grep -qiE '\[ZAŁOŻENIE\][[:space:]]*ścieżka szybka' "$F/tasks.md"; then
+    if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*(do zrobienia|w toku|testy napisane|zaimplementowane)' "$F/tasks.md"; then
+      step "5 (ścieżka szybka)" "Kontynuuj feature-quick dla $F/ (lub feature-implementation-orchestrator dla $F/tasks.md)."
+    fi
+    if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*BLOCKED' "$F/tasks.md"; then
+      step "5 (ścieżka szybka — zablokowane)" "Zmiana nie jest drobna — przejdź na pełny workflow: feature-spec-author."
+    fi
+    step "zakończona (ścieżka szybka)" "Zmiana szybka gotowa — wszystkie taski zrobione."
+  fi
   [[ -f "docs/constitution.md" ]] || step "0 (konstytucja)" "Użyj subagenta feature-constitution-author. Ustal zasady projektu i zapisz docs/constitution.md."
   [[ -f "$F/spec.md" ]] || step "1 (specyfikacja)" "Użyj subagenta feature-spec-author. Opis feature: \"<opis>\""
   if ! grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*ready' "$F/spec.md" || grep -q '\[DO USTALENIA\]' "$F/spec.md"; then
@@ -137,11 +148,21 @@ ok()   { printf '  ✓ %s\n' "$1"; }
 
 echo "Prerekwizyty: slug=$SLUG faza=$PHASE"
 
+# Tryb szybki (feature-quick): tasks.md z markerem ścieżki szybkiej — brak spec/plan/analizy
+# jest ŚWIADOMY (kryteria inline). Dotyczy tylko fazy impl.
+QUICK=0
+if [[ "$PHASE" == "impl" && -f "$FEAT/tasks.md" ]] \
+   && grep -qiE '\[ZAŁOŻENIE\][[:space:]]*ścieżka szybka' "$FEAT/tasks.md"; then
+  QUICK=1
+fi
+
 # Konstytucja (zalecana, nie twarda)
 if [[ -f "docs/constitution.md" ]]; then ok "docs/constitution.md"; else note "brak docs/constitution.md (zalecane — faza 0)"; fi
 
-# spec.md + status ready
-if [[ -f "$FEAT/spec.md" ]]; then
+# spec.md + status ready (pomijane w trybie szybkim — kryteria inline w tasks.md)
+if [[ "$QUICK" -eq 1 ]]; then
+  ok "ścieżka szybka — pomijam spec.md/plan.md/analysis.md (kryteria inline w tasks.md)"
+elif [[ -f "$FEAT/spec.md" ]]; then
   ok "$FEAT/spec.md"
   if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*ready' "$FEAT/spec.md"; then
     ok "spec status: ready"
@@ -155,8 +176,8 @@ else
   fail "brak $FEAT/spec.md"
 fi
 
-# plan.md
-if [[ "$PHASE" == "tasks" || "$PHASE" == "impl" ]]; then
+# plan.md (pomijane w trybie szybkim)
+if [[ "$QUICK" -ne 1 && ( "$PHASE" == "tasks" || "$PHASE" == "impl" ) ]]; then
   [[ -f "$FEAT/plan.md" ]] && ok "$FEAT/plan.md" || fail "brak $FEAT/plan.md"
 fi
 
@@ -174,8 +195,8 @@ if [[ "$PHASE" == "impl" ]]; then
   fi
 fi
 
-# analysis.md — trwały dowód bramki fazy 4.5 (tylko dla impl)
-if [[ "$PHASE" == "impl" ]]; then
+# analysis.md — trwały dowód bramki fazy 4.5 (tylko dla impl; pomijane w trybie szybkim)
+if [[ "$PHASE" == "impl" && "$QUICK" -ne 1 ]]; then
   if [[ -f "$FEAT/analysis.md" ]]; then
     if grep -Eqi '^\s*-\s*\*\*Werdykt\*\*\s*:\s*GOTOWE DO IMPLEMENTACJI' "$FEAT/analysis.md"; then
       ok "analysis.md: GOTOWE DO IMPLEMENTACJI"

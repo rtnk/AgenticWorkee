@@ -31,6 +31,11 @@ oraz **`task-implementation-loop`**.
 1. **Sprawdź prerekwizyty i bramki, potem wczytaj kontekst.** Kolejność jest istotna — brakującą/
    nieaktualną analizę **najpierw napraw**, dopiero potem zatrzymuj się na pozostałych brakach:
    1. **Uruchom** `.claude/scripts/check-prerequisites.sh <slug> --phase impl` (jeśli obecny).
+      **Tryb szybki:** jeśli `tasks.md` ma nagłówek `> [ZAŁOŻENIE] ścieżka szybka` (feature-quick),
+      brak `spec.md`/`plan.md`/`analysis.md` jest **świadomy** — check przechodzi w trybie szybkim,
+      a Ty **pomijasz** kroki 1.2–1.3 (bramka 4.5) i opierasz się na kryteriach inline z `tasks.md`
+      (+ konstytucja, jeśli jest). Jeśli realizacja zaczyna dotykać kontraktu/modelu/reguły → `BLOCKED`
+      + eskalacja do pełnego workflow (`feature-spec-author`).
    2. **Bramka analizy 4.5 jest odzyskiwalna** (ma trwały dowód: `docs/features/<slug>/analysis.md`
       z linią `- **Werdykt**: GOTOWE DO IMPLEMENTACJI`, **nowszy** niż `spec.md`/`plan.md`/`tasks.md`).
       Jeśli check zgłasza **brak lub nieaktualność `analysis.md`** → **sam uruchom** `feature-analyzer`
