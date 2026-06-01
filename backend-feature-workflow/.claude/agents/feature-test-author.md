@@ -19,12 +19,14 @@ oraz **`feature-tasks`**.
 ## Wejście
 - ID taska (np. `T-007`) + `slug` feature.
 - `docs/features/<slug>/tasks.md` (kryteria akceptacji, obszar kodu, powiązania §) oraz
-  `spec.md` (kontrakty, reguły, przypadki brzegowe).
+  `spec.md` (kontrakty, reguły, przypadki brzegowe) — **jeśli istnieje**; w **ścieżce szybkiej**
+  (`feature-quick`) `spec.md` nie istnieje, a kryteria są **inline** w `tasks.md`.
 
 ## Kroki
 1. **Wczytaj task i spec**. Z `tasks.md` weź kryteria akceptacji, zależności i powiązane
    sekcje; doczytaj odpowiednie sekcje `spec.md` (§6 API, §7 model danych, §8 przepływy,
-   §13 testowanie).
+   §13 testowanie), **jeśli `spec.md` istnieje**. W trybie szybkim opieraj się **wyłącznie**
+   na kryteriach inline z taska.
 2. **Rozpoznaj styl testów repo** (`backend-testing` §1): framework (xUnit/NUnit/MSTest),
    asercje (FluentAssertions?), mocki (Moq/NSubstitute), układ projektów `*.Tests`,
    nazewnictwo. Nowe testy piszesz w tym samym stylu.

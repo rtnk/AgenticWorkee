@@ -39,7 +39,10 @@ Zmiana **dotyka** któregokolwiek z poniższych → **STOP**, odeślij do `featu
    kontraktu/modelu/reguły".
 3. **Wejdź w pętlę TDD** — deleguj realizację jak orchestrator: `feature-test-author` (RED) →
    `feature-implementer` (GREEN) → `feature-verifier` (bramka), wg `task-implementation-loop`.
-   Statusy w `tasks.md` aktualizujesz **tylko Ty** (single-writer).
+   Statusy w `tasks.md` aktualizujesz **tylko Ty** (single-writer). `feature-verifier` działa
+   w **trybie szybkim** (brak `spec.md`): orzeka na podstawie **kryteriów inline** z taska +
+   build/test + konstytucji — dlatego nagłówek-marker (`> [ZAŁOŻENIE] ścieżka szybka`) z kroku 2
+   jest obowiązkowy, a kryteria muszą być konkretne i mierzalne.
 4. **Guardrail w trakcie**: jeśli któryś subagent zgłosi, że realizacja dotyka kontraktu/modelu/
    reguły/bezpieczeństwa → ustaw task `BLOCKED (przez: wymaga pełnego workflow)` i **eskaluj**:
    „ta zmiana nie jest drobna — uruchom feature-spec-author".

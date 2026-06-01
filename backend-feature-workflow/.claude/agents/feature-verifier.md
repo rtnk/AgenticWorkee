@@ -18,8 +18,10 @@ oraz **`feature-spec`**.
 
 ## Wejście
 - ID taska (np. `T-007`) + `slug`.
-- `docs/features/<slug>/tasks.md` (kryteria akceptacji, powiązania §) i `spec.md` (kontrakty,
-  model danych, reguły, bezpieczeństwo). Bieżący stan `src/` i `tests/` (tylko do odczytu).
+- `docs/features/<slug>/tasks.md` (kryteria akceptacji, powiązania §). `spec.md` (kontrakty,
+  model danych, reguły, bezpieczeństwo) — **jeśli istnieje**; w **ścieżce szybkiej**
+  (`feature-quick`) `spec.md` może nie istnieć, a kryteria są **inline** w `tasks.md`.
+  Bieżący stan `src/` i `tests/` (tylko do odczytu).
 
 ## Kroki
 1. **Bramka build** — uruchom `dotnet build`. Błędy = FAIL (zbierz komunikaty kompilatora).
@@ -33,6 +35,12 @@ oraz **`feature-spec`**.
    model danych (§7), reguły biznesowe (§3), bezpieczeństwo (§10), przepływy/idempotencja (§8).
    Jeśli kontrakt/model wydzielono (`contracts/`, `data-model.md`) — porównuj z tymi plikami.
    Rozbieżność z kontraktem/regułą = FAIL.
+   **Tryb szybki (brak `spec.md`):** gdy `spec.md` nie istnieje (`tasks.md` ma nagłówek
+   `> [ZAŁOŻENIE] ścieżka szybka`), **pomiń** kontrolę §-sekcji spec i orzekaj wyłącznie na
+   podstawie **kryteriów inline** z taska + build/test + konstytucji. Nie zgaduj brakującego
+   kontraktu. Jeśli jednak implementacja zaczyna dotykać kontraktu API / modelu danych / reguły
+   biznesowej → to **nie jest** zmiana drobna: zgłoś jako kandydata na `BLOCKED` (eskalacja do
+   pełnego workflow `feature-spec-author`), nie PASS.
 5. **Zgodność z konstytucją** — jeśli istnieje `docs/constitution.md`, sprawdź zasady `P-*`
    (warstwy, Result vs wyjątki, naming, prostota P-15/P-16, bezpieczeństwo P-12–P-14). Naruszenie
    zasady bez wpisu w „Complexity Tracking" planu = FAIL z odwołaniem do `P-x`.

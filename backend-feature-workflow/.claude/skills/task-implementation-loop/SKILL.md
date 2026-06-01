@@ -42,8 +42,9 @@ dzielą pliku (inaczej konflikt zapisu) — przy wątpliwości rób je sekwencyj
 = klasyczny tryb sekwencyjny.
 
 **(1) Napisz failujące testy (RED)** — *delegacja do `feature-test-author`.*
-Z kryteriów akceptacji taska + powiązanych sekcji `spec.md` powstają testy; każde
-kryterium → co najmniej jeden test (mapowanie wg `backend-testing` §5).
+Z kryteriów akceptacji taska + powiązanych sekcji `spec.md` (jeśli istnieją — w **ścieżce
+szybkiej** `feature-quick` kryteria są **inline** w `tasks.md`, bez `spec.md`) powstają testy;
+każde kryterium → co najmniej jeden test (mapowanie wg `backend-testing` §5).
 
 **(2) Uruchom testy — potwierdź RED** — *autor testów / orchestrator.*
 `dotnet test` musi pokazać **czerwień z właściwego powodu** (brak implementacji), nie
