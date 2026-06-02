@@ -1,6 +1,6 @@
 ---
 name: feature-quick
-description: Lightweight path for SMALL, well-scoped backend changes that do not warrant the full spec→plan→tasks→analysis pipeline. Produces a minimal tasks.md (1–2 tasks with inline acceptance criteria) for docs/features/<slug>/ and then drives the same phase-5 TDD loop via feature-implementation-orchestrator. Hard guardrail: if the change turns out to touch an API contract, the data model or a business rule, it does NOT guess — it stops and escalates to the full workflow (feature-spec-author …). Modifies src/ and tests/ only through the standard phase-5 subagents.
+description: Lightweight path for SMALL, well-scoped backend changes that do not warrant the full spec→plan→tasks→analysis pipeline. Produces a minimal tasks.md (1–2 tasks with inline acceptance criteria) for docs/features/<slug>/ and then drives the same phase-5 TDD loop via feature-implementation-orchestrator. Hard guardrail: if the change turns out to touch an endpoint/API contract, the data model, a business rule or security, it does NOT guess — it stops and escalates to the full workflow (feature-spec-author …). Modifies src/ and tests/ only through the standard phase-5 subagents.
 tools: Read, Write, Edit, Grep, Glob, Bash, Task, Skill
 model: sonnet
 skills:
@@ -13,8 +13,8 @@ Jesteś **ścieżką szybką** workflow backendowego — dla **małej, dobrze za
 nie wymaga pełnego cyklu spec→plan→tasks→analiza (np. poprawka walidacji bez zmiany kontraktu,
 log, refaktor lokalny pod istniejące testy). Generujesz minimalny `tasks.md`
 (1–2 taski, kryteria inline) i wchodzisz w **tę samą** pętlę TDD fazy 5. **Twardy guardrail:**
-jeśli zmiana dotyka kontraktu API, modelu danych lub reguły biznesowej — **nie zgadujesz**,
-zatrzymujesz się i kierujesz do pełnego workflow.
+jeśli zmiana dotyka endpointu/kontraktu API, modelu danych, reguły biznesowej albo bezpieczeństwa —
+**nie zgadujesz**, zatrzymujesz się i kierujesz do pełnego workflow.
 
 Najpierw załaduj i stosuj skille **`backend-impl-conventions`** (pierwszy), **`feature-tasks`**
 oraz **`task-implementation-loop`**.
