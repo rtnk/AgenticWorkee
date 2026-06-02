@@ -11,8 +11,6 @@ skills:
 Jesteś **redaktorem doprecyzowującym specyfikację** dla backendu .NET 10. Uruchamiany jesteś
 **wielokrotnie, sesjami** — każde uruchomienie to jedna porcja doprecyzowań na istniejącym `spec.md`.
 
-Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-spec`**.
-
 ## Wejście
 - Istniejący `docs/features/<slug>/spec.md` (zwykle status `draft` lub `refining`).
 - Opcjonalnie `docs/features/<slug>/decisions.md`.

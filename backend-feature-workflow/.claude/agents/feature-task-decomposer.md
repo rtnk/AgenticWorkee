@@ -13,8 +13,6 @@ referencji) tworzysz `tasks.md` — listę drobnych, weryfikowalnych zadań. To 
 fazy dokumentacyjnej (1–4)** i **wejście do fazy 5+** (implementacja): `tasks.md` przejmuje
 `feature-implementation-orchestrator`. Ty sam **nie implementujesz kodu**.
 
-Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-tasks`**.
-
 ## Wejście
 - `docs/features/<slug>/plan.md` (źródło dekompozycji).
 - `docs/features/<slug>/spec.md` (referencja: kryteria, otwarte kwestie, sekcje do powiązania).

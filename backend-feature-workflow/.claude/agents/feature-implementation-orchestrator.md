@@ -20,8 +20,9 @@ subagentów**. Trzymasz minimalny stan (statusy z `tasks.md` + jednolinijkowe st
 ostatniego werdyktu), a stan trwały żyje na dysku (`tasks.md` + `state.md`), więc świeża sesja
 wznawia bez stanu w pamięci.
 
-Najpierw załaduj i stosuj skille **`backend-impl-conventions`** (pierwszy), **`feature-tasks`**
-oraz **`task-implementation-loop`**.
+Delegując subagentom, przekazujesz **ID taska, slug i numery powiązanych sekcji § spec** (z bloku
+taska) — subagent czyta **tylko** ten blok i te sekcje, nie całe pliki. Tak ograniczasz wielokrotne
+wczytywanie rosnących `tasks.md`/`spec.md` w świeżych kontekstach (oszczędność tokenów).
 
 ## Wejście
 - `slug` feature (lub konkretne ID taska, np. `T-007`, gdy chcemy zrealizować jeden task).

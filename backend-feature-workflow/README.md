@@ -133,7 +133,8 @@ backend-feature-workflow/
       feature-analysis/SKILL.md          # faza 4.5: macierz pokrycia (+ decyzje) + klasy defektów + raport
       feature-review/SKILL.md            # faza 6: rubryka przeglądu + klasyfikacja C/W/I + raport
       backend-impl-conventions/SKILL.md  # wspólne reguły fazy 5+ (src/+tests/, statusy, bezp., pakiety)
-      backend-testing/SKILL.md           # konwencje testów .NET 10 (xUnit, AAA, bramki)
+      backend-testing/SKILL.md           # konwencje testów .NET 10 (xUnit, AAA, bramki) — autor testów
+      spec-reference/SKILL.md            # lekka mapa 15 sekcji spec.md dla konsumentów (implementer, verifier)
       task-implementation-loop/SKILL.md  # maszyna stanów iteracji jednego taska (TDD, fale, chudy orchestrator)
     scripts/
       check-prerequisites.sh             # deterministyczna walidacja prerekwizytów + `progress` + cykle DAG
@@ -342,11 +343,13 @@ przypisanie (zmień w razie potrzeby — projekt-lokalny agent o tej samej nazwi
 | Grupa | Agenci | Domyślny model |
 |-------|--------|----------------|
 | Mechaniczne | `feature-test-author`, `feature-progress` | **haiku** |
-| Wykonawcze | `feature-implementer`, `feature-task-decomposer`, `feature-quick`, `feature-spec-author`, `feature-spec-refiner`, `feature-implementation-orchestrator`, `feature-spike` | **sonnet** |
-| Krytyczne dla jakości | `feature-planner`, `feature-analyzer`, `feature-verifier`, `feature-reviewer`, `feature-constitution-author` | **opus** |
+| Wykonawcze | `feature-implementer`, `feature-task-decomposer`, `feature-quick`, `feature-spec-author`, `feature-spec-refiner`, `feature-implementation-orchestrator`, `feature-spike`, `feature-verifier` | **sonnet** |
+| Krytyczne dla jakości | `feature-planner`, `feature-analyzer`, `feature-reviewer`, `feature-constitution-author` | **opus** |
 
 Profile á la GSD: **budget** (zbij wszystko o tier niżej), **balanced** (jak wyżej), **quality**
-(podbij wykonawcze do opus). Bramki (analyzer/verifier/reviewer) trzymaj na **opus** — to one łapią błędy.
+(podbij wykonawcze do opus). Bramki dokumentacyjne (analyzer/reviewer) trzymaj na **opus** — to one
+łapią błędy. `feature-verifier` działa na **sonnet** (twarde bramki build/test są deterministyczne,
+a jego input mocno ścięto); w profilu **quality** podbij go do opus.
 
 ## Hooki (opcjonalnie, opt-in)
 

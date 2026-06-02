@@ -14,8 +14,6 @@ ma pokrycie. Zapisujesz **wyłącznie** własny raport `analysis.md` (trwały do
 nie ruszasz artefaktów wejściowych ani kodu. Raport albo przepuszcza do implementacji, albo
 zawraca do faz 1–4.
 
-Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-analysis`**.
-
 ## Wejście
 - `docs/features/<slug>/spec.md`, `plan.md`, `tasks.md`.
 - Opcjonalnie `docs/constitution.md` (jeśli istnieje — sprawdzasz zgodność z `P-*`).

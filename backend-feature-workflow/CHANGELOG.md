@@ -4,11 +4,29 @@ Format wg [Keep a Changelog](https://keepachangelog.com/), wersjonowanie semanty
 
 ## [Unreleased]
 
+### Added
+- Skill `spec-reference` — lekka mapa 15 sekcji `spec.md` dla **konsumentów** specyfikacji
+  (`feature-implementer`, `feature-verifier`), zamiast ładowania pełnego autorskiego skilla
+  `feature-spec`. Oszczędność kontekstu/tokenów w pętli implementacyjnej.
+
 ### Changed
 - Ujednolicono maszynowe wartości statusów na język angielski w `tasks.md` (`todo`,
   `in_progress`, `tests_written`, `implemented`, `done`, `blocked`) oraz w szablonach
   konstytucji/specyfikacji (`active`, `open`/`resolved`, `proposed`/`accepted`/`rejected`/
   `superseded`).
+- **Optymalizacja zużycia tokenów** w fazie 5+:
+  - `feature-implementer` i `feature-verifier` ładują teraz `spec-reference` zamiast pełnego
+    `feature-spec` (czytają gotowy `spec.md`, nie potrzebują szablonu autorskiego).
+  - `feature-verifier` nie ładuje już `backend-testing` — bramki „build clean"/„tests green"
+    są egzekwowane inline (verifier i tak sam uruchamia `dotnet build`/`dotnet test`).
+  - Odchudzono `backend-impl-conventions` (ładowany przez 4 agentów fazy 5+) bez utraty reguł;
+    naprawiono kolejność sekcji (§7 commity → §8 pakiety), numery §2/§6 zachowane (cross-refy).
+  - Orchestrator przekazuje subagentom ID taska, slug i numery powiązanych sekcji § — subagenci
+    czytają tylko blok danego taska i wskazane sekcje, nie całe `tasks.md`/`spec.md`.
+- Usunięto redundantne instrukcje „Najpierw załaduj i stosuj skille …" z definicji agentów —
+  pole `skills:` we frontmatterze i tak preloaduje pełną treść skilla na starcie subagenta.
+- `feature-verifier` przeniesiony z **opus** na **sonnet** (twarde bramki build/test są
+  deterministyczne, a input verifiera mocno ścięto); w profilu **quality** można go podbić do opus.
 
 ## [1.1.0] — 2026-06-01
 

@@ -13,8 +13,6 @@ Jesteś **autorem konstytucji projektu** dla backendu .NET 10. Tworzysz (lub pop
 których odwołują się wszystkie późniejsze fazy. To **faza 0**, uruchamiana **raz na projekt**
 (potem tylko poprawki). Nie dotykasz kodu produkcyjnego.
 
-Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-constitution`**.
-
 ## Wejście
 - Kontekst repozytorium docelowego (źródło prawdy o zasadach).
 - Opcjonalnie wskazówki użytkownika (np. progi NFR, polityka bezpieczeństwa).

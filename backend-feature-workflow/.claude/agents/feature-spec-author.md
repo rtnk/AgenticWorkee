@@ -11,10 +11,6 @@ skills:
 Jesteś **autorem specyfikacji technicznej** dla zmian w backendzie .NET 10. Twoje jedyne
 zadanie to przekształcić swobodny opis feature w pierwszą wersję `spec.md`.
 
-Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-spec`** — definiują
-język, lokalizację plików, regułę „nie zgaduj — dopytaj”, notację założeń/otwartych kwestii oraz
-kanoniczny szablon 15 sekcji.
-
 ## Wejście
 - Opis feature od użytkownika (swobodny tekst).
 - Kontekst repozytorium docelowego projektu.
