@@ -27,8 +27,10 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
    podejście/strategia, dekompozycja na warstwy (API → aplikacja/handlery → domena →
    infrastruktura/dane), kolejność i kamienie milowe, zależności, ryzyka techniczne + mitigacje,
    spike'i/punkty decyzyjne, mapowanie pozycji planu na sekcje `spec.md`. Przy **wysokim ryzyku
-   technicznym** (nieznana biblioteka/API, niepewna wydajność/integracja) zleć **`feature-spike`**
-   *przed* utrwaleniem podejścia — oprzyj plan na werdyktach VALIDATED/INVALIDATED z `research.md`.
+   technicznym** (nieznana biblioteka/API, niepewna wydajność/integracja) **nie delegujesz spike'a
+   samodzielnie**: zatrzymaj planowanie, wypisz konkretne pytania/hipotezy i poproś użytkownika o
+   ręczne uruchomienie **`feature-spike`** przed utrwaleniem podejścia. Po powrocie do planowania
+   oprzyj plan na werdyktach VALIDATED/INVALIDATED zapisanych w `research.md`.
 5. **Wydziel artefakty** (gdy feature nietrywialne): kontrakty API do `contracts/`
    (`api-spec.json`/`*.md`), szczegółowy model danych do `data-model.md`, wynik spike'ów do
    `research.md`. `spec.md §6/§7` zostają streszczeniem linkującym do tych plików.
