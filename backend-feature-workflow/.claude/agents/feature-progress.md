@@ -18,8 +18,8 @@ read-only wobec wszystkiego poza `state.md` (per-feature wskaźnik sesji). Nie u
    - `docs/constitution.md` — istnieje? (faza 0)
    - `docs/features/<slug>/spec.md` — istnieje? `status: draft|refining|ready`? są `[DO USTALENIA]`?
    - `plan.md`, `tasks.md` — istnieją?
-   - `tasks.md` — rozkład statusów (`do zrobienia` / `w toku` / … / `zweryfikowane / zrobione` /
-     `BLOCKED`); ile zostało wykonalnych, ile BLOCKED.
+   - `tasks.md` — rozkład statusów (`todo` / `in_progress` / … / `done` /
+     `blocked`); ile zostało wykonalnych, ile blocked.
    - `analysis.md` — werdykt `GOTOWE DO IMPLEMENTACJI`? nowszy niż spec/plan/tasks?
    - `review.md` — werdykt `CZYSTE`? (faza 6)
 2. **Wyznacz bieżącą fazę i następny krok** wg kolejności faz:
@@ -35,7 +35,7 @@ read-only wobec wszystkiego poza `state.md` (per-feature wskaźnik sesji). Nie u
 - **Status spec**: <draft | refining | ready | brak>
 - **Analiza (4.5)**: <GOTOWE | WYMAGA POPRAWEK | nieaktualna | brak>
 - **Przegląd (6)**: <CZYSTE | WYMAGA POPRAWEK | brak>
-- **Taski**: zrobione <a>/<n>; w toku <b>; BLOCKED <c> (<lista ID>)
+- **Taski**: done <a>/<n>; in_progress <b>; blocked <c> (<lista ID>)
 - **Następna komenda**: <dokładne polecenie, np. „Użyj subagenta feature-analyzer dla docs/features/<slug>/.">
 - **Aktualizacja**: <YYYY-MM-DD>
 - **Notatka**: <jedno zdanie kontekstu z ostatniej sesji, opcjonalnie>

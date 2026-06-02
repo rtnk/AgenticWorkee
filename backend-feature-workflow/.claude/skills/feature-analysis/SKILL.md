@@ -53,7 +53,7 @@ Decyzja, która „wyparowała" (nie widać jej w planie ani taskach), to defekt
 4. **Duplikaty** — to samo wymaganie realizowane przez wiele tasków bez powodu.
 5. **Niemierzalne kryteria** — kryteria akceptacji taska/spec typu „działa poprawnie".
 6. **Nierozwiązane blokady** — `[DO USTALENIA]` w spec, od których zależą taski, mimo
-   statusu `ready`; taski `BLOCKED` na ścieżce krytycznej.
+   statusu `ready`; taski `blocked` na ścieżce krytycznej.
 7. **Niespójność kolejności** — zależność taska wskazuje na task późniejszy topologicznie.
 8. **Naruszenia konstytucji** — plan/tasks łamią zasadę `P-*` (jeśli `docs/constitution.md`
    istnieje): np. nadmiarowa architektura vs P-15/P-16.
@@ -87,7 +87,7 @@ sprawdzany przez `check-prerequisites.sh` i orchestrator między sesjami). Nagł
 
 ## Podsumowanie
 - Wymagań prześledzonych: <n>; pokrytych: <n>; luk: <n>
-- Tasków: <n>; sierot: <n>; BLOCKED na ścieżce krytycznej: <n>
+- Tasków: <n>; sierot: <n>; blocked na ścieżce krytycznej: <n>
 - Zgodność z konstytucją: OK | naruszenia: <lista P-x>
 - Następny krok: <faza 5+ | wróć do fazy 2/3/4 z listą braków>
 ```

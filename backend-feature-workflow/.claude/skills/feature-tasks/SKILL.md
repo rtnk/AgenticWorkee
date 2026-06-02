@@ -42,11 +42,11 @@ zapis tylko do `docs/features/<slug>/`).
 - **Identyfikatory**: `T-001`, `T-002`, … (stałe, nie renumeruj przy edycjach idempotentnych).
 - **Zależności**: lista ID tasków, które muszą być gotowe wcześniej (lub `—` gdy brak).
 - **Kryteria akceptacji**: checklista `- [ ]`, konkretne i sprawdzalne (nie „działa poprawnie”).
-- **Status (obowiązkowy)**: **każdy** task ma linię `- **Status**:` — domyślnie `do zrobienia`,
-  a dla taska zablokowanego `BLOCKED (przez: <[DO USTALENIA] #X>)`. To pole jest kontraktem dla
+- **Status (obowiązkowy)**: **każdy** task ma linię `- **Status**:` — domyślnie `todo`,
+  a dla taska zablokowanego `blocked (reason: <[DO USTALENIA] #X>)`. To pole jest kontraktem dla
   fazy implementacyjnej (faza 5+ wybiera i aktualizuje taski po statusie) — nie pomijaj go.
 - **Blokady**: taski zależne od nierozstrzygniętych `[DO USTALENIA]` ze spec oznacz jawnie
-  flagą `BLOCKED` (w polu `Status`) i wskaż, która otwarta kwestia je blokuje. Nie ukrywaj blokad.
+  flagą `blocked` (w polu `Status`) i wskaż, która otwarta kwestia je blokuje. Nie ukrywaj blokad.
 
 ## Szkielet do skopiowania
 
@@ -65,7 +65,7 @@ zapis tylko do `docs/features/<slug>/`).
   (np. `dotnet test --filter ...`); uzupełnia/potwierdza ją autor testów, uruchamia verifier.
 - **Iteration-limit** — opcjonalny limit iteracji pętli TDD dla taska (domyślnie 4).
 - **Security-critical** — `yes`, gdy task dotyka auth/danych wrażliwych/sekretów (wymusza bramkę bezp.).
-- `BLOCKED` — zablokowany przez otwartą kwestię ze spec.
+- `blocked` — zablokowany przez otwartą kwestię ze spec.
 
 ## Grupa A: <przypadek użycia / plasterek> (MVP)
 
@@ -82,7 +82,7 @@ zapis tylko do `docs/features/<slug>/`).
 - **Verify** (opc.): <deterministyczna komenda, np. dotnet test --filter FullyQualifiedName~XTests>
 - **Iteration-limit** (opc.): 4
 - **Security-critical** (opc.): yes | —
-- **Status**: do zrobienia | BLOCKED (przez: <[DO USTALENIA] #X>)
+- **Status**: todo | blocked (reason: <[DO USTALENIA] #X>)
 
 ### T-002 — <tytuł>
 - **Opis**: ...
@@ -93,7 +93,7 @@ zapis tylko do `docs/features/<slug>/`).
 - **Powiązanie**: spec §... (UC-...) / plan §...
 - **Rozmiar**: ...
 - **Równoległość**: `[P]` | —
-- **Status**: do zrobienia | BLOCKED (przez: ...)
+- **Status**: todo | blocked (reason: ...)
 
 ## Grupa B: <kolejny przypadek użycia / plasterek>
 ...

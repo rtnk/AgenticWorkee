@@ -66,9 +66,9 @@ Najważniejsza reguła, przeniesiona z faz 1–4 do świata kodu.
   wymyślaj** odpowiedzi i nie dotykaj kodu produkcyjnego „na próbę".
 - **Kto zgłasza, kto zapisuje**: subagent (test-author / implementer / verifier) **nie**
   edytuje pola `Status` — **raportuje blokadę** orkiestratorowi (konkretna luka + opcje).
-  Status `BLOCKED (przez: <opis luki / [DO USTALENIA] #X>)` w `tasks.md` ustawia **wyłącznie
+  Status `blocked (reason: <opis luki / [DO USTALENIA] #X>)` w `tasks.md` ustawia **wyłącznie
   orchestrator**, on też eskaluje pytanie do człowieka (patrz §5, single-writer). Gdy
-  działasz jako orchestrator — ustaw `BLOCKED` i eskaluj sam.
+  działasz jako orchestrator — ustaw `blocked` i eskaluj sam.
 - Drobny, bezpieczny brak (np. nazwa pola spójna z istniejącą konwencją repo) możesz
   przyjąć jako jawne `[ZAŁOŻENIE]` w podsumowaniu — ale **wszystko, co zmienia
   kontrakt, model danych lub regułę biznesową, jest decyzją projektową** i podlega
@@ -76,22 +76,22 @@ Najważniejsza reguła, przeniesiona z faz 1–4 do świata kodu.
 
 ## 5. Notacja statusów w `tasks.md` (rozszerzenie `feature-tasks`)
 
-Faza 4 ustawia tylko `do zrobienia | BLOCKED`. Faza 5+ rozszerza maszynę stanów
+Faza 4 ustawia tylko `todo | blocked`. Faza 5+ rozszerza maszynę stanów
 (kompatybilnie wstecz — wartości to artefakt narzędziowy, **po angielsku**):
 
 ```
-do zrobienia → w toku → testy napisane → zaimplementowane → zweryfikowane / zrobione
-                                                              (BLOCKED — w dowolnym momencie)
+todo → in_progress → tests_written → implemented → done
+                                                              (blocked — w dowolnym momencie)
 ```
 
 | Status | Znaczenie | Kto ustawia |
 |--------|-----------|-------------|
-| `do zrobienia` | gotowy do podjęcia (stan z fazy 4) | task-decomposer |
-| `w toku` | orchestrator wybrał task, cykl wystartował | orchestrator |
-| `testy napisane` | faza RED gotowa: testy istnieją i failują z właściwego powodu | orchestrator (po test-author) |
-| `zaimplementowane` | faza GREEN: kod gotowy, build czysty, testy zielone | orchestrator (po implementer) |
-| `zweryfikowane / zrobione` | verifier orzekł PASS (kryteria + zgodność ze spec) | orchestrator (po verifier) |
-| `BLOCKED (przez: ...)` | luka decyzyjna lub przekroczony limit iteracji → eskalacja | orchestrator (na zgłoszenie subagenta) |
+| `todo` | gotowy do podjęcia (stan z fazy 4) | task-decomposer |
+| `in_progress` | orchestrator wybrał task, cykl wystartował | orchestrator |
+| `tests_written` | faza RED gotowa: testy istnieją i failują z właściwego powodu | orchestrator (po test-author) |
+| `implemented` | faza GREEN: kod gotowy, build czysty, testy zielone | orchestrator (po implementer) |
+| `done` | verifier orzekł PASS (kryteria + zgodność ze spec) | orchestrator (po verifier) |
+| `blocked (reason: ...)` | luka decyzyjna lub przekroczony limit iteracji → eskalacja | orchestrator (na zgłoszenie subagenta) |
 
 Status edytuje **wyłącznie** orchestrator (subagenci raportują wynik; orchestrator
 przepisuje pole **Status** w `tasks.md`). Edycja jest punktowa — zmienia tylko jedną
@@ -131,6 +131,6 @@ domysłowi (analog „Registry Safety Gate" GSD; chroni przed **halucynacją** n
 - **Idempotentność**: ponowne uruchomienie na tym samym tasku **nie duplikuje** pracy
   ani testów. Przed pisaniem sprawdź, czy testy/kod już istnieją (po nazwach klas/metod
   i obszarze kodu z taska) i **aktualizuj** zamiast doklejać kopie. Task w statusie
-  `zweryfikowane / zrobione` jest pomijany.
+  `done` jest pomijany.
 - Nie usuwaj cudzego kodu ani testów bez wyraźnej potrzeby wynikającej z taska; przy
   konflikcie z istniejącym kodem — zatrzymaj się i eskaluj.

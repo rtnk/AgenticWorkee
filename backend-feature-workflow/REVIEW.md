@@ -59,7 +59,7 @@ Fazy 1–4 piszą **tylko** do `docs/features/<slug>/`. Faza 5+ modyfikuje `src/
 |------|--------------------------|----------|
 | **TDD z separacją ról** | Osobne subagenty RED → GREEN → bramka; verifier jest **read-only i niezależny** (adwersaryjna weryfikacja) | TDD jako zasada konstytucji, ale `/implement` jest jednym, monolitycznym krokiem |
 | **Single-writer statusów** | Status taska edytuje **wyłącznie** orchestrator; subagenci tylko raportują | brak takiej dyscypliny |
-| **Jawna maszyna stanów pętli** | Kroki 0–8 + limit iteracji + jawna eskalacja `BLOCKED` | brak ograniczonej pętli z eskalacją |
+| **Jawna maszyna stanów pętli** | Kroki 0–8 + limit iteracji + jawna eskalacja `blocked` | brak ograniczonej pętli z eskalacją |
 | **Least-privilege** | Tool allowlist per agent (np. verifier bez `Write`/`Edit`) | agent ma pełne uprawnienia |
 | **„Nie zgaduj — blokuj i eskaluj"** | Reguła rozszerzona także na fazę **kodu**, nie tylko spec | `[NEEDS CLARIFICATION]` głównie na poziomie spec |
 | **Izolacja kontekstu** | Każdy subagent = wąska rola, czyste wejście/wyjście | jeden agent prowadzi całość |

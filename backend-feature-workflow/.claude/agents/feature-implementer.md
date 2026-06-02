@@ -32,7 +32,7 @@ Najpierw załaduj i stosuj skille **`backend-impl-conventions`** (pierwszy) oraz
    **kodem** (nie nad testami) aż testy przejdą.
 6. **Granica**: jeśli przejście testów wymagałoby zmian **poza zakresem** taska albo decyzji
    projektowej nieobecnej w spec — zatrzymaj się i zgłoś to orkiestratorowi (kandydat na
-   `BLOCKED`), zamiast poszerzać zakres lub zgadywać. Testów nie przerabiasz „pod kod" —
+   `blocked`), zamiast poszerzać zakres lub zgadywać. Testów nie przerabiasz „pod kod" —
    chyba że są ewidentnie błędne; wtedy zgłoś to wraz z uzasadnieniem.
 
 ## Wyjście

@@ -74,13 +74,13 @@ if [[ "${1:-}" == "progress" ]]; then
   # Ścieżka szybka (feature-quick): tasks.md z markerem, brak spec/plan/analizy jest świadomy.
   # Nie odsyłaj do feature-spec-author — kieruj wprost do/po pętli TDD.
   if [[ -f "$F/tasks.md" ]] && grep -qiE '\[ZAŁOŻENIE\][[:space:]]*ścieżka szybka' "$F/tasks.md"; then
-    if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*(do zrobienia|w toku|testy napisane|zaimplementowane)' "$F/tasks.md"; then
+    if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*(todo|in_progress|tests_written|implemented)' "$F/tasks.md"; then
       step "5 (ścieżka szybka)" "Kontynuuj feature-quick dla $F/ (lub feature-implementation-orchestrator dla $F/tasks.md)."
     fi
-    if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*BLOCKED' "$F/tasks.md"; then
+    if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*blocked' "$F/tasks.md"; then
       step "5 (ścieżka szybka — zablokowane)" "Zmiana nie jest drobna — przejdź na pełny workflow: feature-spec-author."
     fi
-    step "zakończona (ścieżka szybka)" "Zmiana szybka gotowa — wszystkie taski zrobione."
+    step "zakończona (ścieżka szybka)" "Zmiana szybka gotowa — wszystkie taski done."
   fi
   [[ -f "docs/constitution.md" ]] || step "0 (konstytucja)" "Użyj subagenta feature-constitution-author. Ustal zasady projektu i zapisz docs/constitution.md."
   [[ -f "$F/spec.md" ]] || step "1 (specyfikacja)" "Użyj subagenta feature-spec-author. Opis feature: \"<opis>\""
@@ -97,18 +97,18 @@ if [[ "${1:-}" == "progress" ]]; then
       step "4.5 (analiza nieaktualna)" "Użyj subagenta feature-analyzer dla $F/."
     fi
   done
-  # Pozostałe wykonalne taski? (status do zrobienia / w toku / niepełne)
-  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*(do zrobienia|w toku|testy napisane|zaimplementowane)' "$F/tasks.md"; then
+  # Pozostałe wykonalne taski? (status todo / in_progress / niepełne)
+  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*(todo|in_progress|tests_written|implemented)' "$F/tasks.md"; then
     step "5+ (implementacja)" "Użyj subagenta feature-implementation-orchestrator dla $F/tasks.md."
   fi
   # Zadania zablokowane? NIE przechodź do przeglądu — najpierw rozwiąż blokadę (faza 5+ niedokończona).
-  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*BLOCKED' "$F/tasks.md"; then
+  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*blocked' "$F/tasks.md"; then
     step "5+ (zablokowane)" "Rozwiąż blokadę zadań w $F/tasks.md (zmień spec przez feature-spec-refiner lub uzupełnij brakującą decyzję), uruchom ponownie feature-analyzer, potem wróć do feature-implementation-orchestrator."
   fi
   if [[ ! -f "$F/review.md" ]] || ! grep -Eqi '^\s*-\s*\*\*Werdykt\*\*\s*:\s*CZYSTE' "$F/review.md"; then
     step "6 (przegląd)" "Użyj subagenta feature-reviewer dla $F/."
   fi
-  step "zakończona" "Feature gotowa — wszystkie taski zrobione i przegląd CZYSTE."
+  step "zakończona" "Feature gotowa — wszystkie taski done i przegląd CZYSTE."
 fi
 
 SLUG="${1:-}"

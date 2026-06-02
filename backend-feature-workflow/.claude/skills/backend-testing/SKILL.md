@@ -71,7 +71,7 @@ co najmniej **jeden konkretny przypadek testowy**.
   ```
 
 - Kryterium bez odpowiadającego testu = luka pokrycia → task **nie** może przejść do
-  `zweryfikowane / zrobione`.
+  `done`.
 - Uwzględniaj scenariusze brzegowe i błędne z `spec.md` (§8 Przepływy, §13 Testowanie),
   nie tylko happy path.
 

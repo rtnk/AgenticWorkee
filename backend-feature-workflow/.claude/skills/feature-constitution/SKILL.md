@@ -35,7 +35,7 @@ Stosuj reguły ze skilla `backend-doc-conventions` (polski, „nie zgaduj — do
 
 - **Wersja**: <semver, np. 1.0.0>
 - **Data**: <YYYY-MM-DD>
-- **Status**: obowiązująca
+- **Status**: active
 
 ## 1. Stos i baseline techniczny
 - **.NET**: <wersja, np. .NET 10>

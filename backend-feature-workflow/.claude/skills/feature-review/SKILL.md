@@ -6,7 +6,7 @@ description: Load when running the holistic code review (phase 6) of the backend
 # Feature Review — holistyczny przegląd całej feature
 
 Ten skill definiuje **read-only przegląd całego diffu feature** (faza 6) — po tym, jak
-wszystkie taski są `zweryfikowane / zrobione`. `feature-verifier` patrzy **per task**;
+wszystkie taski są `done`. `feature-verifier` patrzy **per task**;
 ten przegląd patrzy **całościowo**, na styki między taskami i na jakość kodu jako całości.
 Jest **samowystarczalny** — nie korzysta z żadnych zewnętrznych/wbudowanych skilli ani
 z GitHub. Zapisuje **wyłącznie** raport `docs/features/<slug>/review.md`; niczego nie naprawia.
