@@ -32,10 +32,12 @@ oraz **`task-implementation-loop`**.
    nieaktualną analizę **najpierw napraw**, dopiero potem zatrzymuj się na pozostałych brakach:
    1. **Uruchom** `.claude/scripts/check-prerequisites.sh <slug> --phase impl` (jeśli obecny).
       **Tryb szybki:** jeśli `tasks.md` ma nagłówek `> [ZAŁOŻENIE] ścieżka szybka` (feature-quick),
-      brak `spec.md`/`plan.md`/`analysis.md` jest **świadomy** — check przechodzi w trybie szybkim,
-      a Ty **pomijasz** kroki 1.2–1.3 (bramka 4.5) i opierasz się na kryteriach inline z `tasks.md`
-      (+ konstytucja, jeśli jest). Jeśli realizacja zaczyna dotykać kontraktu/modelu/reguły → `blocked`
-      + eskalacja do pełnego workflow (`feature-spec-author`).
+      brak `spec.md`/`plan.md`/`analysis.md` jest **świadomy** — check przechodzi w trybie szybkim
+      tylko po zaliczeniu `.claude/scripts/check-quick-scope.sh <slug>` (mini-checklista zakresu +
+      diff bez kontraktu/modelu/reguł/bezpieczeństwa). Pomijasz kroki 1.2–1.3 (bramka 4.5) i opierasz
+      się na kryteriach inline z `tasks.md` (+ konstytucja, jeśli jest). Jeśli realizacja zaczyna
+      dotykać kontraktu/modelu/reguły/bezpieczeństwa → `blocked` + eskalacja do pełnego workflow
+      (`feature-spec-author`).
    2. **Bramka analizy 4.5 jest odzyskiwalna** (ma trwały dowód: `docs/features/<slug>/analysis.md`
       z linią `- **Werdykt**: GOTOWE DO IMPLEMENTACJI`, **nowszy** niż `spec.md`/`plan.md`/`tasks.md`).
       Jeśli check zgłasza **brak lub nieaktualność `analysis.md`** → **sam uruchom** `feature-analyzer`
@@ -71,9 +73,11 @@ oraz **`task-implementation-loop`**.
    **PASS / WARN / FAIL** + niespełnione kryteria + diagnostykę (zgodność z konstytucją `P-*`).
    Jeśli task ma `- **Verify**: <komenda>` — verifier uruchamia ją jako deterministyczny dowód.
    Jeśli task dodał `PackageReference` — uruchom **`.claude/scripts/check-packages.sh`**: `[SLOP]`
-   = FAIL (halucynacja pakietu), `[SUS]` = checkpoint (potwierdzenie człowieka). Dla tasków
-   `Security-critical: yes` (lub auth/dane/sekrety, spec §10) obowiązuje bramka bezpieczeństwa
-   inline (`backend-impl-conventions §6`). Streść werdykt do jednej linii (nie wklejaj logów).
+   = FAIL (halucynacja pakietu), `[SUS]` = checkpoint (potwierdzenie człowieka). W ścieżce szybkiej
+   uruchom ponownie **`.claude/scripts/check-quick-scope.sh <slug>`** po zmianach kodu; FAIL = `blocked`
+   i eskalacja do pełnego workflow. Dla tasków `Security-critical: yes` (lub auth/dane/sekrety,
+   spec §10) obowiązuje bramka bezpieczeństwa inline (`backend-impl-conventions §6`). Streść werdykt
+   do jednej linii (nie wklejaj logów).
 7. **Pętla iteracji** (`task-implementation-loop`): FAIL → iteruj z diagnostyką (powrót do
    kroku 4 lub 5), do **limitu z linii taska `- **Iteration-limit**:` lub domyślnie 4**. WARN →
    możesz finalizować, ale odnotuj (kandydat do fazy 6). Po przekroczeniu limitu lub przy

@@ -162,6 +162,15 @@ if [[ -f "docs/constitution.md" ]]; then ok "docs/constitution.md"; else note "b
 # spec.md + status ready (pomijane w trybie szybkim — kryteria inline w tasks.md)
 if [[ "$QUICK" -eq 1 ]]; then
   ok "ścieżka szybka — pomijam spec.md/plan.md/analysis.md (kryteria inline w tasks.md)"
+  if [[ -x ".claude/scripts/check-quick-scope.sh" ]]; then
+    if .claude/scripts/check-quick-scope.sh "$SLUG"; then
+      ok "mini-bramka quick path: zakres potwierdzony"
+    else
+      fail "mini-bramka quick path nie przeszła — eskaluj do pełnego workflow"
+    fi
+  else
+    fail "brak .claude/scripts/check-quick-scope.sh — nie da się potwierdzić zakresu quick path"
+  fi
 elif [[ -f "$FEAT/spec.md" ]]; then
   ok "$FEAT/spec.md"
   if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*ready' "$FEAT/spec.md"; then
@@ -182,7 +191,10 @@ if [[ "$QUICK" -ne 1 && ( "$PHASE" == "tasks" || "$PHASE" == "impl" ) ]]; then
 fi
 
 # tasks.md (+ brak cykli w DAG zależności)
-if [[ "$PHASE" == "impl" ]]; then
+# Faza `tasks` jest wywoływana przed dekompozycją, więc brak tasks.md jest OK; jeśli plik już
+# istnieje (np. ponowna walidacja po fazie 4), sprawdzamy DAG od razu, zgodnie z deklaracją nagłówka.
+# Faza `impl` wymaga tasks.md bezwarunkowo.
+if [[ "$PHASE" == "tasks" || "$PHASE" == "impl" ]]; then
   if [[ -f "$FEAT/tasks.md" ]]; then
     ok "$FEAT/tasks.md"
     if detect_task_cycle "$FEAT/tasks.md" >/dev/null 2>&1; then
@@ -190,8 +202,10 @@ if [[ "$PHASE" == "impl" ]]; then
     else
       fail "cykl w zależnościach tasków (tasks.md) — orchestrator nie ruszy; rozplącz zależności (faza 4)"
     fi
-  else
+  elif [[ "$PHASE" == "impl" ]]; then
     fail "brak $FEAT/tasks.md"
+  else
+    note "brak $FEAT/tasks.md (OK przed fazą 4; DAG sprawdzę po utworzeniu tasks.md)"
   fi
 fi
 
@@ -228,7 +242,7 @@ if [[ "$RUN_BUILD" -eq 1 ]]; then
 fi
 
 if [[ "$ERRORS" -gt 0 ]]; then
-  echo "WYNIK: BRAK PREREKWIZYTÓW ($ERRORS) — nie wchodź w fazę 5 na ślepo." >&2
+  echo "WYNIK: BRAK PREREKWIZYTÓW ($ERRORS) — nie przechodź dalej na ślepo." >&2
   exit 1
 fi
 echo "WYNIK: OK"

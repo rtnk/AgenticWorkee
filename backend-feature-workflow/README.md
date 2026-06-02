@@ -137,6 +137,7 @@ backend-feature-workflow/
       task-implementation-loop/SKILL.md  # maszyna stanów iteracji jednego taska (TDD, fale, chudy orchestrator)
     scripts/
       check-prerequisites.sh             # deterministyczna walidacja prerekwizytów + `progress` + cykle DAG
+      check-quick-scope.sh               # mini-bramka zakresu dla feature-quick (checklista + diff)
       check-packages.sh                  # bramka legalności pakietów NuGet (slopcheck [OK]/[SUS]/[SLOP])
       install.sh                         # instalator paczki do projektu (warstwowanie)
     hooks/                               # opt-in (scal settings.snippet.json do .claude/settings.json)
@@ -180,8 +181,8 @@ feature-constitution-author (raz na projekt)  ->  feature-spec-author  ->  featu
 | 0. Konstytucja (raz/projekt) | `feature-constitution-author` | repo | `docs/constitution.md` (zasady `P-*`) |
 | 1. Specyfikacja | `feature-spec-author` | opis feature + repo | `docs/features/<slug>/spec.md` (status `draft`) |
 | 2. Doprecyzowanie | `feature-spec-refiner` | istniejący `spec.md` | `spec.md` (+ `decisions.md`, `D-n`), `ready` po zaliczeniu checklisty |
-| (opc.) Spike | `feature-spike` | ryzyko techniczne | `research.md` (werdykty VALIDATED/INVALIDATED) + kod w `spikes/` |
-| 3. Plan | `feature-planner` | `spec.md` w statusie `ready` | `plan.md` (+ `contracts/`, `data-model.md`, `research.md`) |
+| (opc.) Spike | `feature-spike` | ryzyko techniczne; uruchamiany ręcznie przez użytkownika przed planem, gdy planner wskaże blokujące hipotezy | `research.md` (werdykty VALIDATED/INVALIDATED) + kod w `spikes/` |
+| 3. Plan | `feature-planner` | `spec.md` w statusie `ready` (+ `research.md`, jeśli wykonano spike) | `plan.md` (+ `contracts/`, `data-model.md`, `research.md`) |
 | 4. Zadania | `feature-task-decomposer` | `plan.md` (+ `spec.md`) | `docs/features/<slug>/tasks.md` (UC, `[P]`, budżet kontekstu, `Verify`) |
 | 4.5 Analiza (bramka) | `feature-analyzer` | `spec.md`+`plan.md`+`tasks.md` | `docs/features/<slug>/analysis.md` (raport + werdykt `GOTOWE` / `WYMAGA POPRAWEK`) |
 | 5+. Implementacja | `feature-implementation-orchestrator` | `tasks.md` (+ `spec.md`, `plan.md`, konstytucja) | kod w `src/`/`tests/` + statusy w `tasks.md` + `state.md` |
@@ -192,6 +193,11 @@ feature-constitution-author (raz na projekt)  ->  feature-spec-author  ->  featu
 Faza 2 jest **iteracyjna**: uruchamiaj `feature-spec-refiner` wielokrotnie. Za każdym razem zadaje
 skupioną porcję pytań, łata sekcje i dopisuje decyzje, aż status spec osiągnie `ready` (brak
 jakiegokolwiek `[DO USTALENIA]`). Dopiero wtedy przechodź do fazy 3.
+
+**Spike jest krokiem sterowanym przez użytkownika, nie automatyczną delegacją planera.** Jeśli
+`feature-planner` wykryje wysokie ryzyko techniczne, powinien zatrzymać planowanie, wypisać
+konkretne hipotezy/pytania i wskazać komendę uruchomienia `feature-spike`. Po ręcznym wykonaniu
+spike'a uruchom planera ponownie — wtedy wykorzysta werdykty VALIDATED/INVALIDATED z `research.md`.
 
 Faza 5+ jest **odrębna jakościowo**: w odróżnieniu od faz 1–4 (które piszą **tylko** do
 `docs/features/<slug>/`) **modyfikuje kod produkcyjny i testy** (`src/`, `tests/`) oraz uruchamia
@@ -223,6 +229,14 @@ wypłata jest odrzucana, a klient dostaje komunikat. Limit konfigurowalny per ti
 
 ```
 Użyj subagenta feature-spec-refiner dla docs/features/withdrawal-limits-premium/spec.md.
+```
+
+**Opcjonalnie przed fazą 3 — spike techniczny** (tylko gdy ryzyko jest wysokie albo planner o to poprosi;
+uruchamia użytkownik, nie `feature-planner`):
+
+```
+Użyj subagenta feature-spike dla docs/features/withdrawal-limits-premium/. Ryzyko:
+"Nie wiemy, czy wybrany mechanizm liczenia limitu dziennego spełni wymagania wydajnościowe."
 ```
 
 **Faza 3 — plan:**
@@ -296,6 +310,25 @@ i eskalują („nie zgaduj"), zamiast po cichu zaabsorbować nowy wymóg. Zmian�
 **Co wymaga Twojej decyzji:** które już ukończone taski zmiana faktycznie unieważnia — analizator
 wskaże je jako sprzeczności/luki, ale reopen potwierdzasz Ty. Reszta jest mechaniczna; `commit per
 task` sprawia, że re-implementacja dotkniętego zadania jest zlokalizowana i łatwa do prześledzenia.
+
+## Ścieżka szybka i mini-bramka zakresu
+
+`feature-quick` może pominąć `spec.md`/`plan.md`/`analysis.md` tylko dla małych zmian, które **nie**
+dotykają kontraktu API, modelu danych, reguł biznesowych ani bezpieczeństwa. Żeby to nie było
+wyłącznie deklaracją agenta, minimalny `tasks.md` ścieżki szybkiej musi zawierać sekcję:
+
+```markdown
+## Mini-bramka zakresu quick path
+- [x] Kontrakt API: nie dodano/nie zmieniono request/response, endpointu, kodów błędów, wersjonowania ani OpenAPI/proto.
+- [x] Model danych: nie zmieniono encji, DbContext, migracji, schematu SQL ani seedów.
+- [x] Reguły biznesowe: nie dodano/nie zmieniono BR-* ani logiki domenowej.
+- [x] Bezpieczeństwo: nie zmieniono authN/authZ, uprawnień, sekretów ani obsługi danych wrażliwych.
+```
+
+Skrypt `.claude/scripts/check-quick-scope.sh <slug>` sprawdza tę checklistę oraz diff względem `HEAD`
+(w tym pliki untracked). Fail na oczywistych zmianach kontraktów, migracji/DbContext, domeny/reguł lub
+auth/sekretów oznacza, że zmiana **nie kwalifikuje się** do quick path: task ustaw na `blocked` i
+uruchom pełny workflow od `feature-spec-author`.
 
 ## Profile modeli (strojenie kosztu/jakości)
 
