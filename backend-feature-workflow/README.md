@@ -318,6 +318,8 @@ dotykają kontraktu API, modelu danych, reguł biznesowych ani bezpieczeństwa. 
 wyłącznie deklaracją agenta, minimalny `tasks.md` ścieżki szybkiej musi zawierać sekcję:
 
 ```markdown
+- **Quick-scope-base**: <git-ref z początku ścieżki szybkiej, np. hash bieżącego HEAD>
+
 ## Mini-bramka zakresu quick path
 - [x] Kontrakt API: nie dodano/nie zmieniono request/response, endpointu, kodów błędów, wersjonowania ani OpenAPI/proto.
 - [x] Model danych: nie zmieniono encji, DbContext, migracji, schematu SQL ani seedów.
@@ -325,10 +327,12 @@ wyłącznie deklaracją agenta, minimalny `tasks.md` ścieżki szybkiej musi zaw
 - [x] Bezpieczeństwo: nie zmieniono authN/authZ, uprawnień, sekretów ani obsługi danych wrażliwych.
 ```
 
-Skrypt `.claude/scripts/check-quick-scope.sh <slug>` sprawdza tę checklistę oraz diff względem `HEAD`
-(w tym pliki untracked). Fail na oczywistych zmianach kontraktów, migracji/DbContext, domeny/reguł lub
-auth/sekretów oznacza, że zmiana **nie kwalifikuje się** do quick path: task ustaw na `blocked` i
-uruchom pełny workflow od `feature-spec-author`.
+Skrypt `.claude/scripts/check-quick-scope.sh <slug>` sprawdza tę checklistę oraz diff względem
+`Quick-scope-base` z `tasks.md` (albo `--base <git-ref>`, gdy podano jawnie), w tym pliki untracked.
+Dzięki temu commit per task nie ukrywa później naruszenia zakresu. Fail na oczywistych zmianach
+kontraktów, migracji/DbContext, jawnych plików reguł biznesowych lub auth/sekretów oznacza, że zmiana
+**nie kwalifikuje się** do quick path: task ustaw na `blocked` i uruchom pełny workflow od
+`feature-spec-author`.
 
 ## Profile modeli (strojenie kosztu/jakości)
 

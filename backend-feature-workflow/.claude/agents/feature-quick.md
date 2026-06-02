@@ -34,9 +34,10 @@ Zmiana **dotyka** któregokolwiek z poniższych → **STOP**, odeślij do `featu
    → eskaluj. Bez zgadywania.
 2. **Ustal `slug`** (kebab-case) i utwórz **minimalny** `docs/features/<slug>/tasks.md` wg
    `feature-tasks`: 1–2 taski, **kryteria akceptacji inline**, `- **Status**: todo`,
-   linia `- **Verify**: <komenda>` jeśli wykonalna, `- **Rozmiar**: S`. Pomijasz spec/plan/analizę
-   **świadomie** — odnotuj w nagłówku `tasks.md`: „> [ZAŁOŻENIE] ścieżka szybka: zmiana nie dotyka
-   kontraktu/modelu/reguły/bezpieczeństwa".
+   linia `- **Verify**: <komenda>` jeśli wykonalna, `- **Rozmiar**: S`. W nagłówku dodaj też
+   `- **Quick-scope-base**: <git-ref>` ustawiony na bieżący `HEAD` z początku ścieżki szybkiej
+   (może być hash commita). Pomijasz spec/plan/analizę **świadomie** — odnotuj w nagłówku
+   `tasks.md`: „> [ZAŁOŻENIE] ścieżka szybka: zmiana nie dotyka kontraktu/modelu/reguły/bezpieczeństwa".
 3. **Dodaj mini-bramkę zakresu** w `tasks.md` (wymagane przez `check-quick-scope.sh`) i zaznacz
    każdy punkt tylko, gdy potwierdzasz go na podstawie opisu i kontekstu repo:
    ```markdown

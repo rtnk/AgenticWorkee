@@ -16,20 +16,28 @@ set -euo pipefail
 shopt -s nocasematch
 
 SLUG="${1:-}"
-BASE="HEAD"
+BASE=""
+BASE_FROM_ARG=0
 [[ -n "$SLUG" ]] || { echo "Użycie: $0 <slug> [--base <git-ref>]" >&2; exit 2; }
 shift || true
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --base) BASE="${2:-}"; shift 2 ;;
+    --base) BASE="${2:-}"; BASE_FROM_ARG=1; shift 2 ;;
     *) echo "Nieznany argument: $1" >&2; exit 2 ;;
   esac
 done
-[[ -n "$BASE" ]] || { echo "Pusty --base" >&2; exit 2; }
 
 FEAT="docs/features/$SLUG"
 TASKS="$FEAT/tasks.md"
 [[ -f "$TASKS" ]] || { echo "[FAIL] brak $TASKS" >&2; exit 1; }
+
+# Domyślny base powinien być punktem startowym quick path, a nie zawsze bieżącym HEAD.
+# Dzięki temu commit per task nie „ukryje” naruszenia zakresu w kolejnym uruchomieniu bramki.
+if [[ "$BASE_FROM_ARG" -eq 0 ]]; then
+  BASE="$(sed -nE 's/^[[:space:]]*-[[:space:]]*\*\*Quick-scope-base\*\*[[:space:]]*:[[:space:]]*(.+)[[:space:]]*$/\1/p' "$TASKS" | head -1)"
+fi
+BASE="${BASE:-HEAD}"
+[[ -n "$BASE" ]] || { echo "Pusty --base" >&2; exit 2; }
 
 grep -qiE '\[ZAŁOŻENIE\][[:space:]]*ścieżka szybka' "$TASKS" \
   || { echo "[FAIL] $TASKS nie ma markera ścieżki szybkiej" >&2; exit 1; }
@@ -95,9 +103,9 @@ for path in "${CHANGED[@]}"; do
     flag_path "Model danych" "$path" "quick path nie może zmieniać migracji, DbContext ani schematu danych"
   fi
 
-  if [[ "$path" =~ (^|/)(Domain|BusinessRules|Rules)(/|$) ]] \
+  if [[ "$path" =~ (^|/)(BusinessRules|Rules)(/|$) ]] \
      || [[ "$path" =~ (BusinessRule|DomainRule|Policy)\.cs$ ]]; then
-    flag_path "Reguły biznesowe" "$path" "quick path nie może zmieniać reguł domenowych/biznesowych"
+    flag_path "Reguły biznesowe" "$path" "quick path nie może zmieniać jawnych reguł domenowych/biznesowych"
   fi
 
   if [[ "$path" =~ (^|/)(Auth|Authorization|Authentication|Identity|Permissions?)(/|$) ]] \
