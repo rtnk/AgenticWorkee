@@ -137,6 +137,7 @@ backend-feature-workflow/
       task-implementation-loop/SKILL.md  # maszyna stanów iteracji jednego taska (TDD, fale, chudy orchestrator)
     scripts/
       check-prerequisites.sh             # deterministyczna walidacja prerekwizytów + `progress` + cykle DAG
+      check-quick-scope.sh               # mini-bramka zakresu quick path (checklista + diff)
       check-packages.sh                  # bramka legalności pakietów NuGet (slopcheck [OK]/[SUS]/[SLOP])
       install.sh                         # instalator paczki do projektu (warstwowanie)
     hooks/                               # opt-in (scal settings.snippet.json do .claude/settings.json)
@@ -187,7 +188,7 @@ feature-constitution-author (raz na projekt)  ->  feature-spec-author  ->  featu
 | 5+. Implementacja | `feature-implementation-orchestrator` | `tasks.md` (+ `spec.md`, `plan.md`, konstytucja) | kod w `src/`/`tests/` + statusy w `tasks.md` + `state.md` |
 | 6. Przegląd (bramka) | `feature-reviewer` | cały diff feature | `docs/features/<slug>/review.md` (C/W/I + werdykt `CZYSTE` / `WYMAGA POPRAWEK`) |
 | (w każdej chwili) Wskaźnik | `feature-progress` | artefakty feature | `state.md` + „następna komenda" |
-| (zamiast 1–4.5) Szybka ścieżka | `feature-quick` | drobna, zakreślona zmiana | minimalny `tasks.md` → pętla TDD (lub eskalacja do pełnej ścieżki) |
+| (zamiast 1–4.5) Szybka ścieżka | `feature-quick` | drobna, zakreślona zmiana | minimalny `tasks.md` + mini-bramka `check-quick-scope.sh` → pętla TDD (lub eskalacja do pełnej ścieżki) |
 
 Faza 2 jest **iteracyjna**: uruchamiaj `feature-spec-refiner` wielokrotnie. Za każdym razem zadaje
 skupioną porcję pytań, łata sekcje i dopisuje decyzje, aż status spec osiągnie `ready` (brak
@@ -197,6 +198,23 @@ jakiegokolwiek `[DO USTALENIA]`). Dopiero wtedy przechodź do fazy 3.
 `feature-planner` wykryje wysokie ryzyko techniczne, powinien zatrzymać planowanie, wypisać
 konkretne hipotezy/pytania i wskazać komendę uruchomienia `feature-spike`. Po ręcznym wykonaniu
 spike'a uruchom planera ponownie — wtedy wykorzysta werdykty VALIDATED/INVALIDATED z `research.md`.
+
+**Szybka ścieżka ma obowiązkową mini-bramkę zakresu.** `feature-quick` musi zapisać w nagłówku
+`tasks.md` `- **Quick-scope-base**: <git-ref>` z punktu startowego zmiany oraz sekcję:
+
+```markdown
+## Mini-bramka zakresu quick path
+- [x] Kontrakt API: nie dodano/nie zmieniono request/response, endpointu, kodów błędów, wersjonowania ani OpenAPI/proto.
+- [x] Model danych: nie zmieniono encji, DbContext, migracji, schematu SQL ani seedów.
+- [x] Reguły biznesowe: nie dodano/nie zmieniono BR-* ani logiki domenowej.
+- [x] Bezpieczeństwo: nie zmieniono authN/authZ, uprawnień, sekretów ani obsługi danych wrażliwych.
+```
+
+`.claude/scripts/check-quick-scope.sh <slug>` egzekwuje tę checklistę i sprawdza diff względem
+`Quick-scope-base` (albo jawnego `--base`) razem z untracked plikami. Brak bazy jest błędem — nie
+ma fallbacku do bieżącego `HEAD`, żeby commit per task nie ukrył naruszenia. Skrypt blokuje m.in.
+zmiany kontraktów, DTO, OpenAPI/proto, kontrolerów ASP.NET, endpointów/minimal API (`Program.cs`),
+migracji/DbContext, jawnych reguł domenowych oraz auth/sekretów/konfiguracji bezpieczeństwa.
 
 Faza 5+ jest **odrębna jakościowo**: w odróżnieniu od faz 1–4 (które piszą **tylko** do
 `docs/features/<slug>/`) **modyfikuje kod produkcyjny i testy** (`src/`, `tests/`) oraz uruchamia
