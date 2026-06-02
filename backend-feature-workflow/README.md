@@ -330,11 +330,12 @@ startowy diffu oraz checklistę:
 
 Skrypt `.claude/scripts/check-quick-scope.sh <slug>` sprawdza tę checklistę oraz diff względem
 `Quick-scope-base` z `tasks.md` (albo `--base <git-ref>`, gdy podano jawnie), w tym pliki untracked.
-Brak bazy jest błędem — nie ma fallbacku do bieżącego `HEAD`, żeby `commit per task` nie ukrył
-naruszenia zakresu. Fail na oczywistych zmianach kontraktów/DTO/OpenAPI/proto, kontrolerów ASP.NET,
-endpointów/minimal API (`Program.cs`), migracji/DbContext, jawnych plików reguł biznesowych lub
-auth/sekretów oznacza, że zmiana **nie kwalifikuje się** do quick path: task ustaw na `blocked` i
-uruchom pełny workflow od `feature-spec-author`.
+Jeśli starszy `tasks.md` nie ma jeszcze `Quick-scope-base`, skrypt używa `HEAD` tylko jako fallbacku
+kompatybilnościowego; nowe quick-taski nadal muszą zapisywać jawny punkt startowy, żeby `commit per
+task` nie ukrył naruszenia zakresu. Fail na oczywistych zmianach kontraktów/DTO/OpenAPI/proto,
+kontrolerów ASP.NET, endpointów/minimal API (`Program.cs`), migracji/DbContext, jawnych plików reguł
+biznesowych lub auth/sekretów oznacza, że zmiana **nie kwalifikuje się** do quick path: task ustaw na
+`blocked` i uruchom pełny workflow od `feature-spec-author`.
 
 ## Profile modeli (strojenie kosztu/jakości)
 

@@ -34,15 +34,14 @@ TASKS="$FEAT/tasks.md"
 grep -qiE '\[ZAŁOŻENIE\][[:space:]]*ścieżka szybka' "$TASKS" \
   || { echo "[FAIL] $TASKS nie ma markera ścieżki szybkiej" >&2; exit 1; }
 
-# Base musi być jawny: z argumentu --base albo z nagłówka tasks.md. Nie wolno domyślnie używać
-# bieżącego HEAD, bo commit per task mógłby ukryć wcześniejsze naruszenie zakresu quick path.
+# Domyślny base powinien być punktem startowym quick path z tasks.md. Fallback do HEAD
+# zostaje tylko dla kompatybilności z już istniejącymi quick-taskami bez Quick-scope-base; nowe
+# tasks.md nadal powinny zapisywać Quick-scope-base, aby commit per task nie ukrył naruszenia.
 if [[ "$BASE_FROM_ARG" -eq 0 ]]; then
   BASE="$(sed -nE 's/^[[:space:]]*-[[:space:]]*\*\*Quick-scope-base\*\*[[:space:]]*:[[:space:]]*(.+)[[:space:]]*$/\1/p' "$TASKS" | head -1)"
 fi
-if [[ -z "$BASE" ]]; then
-  echo "[FAIL] brak Quick-scope-base w $TASKS (albo podaj --base <git-ref>) — nie da się bezpiecznie porównać diffu quick path" >&2
-  exit 1
-fi
+BASE="${BASE:-HEAD}"
+[[ -n "$BASE" ]] || { echo "Pusty --base" >&2; exit 2; }
 
 ERRORS=0
 check_item() {
