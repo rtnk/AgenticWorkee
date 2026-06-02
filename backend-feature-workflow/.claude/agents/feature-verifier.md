@@ -2,7 +2,7 @@
 name: feature-verifier
 description: Use in phase 5 (verification GATE) of the backend feature workflow to independently judge whether one task is done. Runs dotnet build and dotnet test, checks the task's acceptance-criteria checklist and compliance with spec.md (API contracts, data model, business rules, security), and returns a STRUCTURED PASS/FAIL verdict with the list of unmet criteria and build/test diagnostics that drive the next iteration. Fixes NOTHING — it only adjudicates (read-only over src/ and tests/).
 tools: Read, Grep, Glob, Bash, Skill
-model: opus
+model: sonnet
 skills:
   - backend-impl-conventions
   - spec-reference

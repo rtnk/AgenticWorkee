@@ -25,6 +25,8 @@ Format wg [Keep a Changelog](https://keepachangelog.com/), wersjonowanie semanty
     czytają tylko blok danego taska i wskazane sekcje, nie całe `tasks.md`/`spec.md`.
 - Usunięto redundantne instrukcje „Najpierw załaduj i stosuj skille …" z definicji agentów —
   pole `skills:` we frontmatterze i tak preloaduje pełną treść skilla na starcie subagenta.
+- `feature-verifier` przeniesiony z **opus** na **sonnet** (twarde bramki build/test są
+  deterministyczne, a input verifiera mocno ścięto); w profilu **quality** można go podbić do opus.
 
 ## [1.1.0] — 2026-06-01
 

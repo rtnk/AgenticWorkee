@@ -343,11 +343,13 @@ przypisanie (zmień w razie potrzeby — projekt-lokalny agent o tej samej nazwi
 | Grupa | Agenci | Domyślny model |
 |-------|--------|----------------|
 | Mechaniczne | `feature-test-author`, `feature-progress` | **haiku** |
-| Wykonawcze | `feature-implementer`, `feature-task-decomposer`, `feature-quick`, `feature-spec-author`, `feature-spec-refiner`, `feature-implementation-orchestrator`, `feature-spike` | **sonnet** |
-| Krytyczne dla jakości | `feature-planner`, `feature-analyzer`, `feature-verifier`, `feature-reviewer`, `feature-constitution-author` | **opus** |
+| Wykonawcze | `feature-implementer`, `feature-task-decomposer`, `feature-quick`, `feature-spec-author`, `feature-spec-refiner`, `feature-implementation-orchestrator`, `feature-spike`, `feature-verifier` | **sonnet** |
+| Krytyczne dla jakości | `feature-planner`, `feature-analyzer`, `feature-reviewer`, `feature-constitution-author` | **opus** |
 
 Profile á la GSD: **budget** (zbij wszystko o tier niżej), **balanced** (jak wyżej), **quality**
-(podbij wykonawcze do opus). Bramki (analyzer/verifier/reviewer) trzymaj na **opus** — to one łapią błędy.
+(podbij wykonawcze do opus). Bramki dokumentacyjne (analyzer/reviewer) trzymaj na **opus** — to one
+łapią błędy. `feature-verifier` działa na **sonnet** (twarde bramki build/test są deterministyczne,
+a jego input mocno ścięto); w profilu **quality** podbij go do opus.
 
 ## Hooki (opcjonalnie, opt-in)
 
