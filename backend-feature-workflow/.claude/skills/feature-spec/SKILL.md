@@ -180,7 +180,7 @@ sequenceDiagram
 ## 14. Ryzyka i otwarte pytania
 | # | Kwestia | Typ | Status | Wpływ |
 |---|---------|-----|--------|-------|
-| 1 | <opis> | [DO USTALENIA] / ryzyko | otwarte / rozwiązane | <opis> |
+| 1 | <opis> | [DO USTALENIA] / ryzyko | open / resolved | <opis> |
 
 > [DO USTALENIA] <pełna lista otwartych pytań blokujących status `ready`>
 
@@ -200,7 +200,7 @@ Pełny log w `decisions.md`; tu skrót najważniejszych.
 ```markdown
 ## D-<n>: <tytuł>
 - **Data**: <YYYY-MM-DD>
-- **Status**: zaproponowana | przyjęta | odrzucona | zastąpiona przez D-<m>
+- **Status**: proposed | accepted | rejected | superseded by D-<m>
 - **Kontekst**: <problem decyzyjny i ograniczenia>
 - **Decyzja**: <wybrana opcja>
 - **Rozważane alternatywy**: <opcje i dlaczego odrzucone>

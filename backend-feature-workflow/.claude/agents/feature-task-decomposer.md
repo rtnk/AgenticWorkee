@@ -26,8 +26,8 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
    ID (`T-001`, …), tytuł, krótki opis, **kryteria akceptacji** jako checklista `- [ ]`
    (konkretne, sprawdzalne), **zależności** (lista ID), **obszar kodu / pliki** (wskazówka,
    niewiążąco), **powiązanie** ze `spec.md` (§) i `plan.md` (poz.), opcjonalny **rozmiar** S/M/L
-   oraz **obowiązkowo** linię `- **Status**:` (domyślnie `do zrobienia`, dla zablokowanych
-   `BLOCKED (przez: ...)`). Status jest kontraktem dla fazy 5+ — emituj go dla **każdego** taska.
+   oraz **obowiązkowo** linię `- **Status**:` (domyślnie `todo`, dla zablokowanych
+   `blocked (reason: ...)`). Status jest kontraktem dla fazy 5+ — emituj go dla **każdego** taska.
 3. **Drobnoziarnistość / budżet kontekstu** (`feature-tasks`): dziel tak, by **cały** task (testy
    + kod + build/test + commit) zmieścił się w **jednym świeżym kontekście subagenta** — ~½ okna,
    ≤ ~3 plików produkcyjnych. Task `L` = sygnał do podziału, nie cel. Dla tasków, gdzie to możliwe,
@@ -42,7 +42,7 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
    plik = konflikt zapisu). Czysto warstwowy podział tylko, gdy brak sensownych plasterków UC —
    odnotuj wtedy `[ZAŁOŻENIE]`.
 5. **Oznacz blokady**: taski zależne od nierozstrzygniętych `[DO USTALENIA]` ze spec oznacz jawnie
-   jako `BLOCKED` i wskaż blokującą kwestię (sekcja 14 spec). Zbierz je też w sekcji „Zadania
+   jako `blocked` i wskaż blokującą kwestię (sekcja 14 spec). Zbierz je też w sekcji „Zadania
    zablokowane”.
 
 ## Wyjście

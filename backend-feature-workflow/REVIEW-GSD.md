@@ -71,7 +71,7 @@ pakietów `[OK]/[SUS]/[SLOP]`); spike z werdyktem VALIDATED/INVALIDATED; hooki; 
 | **Konstytucja jako bramka** | `feature-constitution` + egzekucja w plannerze/verifierze | brak trwałych zasad projektu rangą konstytucji |
 | **TDD z separacją ról** | RED/GREEN/bramka jako **osobni** subagenci, verifier read-only | execute-phase + post-verifier, mniej rozdzielone role |
 | **Analiza spójności 4.5** | macierz pokrycia spec↔plan↔tasks, trwały werdykt | częściowo (plan-checker, decision-coverage), ale bez naszej macierzy |
-| **„Nie zgaduj → BLOCKED" w kodzie** | reguła rozszerzona na fazę 5 (eskalacja, nie domysł) | obecne głównie na poziomie planu |
+| **„Nie zgaduj → blocked" w kodzie** | reguła rozszerzona na fazę 5 (eskalacja, nie domysł) | obecne głównie na poziomie planu |
 | **Bogaty spec + ADR** | 15-sekcyjny `spec.md` + `decisions.md` (D-n) | lżejszy REQUIREMENTS/CONTEXT |
 | **Least-privilege** | tool allowlist per agent (verifier bez Write) | profile modeli, mniej granularny tool-gating |
 
@@ -124,7 +124,7 @@ plikach** równolegle (weryfikacja/commit serializowane). Analizator 4.5 wykrywa
 ### GSD-4. Trwały stan sesji + „co dalej" + wznawianie *(wysoki)*
 **Obserwacja.** GSD ma STATE.md i `/gsd-progress --next`. U nas — tylko statusy w `tasks.md`.
 **Rekomendacja (wdrożona).** Artefakt `docs/features/<slug>/state.md` (faza, statusy, **następna
-komenda**, BLOCKED, notatka) + agent **`feature-progress`** + podkomenda `check-prerequisites.sh progress <slug>`.
+komenda**, blocked, notatka) + agent **`feature-progress`** + podkomenda `check-prerequisites.sh progress <slug>`.
 
 ### GSD-5. Deterministyczny dowód ukończenia per task *(średni)*
 **Obserwacja.** GSD wkleja `<verify>cmd</verify>` w task. U nas kryteria były oceniane prozą.

@@ -43,7 +43,7 @@ for d in docs/features/*/; do
   [[ -f "$a" ]] || continue
   grep -Eqi '^\s*-\s*\*\*Werdykt\*\*\s*:\s*GOTOWE DO IMPLEMENTACJI' "$a" 2>/dev/null || continue
   [[ -f "$t" ]] || continue
-  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*(do zrobienia|w toku|testy napisane|zaimplementowane|BLOCKED)' "$t" 2>/dev/null; then
+  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*(todo|in_progress|tests_written|implemented|blocked)' "$t" 2>/dev/null; then
     exit 0
   fi
 done

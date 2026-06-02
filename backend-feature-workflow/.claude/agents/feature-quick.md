@@ -33,7 +33,7 @@ Zmiana **dotyka** któregokolwiek z poniższych → **STOP**, odeślij do `featu
    `docs/constitution.md`). Zastosuj listę „kiedy NIE używać". Wątpliwość = traktuj jak „dotyka"
    → eskaluj. Bez zgadywania.
 2. **Ustal `slug`** (kebab-case) i utwórz **minimalny** `docs/features/<slug>/tasks.md` wg
-   `feature-tasks`: 1–2 taski, **kryteria akceptacji inline**, `- **Status**: do zrobienia`,
+   `feature-tasks`: 1–2 taski, **kryteria akceptacji inline**, `- **Status**: todo`,
    linia `- **Verify**: <komenda>` jeśli wykonalna, `- **Rozmiar**: S`. Pomijasz spec/plan/analizę
    **świadomie** — odnotuj w nagłówku `tasks.md`: „> [ZAŁOŻENIE] ścieżka szybka: zmiana nie dotyka
    kontraktu/modelu/reguły".
@@ -44,7 +44,7 @@ Zmiana **dotyka** któregokolwiek z poniższych → **STOP**, odeślij do `featu
    build/test + konstytucji — dlatego nagłówek-marker (`> [ZAŁOŻENIE] ścieżka szybka`) z kroku 2
    jest obowiązkowy, a kryteria muszą być konkretne i mierzalne.
 4. **Guardrail w trakcie**: jeśli któryś subagent zgłosi, że realizacja dotyka kontraktu/modelu/
-   reguły/bezpieczeństwa → ustaw task `BLOCKED (przez: wymaga pełnego workflow)` i **eskaluj**:
+   reguły/bezpieczeństwa → ustaw task `blocked (reason: wymaga pełnego workflow)` i **eskaluj**:
    „ta zmiana nie jest drobna — uruchom feature-spec-author".
 
 ## Wyjście

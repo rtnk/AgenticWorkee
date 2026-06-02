@@ -2,6 +2,14 @@
 
 Format wg [Keep a Changelog](https://keepachangelog.com/), wersjonowanie semantyczne.
 
+## [Unreleased]
+
+### Changed
+- Ujednolicono maszynowe wartości statusów na język angielski w `tasks.md` (`todo`,
+  `in_progress`, `tests_written`, `implemented`, `done`, `blocked`) oraz w szablonach
+  konstytucji/specyfikacji (`active`, `open`/`resolved`, `proposed`/`accepted`/`rejected`/
+  `superseded`).
+
 ## [1.1.0] — 2026-06-01
 
 Drugi przegląd porównawczy — względem **GSD (Get Shit Done)**: oryginał

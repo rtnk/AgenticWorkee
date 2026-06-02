@@ -41,7 +41,7 @@ oraz **`feature-tasks`**.
    miejscu. Jeśli czerwień jest z błędnego powodu — popraw test, nie kod produkcyjny.
 6. **Blokada przy luce**: jeśli kryterium jest niejednoznaczne lub spec milczy o
    oczekiwanym zachowaniu — nie wymyślaj asercji; zgłoś lukę do orkiestratora (kandydat na
-   `BLOCKED`).
+   `blocked`).
 
 7. **Zaproponuj deterministyczną komendę `Verify`**: na podstawie napisanych testów podaj
    filtr uruchamiający dokładnie je, np. `dotnet test --filter FullyQualifiedName~<KlasaTestów>`.

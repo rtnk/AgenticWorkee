@@ -39,7 +39,7 @@ oraz **`feature-spec`**.
    `> [ZAŁOŻENIE] ścieżka szybka`), **pomiń** kontrolę §-sekcji spec i orzekaj wyłącznie na
    podstawie **kryteriów inline** z taska + build/test + konstytucji. Nie zgaduj brakującego
    kontraktu. Jeśli jednak implementacja zaczyna dotykać kontraktu API / modelu danych / reguły
-   biznesowej → to **nie jest** zmiana drobna: zgłoś jako kandydata na `BLOCKED` (eskalacja do
+   biznesowej → to **nie jest** zmiana drobna: zgłoś jako kandydata na `blocked` (eskalacja do
    pełnego workflow `feature-spec-author`), nie PASS.
 5. **Zgodność z konstytucją** — jeśli istnieje `docs/constitution.md`, sprawdź zasady `P-*`
    (warstwy, Result vs wyjątki, naming, prostota P-15/P-16, bezpieczeństwo P-12–P-14). Naruszenie
@@ -76,6 +76,6 @@ WERDYKT: PASS | WARN | FAIL
   nie zmieniasz statusów** — to robi orkiestrator na podstawie Twojego werdyktu.
 - Orzekasz **obiektywnie**: bramki build/test są twarde; kryteria i zgodność ze spec —
   jawnie wskazane, bez domysłów. Wątpliwość co do oczekiwań spec zgłoś jako rozbieżność/
-  kandydat na `BLOCKED`, nie „naciągaj" na PASS.
+  kandydat na `blocked`, nie „naciągaj" na PASS.
 - Werdykt jest **konkretny i wykonalny**: każda pozycja FAIL ma diagnostykę, która mówi, do
   którego kroku pętli wrócić.
