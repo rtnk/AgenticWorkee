@@ -5,9 +5,12 @@
 # allowlist narzędzi agentów faz 1–4 (defense-in-depth), NIE twarda blokada.
 #
 # Wejście: JSON na stdin (PreToolUse) z polem .tool_input.file_path.
-# Zachowanie: zawsze przepuszcza (permissionDecision=allow); przy ryzyku emituje ostrzeżenie jako
-# JSON `systemMessage` na stdout (exit 0). Uwaga: dla PreToolUse stderr NIE trafia do użytkownika
+# Zachowanie: ADVISORY — przy ryzyku emituje wyłącznie `systemMessage` (JSON na stdout, exit 0)
+# i NIE zmienia decyzji o uprawnieniach (bez `permissionDecision`), więc normalny przepływ
+# zgody/promptów pozostaje nienaruszony. Uwaga: dla PreToolUse stderr NIE trafia do użytkownika
 # przy exit 0 (jest podawane Claude'owi dopiero przy exit 2, co blokuje) — dlatego JSON, nie stderr.
+# Świadomie NIE zwracamy `permissionDecision:"allow"` — to pominęłoby prompty i auto-zatwierdzało
+# edycje, które guard ma tylko sygnalizować.
 # Lokalny, BEZ GitHub.
 set -euo pipefail
 
@@ -48,12 +51,12 @@ done
 MSG="WORKFLOW-GUARD (ostrzeżenie): edytujesz '$FP' w src/, a żadna feature nie jest aktywnie w fazie 5+ (analysis.md 'GOTOWE DO IMPLEMENTACJI' + niedokończone taski). Upewnij się, że jesteś w fazie 5+ właściwej feature, albo użyj ścieżki szybkiej (feature-quick)."
 
 # Ostrzeżenie nieblokujące dla użytkownika: PreToolUse pokazuje je TYLKO jako JSON `systemMessage`
-# na stdout (stderr przy exit 0 nie trafia do użytkownika). Decyzja `allow` = przepuszczamy.
+# na stdout (stderr przy exit 0 nie trafia do użytkownika). BEZ `permissionDecision` — sam komunikat,
+# normalny przepływ uprawnień zostaje (advisory, nie auto-allow).
 if command -v jq >/dev/null 2>&1; then
-  jq -n --arg m "$MSG" \
-    '{systemMessage:$m, hookSpecificOutput:{hookEventName:"PreToolUse", permissionDecision:"allow"}}'
+  jq -n --arg m "$MSG" '{systemMessage:$m}'
 else
   esc="${MSG//\\/\\\\}"; esc="${esc//\"/\\\"}"
-  printf '{"systemMessage": "%s", "hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": "allow"}}\n' "$esc"
+  printf '{"systemMessage": "%s"}\n' "$esc"
 fi
 exit 0
