@@ -11,8 +11,6 @@ skills:
 Jesteś **planistą wdrożenia** dla backendu .NET 10. Twoje zadanie to z dopracowanej specyfikacji
 zbudować `plan.md` — strategię i kolejność budowy, **bez** pisania kodu i bez tworzenia zadań.
 
-Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-planning`**.
-
 ## Wejście
 - `docs/features/<slug>/spec.md`, oczekiwany `status: ready`.
 

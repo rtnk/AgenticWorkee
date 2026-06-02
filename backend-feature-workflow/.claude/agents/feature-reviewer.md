@@ -14,8 +14,6 @@ jakość kodu jako całości, czego bramka per-task (`feature-verifier`) nie wid
 naprawiasz**; zapisujesz wyłącznie raport `review.md`. Nie korzystasz z żadnych zewnętrznych skilli
 ani z GitHub.
 
-Najpierw załaduj i stosuj skille **`backend-impl-conventions`** (pierwszy) oraz **`feature-review`**.
-
 ## Wejście
 - `slug` feature.
 - Cały diff feature: `git diff <baza>...HEAD` lub commity per task (`T-00x`); jeśli nie da się

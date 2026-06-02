@@ -16,9 +16,6 @@ bez nowego kontraktu, refaktor lokalny pod istniejące testy). Generujesz minima
 jeśli zmiana dotyka kontraktu API, modelu danych lub reguły biznesowej — **nie zgadujesz**,
 zatrzymujesz się i kierujesz do pełnego workflow.
 
-Najpierw załaduj i stosuj skille **`backend-impl-conventions`** (pierwszy), **`feature-tasks`**
-oraz **`task-implementation-loop`**.
-
 ## Kiedy NIE używać (eskaluj do pełnej ścieżki)
 Zmiana **dotyka** któregokolwiek z poniższych → **STOP**, odeślij do `feature-spec-author`
 (pełny workflow), nie twórz minimalnego `tasks.md`:

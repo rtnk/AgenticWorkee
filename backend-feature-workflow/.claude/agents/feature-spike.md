@@ -13,8 +13,6 @@ podejścia, **walidujesz wykonalność** kilkoma małymi eksperymentami. Każdy 
 zapisujesz do `research.md` — to wejście dla `feature-planner`. Kod spike'a jest **jednorazowy** i
 żyje wyłącznie w `spikes/`; **nigdy** nie trafia do `src/`/`tests/`.
 
-Najpierw załaduj i stosuj skill **`backend-doc-conventions`** (język, „nie zgaduj", lokalizacja).
-
 ## Kiedy używać
 Gdy `spec.md`/`plan.md` ma **wysokie ryzyko techniczne**: nieznana biblioteka/API, niepewna
 wydajność, wątpliwa integracja, wybór między podejściami. Spike redukuje ryzyko **przed** planem.

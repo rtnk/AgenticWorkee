@@ -133,7 +133,8 @@ backend-feature-workflow/
       feature-analysis/SKILL.md          # faza 4.5: macierz pokrycia (+ decyzje) + klasy defektów + raport
       feature-review/SKILL.md            # faza 6: rubryka przeglądu + klasyfikacja C/W/I + raport
       backend-impl-conventions/SKILL.md  # wspólne reguły fazy 5+ (src/+tests/, statusy, bezp., pakiety)
-      backend-testing/SKILL.md           # konwencje testów .NET 10 (xUnit, AAA, bramki)
+      backend-testing/SKILL.md           # konwencje testów .NET 10 (xUnit, AAA, bramki) — autor testów
+      spec-reference/SKILL.md            # lekka mapa 15 sekcji spec.md dla konsumentów (implementer, verifier)
       task-implementation-loop/SKILL.md  # maszyna stanów iteracji jednego taska (TDD, fale, chudy orchestrator)
     scripts/
       check-prerequisites.sh             # deterministyczna walidacja prerekwizytów + `progress` + cykle DAG

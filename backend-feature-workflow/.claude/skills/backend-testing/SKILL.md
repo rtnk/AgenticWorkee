@@ -1,6 +1,6 @@
 ---
 name: backend-testing
-description: Load when writing or verifying tests for a .NET 10 service in the implementation phase (phase 5+). Defines the test stack confirmed from the repo (default xUnit, but verify NUnit/MSTest, FluentAssertions, Moq/NSubstitute), the unit-vs-integration split, AAA pattern, test naming and *.Tests layout, integration testing with WebApplicationFactory / Testcontainers, mapping every task acceptance criterion to a concrete test case, and the hard gates "build clean" and "tests green". Used by feature-test-author and feature-verifier.
+description: Load when writing or verifying tests for a .NET 10 service in the implementation phase (phase 5+). Defines the test stack confirmed from the repo (default xUnit, but verify NUnit/MSTest, FluentAssertions, Moq/NSubstitute), the unit-vs-integration split, AAA pattern, test naming and *.Tests layout, integration testing with WebApplicationFactory / Testcontainers, mapping every task acceptance criterion to a concrete test case, and the hard gates "build clean" and "tests green". Used by feature-test-author (feature-verifier runs build/test directly and enforces the gates inline, without loading this skill).
 ---
 
 # Backend Testing (konwencje testów .NET 10)
