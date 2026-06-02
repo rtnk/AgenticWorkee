@@ -68,7 +68,9 @@ if ! git rev-parse --verify "$BASE" >/dev/null 2>&1; then
 fi
 
 # Tracked zmiany względem BASE + untracked pliki (bo nowy kontrakt/migracja też łamie quick path).
-mapfile -t CHANGED < <({ git diff --name-only "$BASE" --; git ls-files --others --exclude-standard; } | sort -u)
+# NUL-delimited (-z) — odporne na spacje i nowe linie w nazwach plików. Zbiory tracked/untracked
+# są rozłączne, więc dedup (sort -u) nie jest potrzebny.
+mapfile -d '' -t CHANGED < <({ git diff -z --name-only "$BASE" --; git ls-files -z --others --exclude-standard; })
 
 if [[ "${#CHANGED[@]}" -eq 0 ]]; then
   echo "[OK]   diff: brak zmian plików względem $BASE"
@@ -83,6 +85,7 @@ flag_path() {
 }
 
 for path in "${CHANGED[@]}"; do
+  [[ -n "$path" ]] || continue
   # Artefakty dokumentacyjne feature i testy są dozwolone — bramka dotyczy ryzykownych zmian produktu.
   case "$path" in
     docs/features/*|tests/*|test/*|*.Tests/*) continue ;;

@@ -74,22 +74,22 @@ if [[ "${1:-}" == "progress" ]]; then
   # Ścieżka szybka (feature-quick): tasks.md z markerem, brak spec/plan/analizy jest świadomy.
   # Nie odsyłaj do feature-spec-author — kieruj wprost do/po pętli TDD.
   if [[ -f "$F/tasks.md" ]] && grep -qiE '\[ZAŁOŻENIE\][[:space:]]*ścieżka szybka' "$F/tasks.md"; then
-    if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*(todo|in_progress|tests_written|implemented)' "$F/tasks.md"; then
+    if grep -Eqi '^[[:space:]]*-[[:space:]]*\*\*Status\*\*[[:space:]]*:[[:space:]]*(todo|in_progress|tests_written|implemented)' "$F/tasks.md"; then
       step "5 (ścieżka szybka)" "Kontynuuj feature-quick dla $F/ (lub feature-implementation-orchestrator dla $F/tasks.md)."
     fi
-    if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*blocked' "$F/tasks.md"; then
+    if grep -Eqi '^[[:space:]]*-[[:space:]]*\*\*Status\*\*[[:space:]]*:[[:space:]]*blocked' "$F/tasks.md"; then
       step "5 (ścieżka szybka — zablokowane)" "Zmiana nie jest drobna — przejdź na pełny workflow: feature-spec-author."
     fi
     step "zakończona (ścieżka szybka)" "Zmiana szybka gotowa — wszystkie taski done."
   fi
   [[ -f "docs/constitution.md" ]] || step "0 (konstytucja)" "Użyj subagenta feature-constitution-author. Ustal zasady projektu i zapisz docs/constitution.md."
   [[ -f "$F/spec.md" ]] || step "1 (specyfikacja)" "Użyj subagenta feature-spec-author. Opis feature: \"<opis>\""
-  if ! grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*ready' "$F/spec.md" || grep -q '\[DO USTALENIA\]' "$F/spec.md"; then
+  if ! grep -Eqi '^[[:space:]]*-[[:space:]]*\*\*Status\*\*[[:space:]]*:[[:space:]]*ready' "$F/spec.md" || grep -q '\[DO USTALENIA\]' "$F/spec.md"; then
     step "2 (doprecyzowanie)" "Użyj subagenta feature-spec-refiner dla $F/spec.md."
   fi
   [[ -f "$F/plan.md" ]] || step "3 (plan)" "Użyj subagenta feature-planner dla $F/spec.md."
   [[ -f "$F/tasks.md" ]] || step "4 (zadania)" "Użyj subagenta feature-task-decomposer dla $F/plan.md."
-  if [[ ! -f "$F/analysis.md" ]] || ! grep -Eqi '^\s*-\s*\*\*Werdykt\*\*\s*:\s*GOTOWE DO IMPLEMENTACJI' "$F/analysis.md"; then
+  if [[ ! -f "$F/analysis.md" ]] || ! grep -Eqi '^[[:space:]]*-[[:space:]]*\*\*Werdykt\*\*[[:space:]]*:[[:space:]]*GOTOWE DO IMPLEMENTACJI' "$F/analysis.md"; then
     step "4.5 (analiza)" "Użyj subagenta feature-analyzer dla $F/."
   fi
   for inp in spec.md plan.md tasks.md; do
@@ -98,14 +98,14 @@ if [[ "${1:-}" == "progress" ]]; then
     fi
   done
   # Pozostałe wykonalne taski? (status todo / in_progress / niepełne)
-  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*(todo|in_progress|tests_written|implemented)' "$F/tasks.md"; then
+  if grep -Eqi '^[[:space:]]*-[[:space:]]*\*\*Status\*\*[[:space:]]*:[[:space:]]*(todo|in_progress|tests_written|implemented)' "$F/tasks.md"; then
     step "5+ (implementacja)" "Użyj subagenta feature-implementation-orchestrator dla $F/tasks.md."
   fi
   # Zadania zablokowane? NIE przechodź do przeglądu — najpierw rozwiąż blokadę (faza 5+ niedokończona).
-  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*blocked' "$F/tasks.md"; then
+  if grep -Eqi '^[[:space:]]*-[[:space:]]*\*\*Status\*\*[[:space:]]*:[[:space:]]*blocked' "$F/tasks.md"; then
     step "5+ (zablokowane)" "Rozwiąż blokadę zadań w $F/tasks.md (zmień spec przez feature-spec-refiner lub uzupełnij brakującą decyzję), uruchom ponownie feature-analyzer, potem wróć do feature-implementation-orchestrator."
   fi
-  if [[ ! -f "$F/review.md" ]] || ! grep -Eqi '^\s*-\s*\*\*Werdykt\*\*\s*:\s*CZYSTE' "$F/review.md"; then
+  if [[ ! -f "$F/review.md" ]] || ! grep -Eqi '^[[:space:]]*-[[:space:]]*\*\*Werdykt\*\*[[:space:]]*:[[:space:]]*CZYSTE' "$F/review.md"; then
     step "6 (przegląd)" "Użyj subagenta feature-reviewer dla $F/."
   fi
   step "zakończona" "Feature gotowa — wszystkie taski done i przegląd CZYSTE."
@@ -173,7 +173,7 @@ if [[ "$QUICK" -eq 1 ]]; then
   fi
 elif [[ -f "$FEAT/spec.md" ]]; then
   ok "$FEAT/spec.md"
-  if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*ready' "$FEAT/spec.md"; then
+  if grep -Eqi '^[[:space:]]*-[[:space:]]*\*\*Status\*\*[[:space:]]*:[[:space:]]*ready' "$FEAT/spec.md"; then
     ok "spec status: ready"
   else
     fail "spec nie jest w statusie 'ready'"
@@ -212,7 +212,7 @@ fi
 # analysis.md — trwały dowód bramki fazy 4.5 (tylko dla impl; pomijane w trybie szybkim)
 if [[ "$PHASE" == "impl" && "$QUICK" -ne 1 ]]; then
   if [[ -f "$FEAT/analysis.md" ]]; then
-    if grep -Eqi '^\s*-\s*\*\*Werdykt\*\*\s*:\s*GOTOWE DO IMPLEMENTACJI' "$FEAT/analysis.md"; then
+    if grep -Eqi '^[[:space:]]*-[[:space:]]*\*\*Werdykt\*\*[[:space:]]*:[[:space:]]*GOTOWE DO IMPLEMENTACJI' "$FEAT/analysis.md"; then
       ok "analysis.md: GOTOWE DO IMPLEMENTACJI"
       # nieaktualność: którekolwiek z wejść analizy zmienione po ostatniej analizie
       for input in spec.md plan.md tasks.md; do

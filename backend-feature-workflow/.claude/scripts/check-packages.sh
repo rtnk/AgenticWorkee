@@ -71,9 +71,12 @@ fi
 echo "Nowe pakiety do weryfikacji (względem $BASE): ${NEW[*]}"
 SLOP=0; SUS=0
 for pkg in "${NEW[@]}"; do
+  # Escape znaków specjalnych regexa w nazwie pakietu (kropki, +, ( ) itp.), by dopasowanie
+  # było dosłowne — inaczej np. "My.Package" psułoby wzorzec i dawało fałszywy wynik.
+  pkg_re="$(printf '%s' "$pkg" | sed -E 's/[^a-zA-Z0-9]/\\&/g')"
   # Czy pakiet istnieje w feedzie? Dokładne dopasowanie nazwy w wynikach wyszukiwania.
   if dotnet package search "$pkg" --exact-match >/tmp/pkgsearch.log 2>&1 \
-     && grep -qiE "(^|[^A-Za-z0-9.])$pkg([^A-Za-z0-9.]|$)" /tmp/pkgsearch.log; then
+     && grep -qiE "(^|[^A-Za-z0-9.])$pkg_re([^A-Za-z0-9.]|$)" /tmp/pkgsearch.log; then
     printf '  [OK]  %s — resolvuje się z feedu.\n' "$pkg"
   elif dotnet package search "$pkg" >/tmp/pkgsearch.log 2>&1 && [[ -s /tmp/pkgsearch.log ]]; then
     printf '  [SUS] %s — brak dokładnego trafienia; możliwy typo-squat. Potwierdź u człowieka.\n' "$pkg"
