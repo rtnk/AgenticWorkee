@@ -33,6 +33,17 @@ Rdzeń analizy: prześledź **każde** wymaganie i kryterium ze `spec.md` do `pl
 kryteria akceptacji (§3), kontrakty API (§6), model danych (§7), bezpieczeństwo (§10),
 przepływy/idempotencja (§8), NFR (§4).
 
+**Pokrycie decyzji (GSD).** Dodatkowo prześledź **każdą decyzję** `D-<n>` z `decisions.md`/
+spec §15: czy przeżyła w dół — ma odzwierciedlenie w `plan.md`/`tasks.md` (a docelowo w kodzie)?
+Decyzja, która „wyparowała" (nie widać jej w planie ani taskach), to defekt — patrz klasa 9.
+
+```
+| Decyzja (D-n) | Plan | Task(i) | Status |
+|---------------|------|---------|--------|
+| D-1 Result    | §2   | T-004   | OK     |
+| D-2 retry     | —    | —       | SIEROTA |
+```
+
 ## Klasy defektów do wykrycia
 
 1. **Luki pokrycia** — wymaganie/kryterium spec bez pozycji planu lub bez taska.
@@ -46,6 +57,13 @@ przepływy/idempotencja (§8), NFR (§4).
 7. **Niespójność kolejności** — zależność taska wskazuje na task późniejszy topologicznie.
 8. **Naruszenia konstytucji** — plan/tasks łamią zasadę `P-*` (jeśli `docs/constitution.md`
    istnieje): np. nadmiarowa architektura vs P-15/P-16.
+9. **Decyzja-sierota** — decyzja `D-<n>` z `decisions.md` bez śladu w planie/taskach
+   (zgubiona w przepływie discuss→plan→kod). `[OSTRZ.]`, a `[KRYT.]` gdy dotyczy kontraktu/modelu.
+10. **Cykl zależności** — zależności tasków tworzą cykl (orchestrator nie ruszy). `[KRYT.]`.
+    (Deterministycznie sprawdza to też `check-prerequisites.sh`.)
+11. **Konflikt fali `[P]`** — dwa taski oznaczone `[P]`, które mogą trafić do jednej fali, dzielą
+    plik produkcyjny („Obszar kodu / pliki") → ryzyko konfliktu zapisu przy równoległym wykonaniu.
+    `[OSTRZ.]` (zdejmij `[P]` z jednego albo rozdziel pliki).
 
 ## Format raportu (persystowany do `analysis.md`)
 

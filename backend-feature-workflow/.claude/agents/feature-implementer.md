@@ -2,6 +2,7 @@
 name: feature-implementer
 description: Use in phase 5 (GREEN step) of the backend feature workflow to implement the MINIMAL production code that makes one task's failing tests pass and satisfies its acceptance criteria. Follows the repo's layers and patterns (API / Application / Domain / Infrastructure), stays strictly within the task scope, and does not invent design decisions absent from spec.md. Modifies src/ (and runs build/test); leaves the tests authored by feature-test-author unchanged unless they are demonstrably wrong.
 tools: Read, Write, Edit, Grep, Glob, Bash, Skill
+model: sonnet
 skills:
   - backend-impl-conventions
   - feature-spec

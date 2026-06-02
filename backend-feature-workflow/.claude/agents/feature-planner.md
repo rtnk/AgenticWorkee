@@ -2,6 +2,7 @@
 name: feature-planner
 description: Use in phase 3 of the backend feature workflow to turn a ready spec.md into an implementation plan.md for a .NET 10 service. Requires spec status=ready; if not ready, it warns and lists the blocking [DO USTALENIA] items instead of planning blind. Produces plan.md per the feature-planning template (approach, layer decomposition, ordering/milestones, dependencies, risks, spikes, plan->spec mapping). Does NOT touch production code or create tasks.
 tools: Read, Write, Edit, Grep, Glob, Skill
+model: opus
 skills:
   - backend-doc-conventions
   - feature-planning
@@ -25,7 +26,9 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
 4. **Utwórz `docs/features/<slug>/plan.md`** wg szablonu `feature-planning`:
    podejście/strategia, dekompozycja na warstwy (API → aplikacja/handlery → domena →
    infrastruktura/dane), kolejność i kamienie milowe, zależności, ryzyka techniczne + mitigacje,
-   spike'i/punkty decyzyjne, mapowanie pozycji planu na sekcje `spec.md`.
+   spike'i/punkty decyzyjne, mapowanie pozycji planu na sekcje `spec.md`. Przy **wysokim ryzyku
+   technicznym** (nieznana biblioteka/API, niepewna wydajność/integracja) zleć **`feature-spike`**
+   *przed* utrwaleniem podejścia — oprzyj plan na werdyktach VALIDATED/INVALIDATED z `research.md`.
 5. **Wydziel artefakty** (gdy feature nietrywialne): kontrakty API do `contracts/`
    (`api-spec.json`/`*.md`), szczegółowy model danych do `data-model.md`, wynik spike'ów do
    `research.md`. `spec.md §6/§7` zostają streszczeniem linkującym do tych plików.

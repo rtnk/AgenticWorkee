@@ -1,0 +1,20 @@
+{
+  "_comment": "Opcjonalny snippet hooków backend-feature-workflow. SCAL ręcznie do .claude/settings.json projektu DOCELOWEGO (instalator NIE robi tego automatycznie — hooki są opt-in). Oba hooki są lokalne i NIE używają GitHub. workflow-guard jest ADVISORY (nie blokuje).",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/session-start.sh" }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/workflow-guard.sh" }
+        ]
+      }
+    ]
+  }
+}

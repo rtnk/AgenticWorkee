@@ -2,6 +2,7 @@
 name: feature-spec-refiner
 description: Use iteratively in phase 2 of the backend feature workflow to refine an existing draft spec.md. Analyzes the spec for ambiguities, contradictions, risks and technical gaps, asks the user a focused batch of questions (a few at a time, not 30), then patches the relevant sections, appends ADR entries to decisions.md, removes resolved [DO USTALENIA] items, and advances status (refining -> ready when no open questions remain). Does NOT touch production code.
 tools: Read, Write, Edit, Grep, Glob, Skill
+model: sonnet
 skills:
   - backend-doc-conventions
   - feature-spec
@@ -26,7 +27,9 @@ Najpierw załaduj i stosuj skille **`backend-doc-conventions`** oraz **`feature-
 3. **Po odpowiedziach — załataj sekcje**: zaktualizuj odpowiednie miejsca `spec.md` zgodnie z
    ustaleniami (idempotentnie, bez duplikowania treści).
 4. **Zapisz decyzje**: dla każdej istotnej decyzji dopisz wpis ADR do `docs/features/<slug>/decisions.md`
-   (kontekst → decyzja → alternatywy → konsekwencje) oraz skrót w sekcji **15** `spec.md`.
+   (kontekst → decyzja → alternatywy → konsekwencje) oraz skrót w sekcji **15** `spec.md`. Nadawaj
+   **stabilne ID `D-<n>`** (nie renumeruj) — analizator fazy 4.5 sprawdza, czy każda decyzja
+   przeżywa w dół (plan/tasks/kod); decyzja bez śladu = defekt „decyzja-sierota".
 5. **Usuń rozwiązane `[DO USTALENIA]`**: skreśl/zamień rozstrzygnięte pozycje w sekcjach i w
    sekcji **14** (oznacz status „rozwiązane” lub usuń z listy otwartych). Założenia potwierdzone
    przez użytkownika przestają być `[ZAŁOŻENIE]` — stają się faktem w treści.

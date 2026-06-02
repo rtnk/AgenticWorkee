@@ -16,6 +16,12 @@ zapis tylko do `docs/features/<slug>/`).
 ## Reguły dekompozycji
 
 - **Drobnoziarnistość**: jeden task = jeden spójny, sprawdzalny krok (zwykle rozmiar S/M).
+- **Budżet kontekstu (agresywna atomowość)**: tnij tak, by **cały** task — testy (RED),
+  implementacja (GREEN), build/test i commit — zmieścił się w **jednym świeżym kontekście
+  subagenta** bez degradacji jakości. Praktyczna heurystyka: task nie powinien zajmować więcej
+  niż ~**połowę** okna kontekstu ani dotykać więcej niż **~3 plików produkcyjnych**. Jeśli
+  przekracza którykolwiek próg → **podziel** (to nie jest jeden task). `L` = sygnał do podziału,
+  nie docelowy rozmiar. Drobne taski = świeży kontekst per task = jakość taska 50. jak taska 1.
 - **Grupowanie po wartości (domyślne)**: grupuj taski w **plasterki wertykalne per przypadek
   użycia** (UC-* ze spec §3), tak by **każda grupa była niezależnie implementowalna i
   testowalna** end-to-end. Pierwsza grupa to **MVP** — najmniejszy działający przepływ.
@@ -24,8 +30,12 @@ zapis tylko do `docs/features/<slug>/`).
 - **Topologia wewnątrz plasterka**: w obrębie grupy zachowaj realną kolejność warstw (kontrakty i
   model danych przed logiką, która z nich korzysta). Sortowanie topologiczne obowiązuje **w
   ramach** plasterka i między plasterkami zależnymi.
-- **Znacznik równoległości `[P]`**: oznacz `[P]` taski, które można robić równolegle (nie dzielą
-  plików ani nie zależą od siebie). Brak `[P]` = task sekwencyjny względem poprzedników.
+- **Znacznik równoległości `[P]`**: oznacz `[P]` taski, które można robić równolegle. **Twardy
+  warunek**: taski `[P]`, które mogą trafić do jednej **fali** wykonania, muszą mieć **rozłączne
+  zbiory plików** (pole „Obszar kodu / pliki") i nie zależeć od siebie — orchestrator dispatchuje
+  je równolegle (świeży kontekst per task), więc współdzielony plik = konflikt zapisu. Jeśli dwa
+  taski dzielą choćby jeden plik produkcyjny — **nie** oznaczaj obu `[P]`. Brak `[P]` = task
+  sekwencyjny względem poprzedników. (Analizator fazy 4.5 weryfikuje rozłączność plików w fali.)
 - **Oznaczenie MVP**: pierwszą grupę/plasterek oznacz `(MVP)` w nazwie.
 - Jeśli `plan.md` narzuca podział czysto warstwowy i feature nie ma sensownych plasterków UC —
   dopuszczalne jest grupowanie po warstwach; odnotuj to jako `[ZAŁOŻENIE]`.
@@ -48,9 +58,13 @@ zapis tylko do `docs/features/<slug>/`).
 - **Data**: <YYYY-MM-DD>
 
 ## Legenda
-- Rozmiar: **S** (≤0.5 dnia) / **M** (≤2 dni) / **L** (>2 dni — rozważ podział).
-- `[P]` — task równoległy (nie dzieli plików / nie zależy od rodzeństwa w grupie).
+- Rozmiar: **S** (≤0.5 dnia) / **M** (≤2 dni) / **L** (>2 dni — **podziel**, łamie budżet kontekstu).
+- `[P]` — task równoległy (**rozłączne pliki** / nie zależy od rodzeństwa — patrz reguły).
 - `(MVP)` — grupa realizująca najmniejszy działający przepływ end-to-end.
+- **Verify** — opcjonalna, **deterministyczna** komenda potwierdzająca ukończenie taska
+  (np. `dotnet test --filter ...`); uzupełnia/potwierdza ją autor testów, uruchamia verifier.
+- **Iteration-limit** — opcjonalny limit iteracji pętli TDD dla taska (domyślnie 4).
+- **Security-critical** — `yes`, gdy task dotyka auth/danych wrażliwych/sekretów (wymusza bramkę bezp.).
 - `BLOCKED` — zablokowany przez otwartą kwestię ze spec.
 
 ## Grupa A: <przypadek użycia / plasterek> (MVP)
@@ -65,6 +79,9 @@ zapis tylko do `docs/features/<slug>/`).
 - **Powiązanie**: spec §<n> (UC-<n>) / plan §<n>.<poz>
 - **Rozmiar**: S | M | L
 - **Równoległość**: `[P]` | —
+- **Verify** (opc.): <deterministyczna komenda, np. dotnet test --filter FullyQualifiedName~XTests>
+- **Iteration-limit** (opc.): 4
+- **Security-critical** (opc.): yes | —
 - **Status**: do zrobienia | BLOCKED (przez: <[DO USTALENIA] #X>)
 
 ### T-002 — <tytuł>

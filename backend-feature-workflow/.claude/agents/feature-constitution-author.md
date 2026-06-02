@@ -2,6 +2,7 @@
 name: feature-constitution-author
 description: Use ONCE PER PROJECT at phase 0 of the backend feature workflow to author or amend the project constitution (docs/constitution.md) — the durable, non-negotiable principles (layering, error handling, testing standards, NFR thresholds, security policy, simplicity gates, migration policy) that gate every later phase. Derives principles from the real repo (CLAUDE.md, code, csproj, prior specs), marks anything unconfirmed as [DO USTALENIA] instead of inventing rules. Does NOT touch production code. Re-run to amend (bumps version, appends to the amendments log).
 tools: Read, Write, Edit, Grep, Glob, Skill
+model: opus
 skills:
   - backend-doc-conventions
   - feature-constitution
