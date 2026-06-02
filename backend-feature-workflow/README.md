@@ -94,6 +94,55 @@ Skrót przepływu:
    (wskaźnik: feature-progress → state.md;  drobna zmiana: feature-quick)
 ```
 
+### Diagram przepływu
+
+Ten sam przepływ wizualnie (renderuje się na GitHub). Prostokąty to fazy/agenci,
+romby to **bramki**, strzałki powrotne — realne pętle (refiner iteracyjnie, werdykty
+bramek 4.5 i 6 zawracają do wcześniejszych faz). `feature-progress` (→ `state.md`)
+możesz uruchomić **w każdej chwili**, by sprawdzić „gdzie jestem / co dalej”.
+
+```mermaid
+flowchart TD
+    C0["Faza 0: feature-constitution-author<br/>→ docs/constitution.md (raz na projekt)"]
+    S1["Faza 1: feature-spec-author<br/>→ spec.md (draft)"]
+    S2["Faza 2: feature-spec-refiner<br/>(iteracyjnie) → spec.md"]
+    G2{"spec ready?<br/>brak [DO USTALENIA]<br/>+ checklista akceptacji"}
+    SPIKE["(opc.) feature-spike<br/>→ research.md (VALIDATED/INVALIDATED)"]
+    P3["Faza 3: feature-planner<br/>→ plan.md (+ contracts/, data-model.md)"]
+    T4["Faza 4: feature-task-decomposer<br/>→ tasks.md (UC, [P], budżet kontekstu)"]
+    A45["Faza 4.5: feature-analyzer (read-only)<br/>→ analysis.md"]
+    G45{"GOTOWE DO<br/>IMPLEMENTACJI?"}
+    ORCH["Faza 5+: feature-implementation-orchestrator<br/>pętla TDD per task, fale [P]"]
+    R6["Faza 6: feature-reviewer (read-only)<br/>→ review.md"]
+    G6{"CZYSTE?"}
+    DONE(["Feature zamknięty"])
+
+    C0 --> S1 --> S2 --> G2
+    G2 -- nie --> S2
+    G2 -- tak --> P3
+    P3 -. wysokie ryzyko techniczne .-> SPIKE
+    SPIKE -. werdykty .-> P3
+    P3 --> T4 --> A45 --> G45
+    G45 -- WYMAGA POPRAWEK --> S2
+    G45 -- tak --> ORCH --> R6 --> G6
+    G6 -- WYMAGA POPRAWEK --> ORCH
+    G6 -- CZYSTE --> DONE
+```
+
+Rozwinięcie fazy 5+ — pętla TDD pojedynczego taska, którą `feature-implementation-orchestrator`
+deleguje do trzech subagentów (wg skilla `task-implementation-loop`):
+
+```mermaid
+flowchart LR
+    SEL["wybierz task (todo)"] --> RED["feature-test-author<br/>RED: failujące testy"]
+    RED --> GREEN["feature-implementer<br/>GREEN: minimalny kod"]
+    GREEN --> VER{"feature-verifier<br/>build/test + spec"}
+    VER -- "FAIL (iteruj)" --> GREEN
+    VER -- "luka decyzyjna /<br/>limit przekroczony" --> BLK["blocked + eskalacja"]
+    VER -- PASS --> OK["task done<br/>(opc. commit per task)"]
+    OK --> SEL
+```
+
 **Dwie reguły nadrzędne:**
 - **Nie zgaduj** — brak decyzji projektowej to `[DO USTALENIA]` (fazy 1–4) lub `blocked` +
   eskalacja (faza 5+), nigdy zmyślony fakt.
