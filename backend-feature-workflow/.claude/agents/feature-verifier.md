@@ -38,9 +38,10 @@ oraz **`feature-spec`**.
    **Tryb szybki (brak `spec.md`):** gdy `spec.md` nie istnieje (`tasks.md` ma nagłówek
    `> [ZAŁOŻENIE] ścieżka szybka`), **pomiń** kontrolę §-sekcji spec i orzekaj wyłącznie na
    podstawie **kryteriów inline** z taska + build/test + konstytucji. Nie zgaduj brakującego
-   kontraktu. Jeśli jednak implementacja zaczyna dotykać kontraktu API / modelu danych / reguły
-   biznesowej → to **nie jest** zmiana drobna: zgłoś jako kandydata na `blocked` (eskalacja do
-   pełnego workflow `feature-spec-author`), nie PASS.
+   kontraktu. Obowiązkowo uruchom `.claude/scripts/check-quick-scope.sh <slug>`: brak zaznaczonej
+   mini-checklisty albo diff dotykający kontraktu API / modelu danych / reguły biznesowej /
+   bezpieczeństwa = **FAIL** i kandydat na `blocked` (eskalacja do pełnego workflow
+   `feature-spec-author`), nie PASS.
 5. **Zgodność z konstytucją** — jeśli istnieje `docs/constitution.md`, sprawdź zasady `P-*`
    (warstwy, Result vs wyjątki, naming, prostota P-15/P-16, bezpieczeństwo P-12–P-14). Naruszenie
    zasady bez wpisu w „Complexity Tracking" planu = FAIL z odwołaniem do `P-x`.

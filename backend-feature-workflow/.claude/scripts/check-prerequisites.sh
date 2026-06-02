@@ -162,6 +162,15 @@ if [[ -f "docs/constitution.md" ]]; then ok "docs/constitution.md"; else note "b
 # spec.md + status ready (pomijane w trybie szybkim — kryteria inline w tasks.md)
 if [[ "$QUICK" -eq 1 ]]; then
   ok "ścieżka szybka — pomijam spec.md/plan.md/analysis.md (kryteria inline w tasks.md)"
+  if [[ -x ".claude/scripts/check-quick-scope.sh" ]]; then
+    if .claude/scripts/check-quick-scope.sh "$SLUG"; then
+      ok "mini-bramka quick path: zakres potwierdzony"
+    else
+      fail "mini-bramka quick path nie przeszła — eskaluj do pełnego workflow"
+    fi
+  else
+    fail "brak .claude/scripts/check-quick-scope.sh — nie da się potwierdzić zakresu quick path"
+  fi
 elif [[ -f "$FEAT/spec.md" ]]; then
   ok "$FEAT/spec.md"
   if grep -Eqi '^\s*-\s*\*\*Status\*\*\s*:\s*ready' "$FEAT/spec.md"; then

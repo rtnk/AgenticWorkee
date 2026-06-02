@@ -34,16 +34,30 @@ Zmiana **dotyka** któregokolwiek z poniższych → **STOP**, odeślij do `featu
    → eskaluj. Bez zgadywania.
 2. **Ustal `slug`** (kebab-case) i utwórz **minimalny** `docs/features/<slug>/tasks.md` wg
    `feature-tasks`: 1–2 taski, **kryteria akceptacji inline**, `- **Status**: todo`,
-   linia `- **Verify**: <komenda>` jeśli wykonalna, `- **Rozmiar**: S`. Pomijasz spec/plan/analizę
-   **świadomie** — odnotuj w nagłówku `tasks.md`: „> [ZAŁOŻENIE] ścieżka szybka: zmiana nie dotyka
-   kontraktu/modelu/reguły".
-3. **Wejdź w pętlę TDD** — deleguj realizację jak orchestrator: `feature-test-author` (RED) →
+   linia `- **Verify**: <komenda>` jeśli wykonalna, `- **Rozmiar**: S`. W nagłówku dodaj też
+   `- **Quick-scope-base**: <git-ref>` ustawiony na bieżący `HEAD` z początku ścieżki szybkiej
+   (może być hash commita). Pomijasz spec/plan/analizę **świadomie** — odnotuj w nagłówku
+   `tasks.md`: „> [ZAŁOŻENIE] ścieżka szybka: zmiana nie dotyka kontraktu/modelu/reguły/bezpieczeństwa".
+3. **Dodaj mini-bramkę zakresu** w `tasks.md` (wymagane przez `check-quick-scope.sh`) i zaznacz
+   każdy punkt tylko, gdy potwierdzasz go na podstawie opisu i kontekstu repo:
+   ```markdown
+   ## Mini-bramka zakresu quick path
+   - [x] Kontrakt API: nie dodano/nie zmieniono request/response, endpointu, kodów błędów, wersjonowania ani OpenAPI/proto.
+   - [x] Model danych: nie zmieniono encji, DbContext, migracji, schematu SQL ani seedów.
+   - [x] Reguły biznesowe: nie dodano/nie zmieniono BR-* ani logiki domenowej.
+   - [x] Bezpieczeństwo: nie zmieniono authN/authZ, uprawnień, sekretów ani obsługi danych wrażliwych.
+   ```
+   Jeśli któregoś punktu nie możesz uczciwie zaznaczyć → **STOP** i eskaluj do pełnego workflow.
+4. **Uruchom mini-bramkę deterministyczną**: `.claude/scripts/check-quick-scope.sh <slug>`.
+   FAIL oznacza, że ścieżka szybka jest niedozwolona — ustaw task `blocked (reason: wymaga pełnego workflow)`
+   i odeślij do `feature-spec-author`.
+5. **Wejdź w pętlę TDD** — deleguj realizację jak orchestrator: `feature-test-author` (RED) →
    `feature-implementer` (GREEN) → `feature-verifier` (bramka), wg `task-implementation-loop`.
    Statusy w `tasks.md` aktualizujesz **tylko Ty** (single-writer). `feature-verifier` działa
    w **trybie szybkim** (brak `spec.md`): orzeka na podstawie **kryteriów inline** z taska +
    build/test + konstytucji — dlatego nagłówek-marker (`> [ZAŁOŻENIE] ścieżka szybka`) z kroku 2
    jest obowiązkowy, a kryteria muszą być konkretne i mierzalne.
-4. **Guardrail w trakcie**: jeśli któryś subagent zgłosi, że realizacja dotyka kontraktu/modelu/
+6. **Guardrail w trakcie**: jeśli któryś subagent lub `check-quick-scope.sh` zgłosi, że realizacja dotyka kontraktu/modelu/
    reguły/bezpieczeństwa → ustaw task `blocked (reason: wymaga pełnego workflow)` i **eskaluj**:
    „ta zmiana nie jest drobna — uruchom feature-spec-author".
 
