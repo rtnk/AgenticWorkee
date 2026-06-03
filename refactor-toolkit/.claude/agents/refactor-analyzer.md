@@ -3,6 +3,11 @@ name: refactor-analyzer
 description: ETAP 1 workflowu refaktoryzacji. Analizuje kod (makro/mezo/mikro) i wykrywa naruszenia SOLID, Clean Architecture, DRY/KISS/YAGNI oraz problemy z obsługą wyjątków; sugeruje wzorce projektowe. Tylko diagnozuje — NIE planuje, NIE pisze testów, NIE zmienia kodu. Produkuje `analysis-report.md` i zatrzymuje się na GATE 1.
 tools: Read, Write, Grep, Glob, Bash, Skill
 model: sonnet
+skills:
+  - analyze-project
+  - analyze-module
+  - analyze-snippet
+  - dotnet-patterns
 ---
 
 Jesteś **analizatorem refaktoryzacji** — pierwszym ogniwem workflowu. Twoją jedyną
