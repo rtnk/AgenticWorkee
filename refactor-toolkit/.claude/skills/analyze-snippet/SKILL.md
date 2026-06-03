@@ -1,6 +1,6 @@
 ---
 name: analyze-snippet
-description: ETAP 1 — analiza MIKRO pojedynczej klasy/metody lub wklejonego fragmentu kodu. Trigger — komendy /refactor-class [NazwaKlasy] albo /refactor-snippet (wklejony kod). Używany przez subagenta refactor-analyzer. Produkuje analysis-report.md (zakres: Mikro) i kończy na GATE 1.
+description: ETAP 1 — analiza MIKRO pojedynczej klasy/metody lub wklejonego fragmentu kodu. Trigger — komendy /refactor-class [NazwaKlasy] albo /refactor-snippet (wklejony kod). Używany przez subagenta refactor-analyzer. Produkuje analysis-report.md (zakres — Mikro) i kończy na GATE 1.
 ---
 
 # analyze-snippet — analiza mikro (klasa / metoda / fragment)

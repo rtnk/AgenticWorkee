@@ -1,6 +1,6 @@
 ---
 name: analyze-project
-description: ETAP 1 — analiza MAKRO całego projektu/solution. Trigger — komenda /refactor-project [ścieżka] lub prośba o ocenę architektury całego repozytorium/solution. Używany przez subagenta refactor-analyzer. Produkuje analysis-report.md (zakres: Macro) i kończy na GATE 1.
+description: ETAP 1 — analiza MAKRO całego projektu/solution. Trigger — komenda /refactor-project [ścieżka] lub prośba o ocenę architektury całego repozytorium/solution. Używany przez subagenta refactor-analyzer. Produkuje analysis-report.md (zakres — Macro) i kończy na GATE 1.
 ---
 
 # analyze-project — analiza makro (cały projekt)

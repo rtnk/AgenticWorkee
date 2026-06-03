@@ -1,6 +1,6 @@
 ---
 name: analyze-module
-description: ETAP 1 — analiza MEZO jednego modułu/feature/folderu. Trigger — komenda /refactor-module [ścieżka|nazwa] lub prośba o ocenę konkretnego modułu/feature. Używany przez subagenta refactor-analyzer. Produkuje analysis-report.md (zakres: Mezo) i kończy na GATE 1.
+description: ETAP 1 — analiza MEZO jednego modułu/feature/folderu. Trigger — komenda /refactor-module [ścieżka|nazwa] lub prośba o ocenę konkretnego modułu/feature. Używany przez subagenta refactor-analyzer. Produkuje analysis-report.md (zakres — Mezo) i kończy na GATE 1.
 ---
 
 # analyze-module — analiza mezo (moduł / feature / folder)
