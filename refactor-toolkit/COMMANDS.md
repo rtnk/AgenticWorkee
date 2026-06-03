@@ -1,7 +1,10 @@
 # Komendy — Refactoring Toolkit
 
-Komendy działają jako **slash commands** lub **naturalne triggery** (zdanie opisujące intencję).
-Każda komenda uruchamia odpowiedni etap workflowu i zatrzymuje się na właściwym gate'cie.
+Każda komenda `/refactor-*` jest zaimplementowana jako **skill-punkt-wejścia**
+(`.claude/skills/<nazwa>/SKILL.md`), więc wpisanie `/refactor-project` uruchamia odpowiedni
+skill — nie ma osobnych plików w `.claude/commands/`. Komendy działają też jako **naturalne
+triggery** (zdanie opisujące intencję). Każda komenda uruchamia odpowiedni etap workflowu i
+zatrzymuje się na właściwym gate'cie.
 
 Mapowanie etap → subagent → skill → output opisuje [`README.md`](README.md).
 

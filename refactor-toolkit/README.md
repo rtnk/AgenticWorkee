@@ -43,16 +43,29 @@ refactor-toolkit/
     │   ├── refactor-test-writer.md   # ETAP 3 — testy baseline (TDD)
     │   ├── refactor-implementer.md   # ETAP 4 — bezpieczna implementacja
     │   └── refactor-reviewer.md      # ETAP 5 — przegląd końcowy
-    └── skills/
-        ├── analyze-project.md        # analiza makro (cały projekt/solution)
-        ├── analyze-module.md         # analiza mezo (moduł/feature/folder)
-        ├── analyze-snippet.md        # analiza mikro (klasa/metoda/fragment)
-        ├── plan-refactor.md          # generowanie planu
-        ├── write-tests.md            # testy baseline TDD
-        ├── implement-refactor.md     # implementacja zmian
-        ├── review-refactor.md        # przegląd wyników
-        └── dotnet-patterns.md        # wzorce i reguły .NET/C#
+    └── skills/                       # każdy skill = katalog z SKILL.md (wymóg Claude Code)
+        │  # punkty wejścia (komendy /refactor-* jako skille)
+        ├── refactor-project/SKILL.md   # /refactor-project — start, analiza makro
+        ├── refactor-module/SKILL.md    # /refactor-module  — start, analiza mezo
+        ├── refactor-class/SKILL.md     # /refactor-class   — start, analiza mikro klasy
+        ├── refactor-snippet/SKILL.md   # /refactor-snippet — start, analiza mikro fragmentu
+        ├── refactor-continue/SKILL.md  # /refactor-continue— dyspozytor kolejnego etapu
+        ├── refactor-status/SKILL.md    # /refactor-status  — stan i postęp workflowu
+        ├── refactor-abort/SKILL.md     # /refactor-abort   — przerwij i zapisz stan
+        │  # skille robocze (delegowane przez subagentów)
+        ├── analyze-project/SKILL.md    # analiza makro (cały projekt/solution)
+        ├── analyze-module/SKILL.md     # analiza mezo (moduł/feature/folder)
+        ├── analyze-snippet/SKILL.md    # analiza mikro (klasa/metoda/fragment)
+        ├── plan-refactor/SKILL.md      # generowanie planu
+        ├── write-tests/SKILL.md        # testy baseline TDD
+        ├── implement-refactor/SKILL.md # implementacja zmian
+        ├── review-refactor/SKILL.md    # przegląd wyników
+        └── dotnet-patterns/SKILL.md    # wzorce i reguły .NET/C#
 ```
+
+> Skille są **katalogami zawierającymi `SKILL.md`** — tak Claude Code wykrywa je jako skille
+> projektu. Komendy `/refactor-*` to skille-punkty-wejścia (nie pliki w `.claude/commands/`),
+> więc wpisanie `/refactor-project` uruchamia workflow.
 
 ## Komendy (skrót)
 
@@ -73,10 +86,11 @@ Pełne przykłady i opis w [`COMMANDS.md`](COMMANDS.md).
 Toolkit **mieszka** w tym meta-repo — kopiujesz go do projektu docelowego:
 
 1. Skopiuj zawartość `refactor-toolkit/.claude/` do katalogu `.claude/` projektu docelowego
-   (scalając `agents/` i `skills/`).
+   (scalając `agents/` i `skills/`). Skille kopiuj **jako katalogi** (z `SKILL.md` w środku).
    ```bash
-   cp -r refactor-toolkit/.claude/agents/*  <projekt>/.claude/agents/
-   cp -r refactor-toolkit/.claude/skills/*  <projekt>/.claude/skills/
+   mkdir -p <projekt>/.claude/agents <projekt>/.claude/skills
+   cp -r refactor-toolkit/.claude/agents/.  <projekt>/.claude/agents/
+   cp -r refactor-toolkit/.claude/skills/.  <projekt>/.claude/skills/
    ```
 2. Otwórz projekt docelowy w Claude Code.
 3. Uruchom pierwszy etap, np. `/refactor-class OrderService` lub `/refactor-module ./src/Billing`.
