@@ -16,6 +16,11 @@ Meta-repo narzędzi AI (artefakty Claude Code: subagenci, skille, workflow). Pac
   **bezpiecznej, powtarzalnej refaktoryzacji** kodu zgodnie z Clean Architecture, wzorcami GoF,
   SOLID, KISS, DRY i YAGNI. Niezależny od języka, z rozszerzoną obsługą **.NET / C#**.
 
+- **[`project-hld-generator/`](project-hld-generator/README.md)** — skill generujący
+  **HLD (`docs/**/*.md`) i `CLAUDE.md`** dla istniejącego projektu: automatyczny rekonesans
+  repo → interaktywna sesja Q&A (max 5–7 tur) → dokumentacja gotowa do commita.
+  Język treści podąża za językiem dewelopera; CLAUDE.md z budżetem ~400–600 tokenów.
+
 ## Refactoring Toolkit
 
 Toolkit prowadzi refaktoryzację kodu w pięciu etapach z twardymi punktami zatrzymania

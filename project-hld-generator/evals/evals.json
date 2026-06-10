@@ -1,0 +1,71 @@
+{
+  "skill_name": "project-hld-generator",
+  "note": "Skill jest interaktywny (sesja Q&A). W trybie subagentowym nie ma człowieka, więc każdy prompt zawiera skrypt odpowiedzi dewelopera — executor ma zadawać pytania zgodnie ze skillem i brać odpowiedzi ze skryptu. Fixture'y kopiuj do katalogu roboczego przed uruchomieniem (skill pisze docs/ i CLAUDE.md do repo).",
+  "evals": [
+    {
+      "id": 1,
+      "name": "dotnet-microservices-full-session",
+      "prompt": "Pracujesz w repo projektu (skopiowanym z fixture). Wygeneruj HLD dla projektu. Jestem deweloperem; ponieważ to test automatyczny, odpowiadaj na pytania sesji Q&A według tego profilu zamiast czekać na człowieka: [Biznes] System przyjmuje i realizuje zamówienia B2B dla hurtowni Acme; konsumenci to frontend sklepu (inny zespół) i system ERP; OUT of scope: płatności i fakturowanie. [Architektura] Api przyjmuje zamówienia synchronicznie (REST), publikuje eventy na Kafkę, Worker konsumuje i aktualizuje stany; brak innych zależności zewnętrznych poza ERP (REST, polling). [Dane] PostgreSQL jako jedyna baza; outbox pattern planowany ale nie wdrożony; agregat Order z OrderLine. [NFR] ~50 zamówień/min peak, latency niekrytyczne; deployment na AKS (Kubernetes), single region, bez DR. [Konwencje] Branch: feature/ORD-123-opis; Conventional Commits; coverage min 70%; architektura onion — Domain bez zależności na Infrastructure; Claude nie może dodawać pakietów NuGet bez pytania. [Dług] Worker ma zaszyty retry bez backoffu — nie ruszać bez konsultacji.",
+      "expected_output": "Pełna sesja: rekonesans wykrywa stack (.NET 8, MediatR, EF Core+Npgsql, Kafka, xUnit+FluentAssertions, docker-compose) bez pytania o niego; max 5-7 tur po 1-3 pytania; wygenerowane docs/ wg struktury skilla + CLAUDE.md w root; treść po polsku, frontmatter i nazwy plików po angielsku.",
+      "files": ["evals/fixtures/dotnet-microservices"],
+      "expectations": [
+        "Transcript pokazuje rekonesans przed pierwszym pytaniem (czytanie csproj/sln/docker-compose.yml)",
+        "Skill nie pyta o rzeczy widoczne w kodzie (np. jaki framework testowy, jaka baza) — co najwyżej potwierdza ustalenia",
+        "Zadano maksymalnie 7 tur pytań, w żadnej turze więcej niż 3 pytania",
+        "Powstały co najmniej: docs/README.md, docs/architecture/overview.md, docs/architecture/data-model.md, docs/operations/deployment.md, docs/development/testing.md, docs/development/conventions.md, docs/development/local-setup.md oraz CLAUDE.md w root",
+        "docs/architecture/overview.md zawiera diagram Mermaid z rzeczywistymi nazwami (Acme.Orders.Api, Acme.Orders.Worker, PostgreSQL, Kafka)",
+        "Każdy wygenerowany plik docs/*.md ma YAML frontmatter z last-updated i status oraz sekcję '## Open Questions'",
+        "CLAUDE.md zawiera regułę o zakazie dodawania NuGet packages bez konsultacji i ostrzeżenie o retry w Workerze",
+        "Treść dokumentów po polsku, nazwy plików i klucze frontmatter po angielsku",
+        "Na końcu wyświetlono drzewo plików z liczbą linii i szacunek tokenów CLAUDE.md"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "node-monorepo-existing-readme-preserved",
+      "prompt": "You are working in the repo copied from the fixture. Onboard me to this project — generate architecture documentation and a CLAUDE.md. I'm the developer; since this is an automated test, answer the Q&A from this profile instead of waiting for a human: [Business] Internal kanban task tracker for ~20 teams; consumers are end users via the web SPA only. [Architecture] api is a plain Express REST monolith, web talks to it over REST, shared holds types; no message broker, no external dependencies. [Data] Single PostgreSQL, no special consistency requirements; main entities: Task, Board, User. [NFR] Tiny scale, deployed with docker on a single VM. [Conventions] trunk-based, squash merges; don't touch packages/shared without updating both consumers. [Skip the rest — I don't know.]",
+      "expected_output": "Recon detects npm workspaces monorepo and the existing README.md; generated docs reference the README instead of duplicating or overwriting it; docs content in English (developer answered in English); README.md byte-identical after the run.",
+      "files": ["evals/fixtures/node-monorepo"],
+      "expectations": [
+        "Istniejący README.md NIE został nadpisany ani zmodyfikowany (identyczna treść przed i po)",
+        "docs/README.md linkuje do istniejącego root README.md zamiast powielać jego treść (quick start nie jest skopiowany 1:1)",
+        "Rekonesans wykrył workspaces (packages/api, packages/web, packages/shared) i nie pytał o strukturę monorepo",
+        "Komendy w CLAUDE.md i docs/development/local-setup.md pochodzą ze scripts w package.json (npm run build/test/lint, vitest), nie są wymyślone",
+        "Treść dokumentacji po angielsku (deweloper odpowiadał po angielsku), frontmatter po angielsku",
+        "Pytania pominięte odpowiedzią 'I don't know' zaowocowały sekcjami TODO/Open Questions, nie zmyślonymi faktami"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "minimal-info-all-unknown",
+      "prompt": "Pracujesz w repo projektu (skopiowanym z fixture). Udokumentuj architekturę systemu i zrób CLAUDE.md. Jestem deweloperem; to test automatyczny — na KAŻDE pytanie sesji Q&A odpowiadam dokładnie: 'nie wiem'. Nie czekaj na człowieka, przyjmij te odpowiedzi.",
+      "expected_output": "Skill nie blokuje się ani nie drąży: po odpowiedziach 'nie wiem' stosuje rozsądne domyślne założenia oparte na rekonesansie, generuje kompletną strukturę docs/ + CLAUDE.md, a luki oznacza jako TODO/Assumption w Open Questions. Fakty wykrywalne z kodu (stack, komponenty, storage) są udokumentowane mimo braku odpowiedzi.",
+      "files": ["evals/fixtures/dotnet-microservices"],
+      "expectations": [
+        "Sesja zakończyła się w maksymalnie 7 turach mimo samych odpowiedzi 'nie wiem' (skill nie powtarza ani nie drąży pytań)",
+        "Wygenerowano strukturę docs/ + CLAUDE.md — skill nie odmówił generowania z powodu braku danych",
+        "Fakty wykrywalne z kodu (stack .NET, komponenty Api/Worker/Domain/Infrastructure, PostgreSQL, Kafka, xUnit) są udokumentowane poprawnie mimo braku odpowiedzi dewelopera",
+        "Informacje nieznane (kontekst biznesowy, NFR, konwencje) mają placeholder 'TODO: uzupełnić' lub jawne 'Assumption', a nie zmyślone konkrety (np. żadnych wymyślonych SLA, nazw zespołów, targetów coverage)",
+        "Sekcje '## Open Questions' zawierają niewyjaśnione kwestie",
+        "CLAUDE.md zawiera tylko fakty zweryfikowane z kodu (komendy build/test, struktura) bez spekulacji"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "claude-md-quality-budget",
+      "prompt": "Pracujesz w repo projektu (skopiowanym z fixture). Zrób CLAUDE.md dla tego repo (pełny workflow skilla z dokumentacją docs/). Jestem deweloperem; to test automatyczny — odpowiadaj według profilu: [Biznes] przyjmowanie zamówień B2B. [Architektura] Api sync REST + eventy na Kafkę do Workera. [Dane] PostgreSQL, agregat Order. [NFR] niewielka skala, Kubernetes. [Konwencje] onion architecture — Domain bez referencji do Infrastructure; testy tylko xUnit + FluentAssertions; commit format: Conventional Commits; Claude nie może zmieniać schematu DB bez migracji EF Core ani dodawać pakietów NuGet bez pytania.",
+      "expected_output": "CLAUDE.md w root: wszystkie sekcje ze struktury skilla, mieści się w budżecie 400-600 tokenów (znaki/4), każda reguła falsyfikowalna, zero ogólników, komendy zweryfikowane z konfigów, brak duplikacji treści docs/. Skill raportuje zmierzony rozmiar.",
+      "files": ["evals/fixtures/dotnet-microservices"],
+      "expectations": [
+        "CLAUDE.md ma co najwyżej 600 tokenów wg szacunku znaki/4 (wc -c / 4 <= 600)",
+        "CLAUDE.md zawiera sekcje: Project Overview, Architecture, Build & Run, Key Conventions, What NOT To Do, Navigation Hints, Testing, Docs",
+        "Żadna sekcja nie przekracza 10 linii treści",
+        "Każda reguła w Key Conventions i What NOT To Do jest falsyfikowalna — brak ogólników typu 'pisz czysty kod', 'dbaj o jakość', 'stosuj dobre praktyki'",
+        "Sekcja What NOT To Do zawiera zakazy podane przez dewelopera (schemat DB bez migracji EF Core, NuGet bez pytania)",
+        "Komendy w Build & Run są wykonywalne wobec fixture (dotnet build/test na poziomie .sln), nie wymyślone (np. brak make/npm)",
+        "Skill zakomunikował deweloperowi zmierzony szacunek tokenów CLAUDE.md",
+        "Architecture to mapowanie komponent → ścieżka, nie proza opisowa"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Api", "src\Acme.Orders.Api\Acme.Orders.Api.csproj", "{1111}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Worker", "src\Acme.Orders.Worker\Acme.Orders.Worker.csproj", "{2222}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Domain", "src\Acme.Orders.Domain\Acme.Orders.Domain.csproj", "{3333}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Infrastructure", "src\Acme.Orders.Infrastructure\Acme.Orders.Infrastructure.csproj", "{4444}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Tests", "tests\Acme.Orders.Tests\Acme.Orders.Tests.csproj", "{5555}"
+EndProject

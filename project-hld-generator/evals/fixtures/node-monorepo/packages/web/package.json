@@ -1,0 +1,11 @@
+{
+  "name": "@taskboard/web",
+  "version": "0.3.0",
+  "scripts": { "build": "vite build", "test": "vitest run", "dev": "vite" },
+  "dependencies": {
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "@taskboard/shared": "*"
+  },
+  "devDependencies": { "vite": "^5.3.0", "vitest": "^2.0.0" }
+}

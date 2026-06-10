@@ -1,0 +1,14 @@
+{
+  "name": "taskboard",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "eslint packages/*/src"
+  },
+  "devDependencies": {
+    "eslint": "^9.5.0",
+    "typescript": "^5.5.0"
+  }
+}
