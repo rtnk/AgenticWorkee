@@ -1,11 +1,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Api", "src\Acme.Orders.Api\Acme.Orders.Api.csproj", "{1111}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Api", "src\Acme.Orders.Api\Acme.Orders.Api.csproj", "{3C4A7F82-1E2D-4B5A-9F6E-8D0C1A3B7E94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Worker", "src\Acme.Orders.Worker\Acme.Orders.Worker.csproj", "{2222}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Worker", "src\Acme.Orders.Worker\Acme.Orders.Worker.csproj", "{7B9E2A14-5F3C-4D6B-A8E1-2C0F9D4B6A38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Domain", "src\Acme.Orders.Domain\Acme.Orders.Domain.csproj", "{3333}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Domain", "src\Acme.Orders.Domain\Acme.Orders.Domain.csproj", "{A1D5C8F3-6E2B-4A9D-B7F0-3E8C1D5A2B46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Infrastructure", "src\Acme.Orders.Infrastructure\Acme.Orders.Infrastructure.csproj", "{4444}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Infrastructure", "src\Acme.Orders.Infrastructure\Acme.Orders.Infrastructure.csproj", "{E4B0F7A2-9C3D-4E1B-8A5F-6D2C0E8B3A71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Tests", "tests\Acme.Orders.Tests\Acme.Orders.Tests.csproj", "{5555}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Orders.Tests", "tests\Acme.Orders.Tests\Acme.Orders.Tests.csproj", "{F6C2D9E5-0A4B-4F7C-B3D8-1E9A5C7F2B04}"
 EndProject

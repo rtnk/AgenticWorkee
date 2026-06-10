@@ -66,7 +66,8 @@ nie powielaj jego treści.]
 
 ## docs/architecture/overview.md
 
-```markdown
+<!-- outer fence uses 4 backticks because the template body contains ```mermaid blocks -->
+````markdown
 ---
 last-updated: [YYYY-MM-DD]
 owner: [jeśli znany]
@@ -122,7 +123,7 @@ graph TB
 ## Open Questions
 
 - [...]
-```
+````
 
 ---
 
@@ -188,7 +189,8 @@ status: draft
 
 ## docs/architecture/data-model.md
 
-```markdown
+<!-- outer fence uses 4 backticks because the template body contains a ```mermaid block -->
+````markdown
 ---
 last-updated: [YYYY-MM-DD]
 owner: [jeśli znany]
@@ -225,7 +227,7 @@ consistency, outbox/inbox, idempotencja konsumentów.]
 ## Open Questions
 
 - [...]
-```
+````
 
 ---
 
@@ -375,7 +377,8 @@ ale tu może być pełniejsze uzasadnienie.]
 
 ## docs/development/testing.md
 
-```markdown
+<!-- outer fence uses 4 backticks because the template body contains a ```bash block -->
+````markdown
 ---
 last-updated: [YYYY-MM-DD]
 owner: [jeśli znany]
@@ -404,13 +407,14 @@ status: draft
 ## Open Questions
 
 - [...]
-```
+````
 
 ---
 
 ## docs/development/local-setup.md
 
-```markdown
+<!-- outer fence uses 4 backticks because the template body contains a ```bash block -->
+````markdown
 ---
 last-updated: [YYYY-MM-DD]
 owner: [jeśli znany]
@@ -441,7 +445,7 @@ status: draft
 ## Open Questions
 
 - [...]
-```
+````
 
 ---
 
