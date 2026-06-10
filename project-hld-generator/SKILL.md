@@ -149,7 +149,9 @@ rozjeżdżają; jeśli deweloper chce go widzieć w `docs/`, użyj symlinku.
   (w języku dokumentacji), żeby struktura była kompletna, a luki jawne.
 - **Nie nadpisuj istniejącej dokumentacji.** Istniejący `README.md` zostaje nietknięty —
   linkuj do niego z `docs/README.md` i nie powielaj jego treści. Istniejące pliki w
-  `docs/` lub ADR włącz do indeksu zamiast generować konkurencyjne wersje.
+  `docs/` lub ADR włącz do indeksu zamiast generować konkurencyjne wersje. Edycje
+  **addytywne** plików indeksowych są dozwolone (dopisanie wiersza do tabeli w istniejącym
+  `docs/README.md` czy indeksie ADR); regeneracja całego istniejącego pliku — nie.
 - Fakty wzięte z założeń (odpowiedzi „nie wiem") oznaczaj jawnie, np.
   `> Assumption: ... — do potwierdzenia`, i dopisuj do `## Open Questions`.
 
@@ -210,8 +212,10 @@ Twarde zasady:
   „pisz czysty kod" — nie).
 - **Komendy w Build & Run zweryfikuj** z konfigów (`package.json` scripts, `Makefile`,
   `*.csproj`, CI workflow) — nie wpisuj komend, których repo nie obsługuje.
-- **Token budget ~400–600 tokenów.** Zmierz po wygenerowaniu (`wc -c CLAUDE.md`,
-  szacunek: znaki / 4) i zakomunikuj deweloperowi wynik. Powyżej 600 — tnij.
+- **Token budget ~400–600 tokenów.** Zmierz po wygenerowaniu: `wc -c CLAUDE.md`;
+  szacunek tokenów ≈ znaki / 4 dla treści angielskiej, ≈ znaki / 3.5 dla polskiej.
+  Werdykt budżetowy wydawaj wg przelicznika języka treści i zakomunikuj wynik
+  deweloperowi. Powyżej 600 — tnij.
 - Jeśli `CLAUDE.md` już istnieje: nie nadpisuj w ciemno — zachowaj istniejące reguły,
   scal z nowymi sekcjami i pokaż deweloperowi, co się zmieniło.
 
@@ -223,7 +227,8 @@ Po wygenerowaniu wszystkich plików:
 
 1. Wyświetl drzewo wygenerowanych plików z liczbą linii każdego
    (np. `find docs CLAUDE.md -name '*.md' -exec wc -l {} +` sformatowane jako drzewo).
-2. Podaj szacunkowy token budget CLAUDE.md (znaki / 4) i czy mieści się w 400–600.
+2. Podaj szacunkowy token budget CLAUDE.md (przelicznik wg języka treści — patrz
+   Faza 4) i czy mieści się w 400–600.
 3. Zapytaj: „Czy chcesz rozwinąć którąś sekcję lub coś skrócić?"
 4. Jeśli w Q&A wyszły kluczowe decyzje architektoniczne bez ADR (np. wybór Kafki,
    outbox pattern, multi-region) — zaproponuj utworzenie template'ów ADR dla nich

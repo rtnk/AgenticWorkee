@@ -7,8 +7,9 @@ mają znaczenie. Stąd twardy budżet i wymóg falsyfikowalności.
 ## Budżet tokenów
 
 - Cel: **400–600 tokenów** całego pliku.
-- Pomiar po wygenerowaniu: `wc -c CLAUDE.md`, szacunek tokenów ≈ znaki / 4
-  (dla polskiego tekstu bezpieczniej znaki / 3.5). Wynik zakomunikuj deweloperowi.
+- Pomiar po wygenerowaniu: `wc -c CLAUDE.md`; szacunek tokenów ≈ znaki / 4 dla treści
+  angielskiej, ≈ znaki / 3.5 dla polskiej. Werdykt „tnij / nie tnij" wydawaj według
+  przelicznika języka treści (tego samego, który raportujesz deweloperowi).
 - Powyżej 600: tnij wg priorytetu. Najpierw skracaj Project Overview i Docs, potem
   przenoś szczegóły Architecture/Testing do `docs/` zostawiając link. **Nie tnij**
   Key Conventions, What NOT To Do ani Build & Run — to sekcje, dla których plik istnieje.
