@@ -1,0 +1,6 @@
+{
+  "name": "@taskboard/shared",
+  "version": "0.3.0",
+  "scripts": { "build": "tsc", "test": "vitest run" },
+  "devDependencies": { "vitest": "^2.0.0" }
+}
